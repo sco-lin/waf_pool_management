@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.UserMapper">
+
+    <select id="queryUserList" resultType="User">
+        select * from user
+    </select>
+    <select id="queryUserById" resultType="User">
+        select * from user where id = #{id}
+    </select>
+    <select id="queryUserByUsername" parameterType="String" resultType="User">
+        select * from user where username = #{name}
+    </select>
+    <insert id="addUser" parameterType="User">
+        insert into user (username, password, email) value (#{username}, #{password}, #{email})
+    </insert>
+</mapper>
