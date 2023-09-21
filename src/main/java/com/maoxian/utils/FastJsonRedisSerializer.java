@@ -17,11 +17,14 @@ import java.nio.charset.StandardCharsets;
  */
 public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
+    //默认字符集
     public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-    private Class<T> clazz;
+    //序列化的对象类型
+    private final Class<T> clazz;
 
     static {
+        //启用FastJson的自动类型支持，以便在序列化时能够存储对象的类名信息
         ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
     }
 
@@ -40,7 +43,7 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     @Override
     public T deserialize(byte[] bytes) throws SerializationException {
-        if (bytes == null || bytes.length <= 0){
+        if (bytes == null || bytes.length == 0){
             return null;
         }
         String str = new String(bytes,DEFAULT_CHARSET);

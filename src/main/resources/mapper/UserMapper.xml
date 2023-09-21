@@ -11,7 +11,9 @@
         select * from user where id = #{id}
     </select>
     <select id="queryUserByUsername" parameterType="String" resultType="User">
-        select * from user where username = #{name}
+        select *
+        from user
+        where username = #{name}
     </select>
     <insert id="addUser" parameterType="User">
         insert into user (username, password, email) value (#{username}, #{password}, #{email})

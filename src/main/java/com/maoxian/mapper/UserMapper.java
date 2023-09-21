@@ -9,36 +9,31 @@ import java.util.List;
 public interface UserMapper {
     /**
      * 查询所有用户
-     * @return
+     *
+     * @return 所有用户信息
      */
     List<User> queryUserList();
 
     /**
      * 通过id查询用户
-     * @param id
-     * @return
+     *
+     * @param id 用户id
+     * @return 用户信息
      */
     User queryUserById(int id);
 
     /**
-     * 通过userName查询用户
-     * @param username
-     * @return
+     * 通过用户名查询用户
+     *
+     * @param username 用户名
+     * @return 用户信息
      */
     User queryUserByUsername(String username);
 
     /**
      * 增加用户
      *
-     * @param user
-     * @return
+     * @param user 用户
      */
-    int addUser(User user);
-
-    /**
-     * 删除用户
-     * @param id
-     * @return
-     */
-    User deleteUser(int id);
+    void addUser(User user);
 }

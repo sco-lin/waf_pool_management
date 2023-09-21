@@ -13,11 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 认证失败处理
+ */
 @Component
 public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {
-        ResponseResult result = new ResponseResult(HttpStatus.FORBIDDEN.value(), "用户认证失败");
+
+        //{code:401, msg:"用户认证失败"}
+        ResponseResult<Object> result = new ResponseResult<>(HttpStatus.FORBIDDEN.value(), "用户认证失败");
         String json = JSON.toJSONString(result);
 
         //处理异常

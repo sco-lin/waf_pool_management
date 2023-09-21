@@ -17,6 +17,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * token验证过滤器
+ */
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
@@ -39,7 +42,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claims = JwtUtil.parseJWT(token);
             userId = claims.getSubject();
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException("token非法");
         }
 
@@ -50,7 +52,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             throw new RuntimeException("用户未登录");
         }
 
-        //存入SecurityContextHolder
+        //将认证对象存入SecurityContextHolder中，以便SpringSecurity后续的步骤可以访问用户信息和权限
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(loginUser, null, loginUser.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 

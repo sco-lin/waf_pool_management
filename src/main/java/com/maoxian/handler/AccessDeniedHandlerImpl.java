@@ -13,11 +13,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * 权限不足处理
+ */
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {
     @Override
     public void handle(HttpServletRequest request, HttpServletResponse response, AccessDeniedException accessDeniedException) throws IOException, ServletException {
-        ResponseResult result = new ResponseResult(HttpStatus.UNAUTHORIZED.value(), "权限不足");
+
+        //{code:401, msg:"权限不足"}
+        ResponseResult<Object> result = new ResponseResult<>(HttpStatus.UNAUTHORIZED.value(), "权限不足");
         String json = JSON.toJSONString(result);
 
         //处理异常
