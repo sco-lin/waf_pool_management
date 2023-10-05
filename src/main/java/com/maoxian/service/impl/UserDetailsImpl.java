@@ -1,6 +1,7 @@
-package com.maoxian.pojo;
+package com.maoxian.service.impl;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.maoxian.pojo.User;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  */
 @Data
 @NoArgsConstructor
-public class LoginUser implements UserDetails {
+public class UserDetailsImpl implements UserDetails {
 
     private User user;
 
@@ -26,7 +27,7 @@ public class LoginUser implements UserDetails {
     //封装后的权限信息
     private List<SimpleGrantedAuthority> authorities;
 
-    public LoginUser(User user, List<String> permissions) {
+    public UserDetailsImpl(User user, List<String> permissions) {
         this.user = user;
         this.permissions = permissions;
     }

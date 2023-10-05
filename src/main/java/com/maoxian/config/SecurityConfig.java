@@ -11,8 +11,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -48,19 +46,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
-    //认证入口点，处理身份验证失败的组件
-    @Autowired
-    private AuthenticationEntryPoint authenticationEntryPoint;
-
-    //拒绝访问处理，处理访问无权限资源时，拒绝访问的情况
-    @Autowired
-    private AccessDeniedHandler accessDeniedHandler;
-
     /**
      * 配置安全策略和访问控制规则
      *
-     * @param http
-     * @throws Exception
+     * @param http http
+     * @throws Exception 异常
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -73,19 +63,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //配置请求的授权规则
                 .authorizeRequests()
                 //对于登录接口，允许匿名访问
-                .antMatchers("/user/login").anonymous()
+                .antMatchers("/login").anonymous()
                 //除上面的所有请求全部都需要认证
                 .anyRequest().authenticated();
 
         //把自定义token校验过滤器添加到过滤器链中
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
-
-        //配置异常处理器，处理认证失败和授权失败
-        http.exceptionHandling()
-                //认证失败处理器
-                .authenticationEntryPoint(authenticationEntryPoint)
-                //授权失败处理器
-                .accessDeniedHandler(accessDeniedHandler);
 
         //允许跨域
         http.cors();

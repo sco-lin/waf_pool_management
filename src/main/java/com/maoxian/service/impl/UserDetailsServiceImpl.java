@@ -1,7 +1,7 @@
 package com.maoxian.service.impl;
 
-import com.maoxian.mapper.MenuMapper;
-import com.maoxian.pojo.LoginUser;
+import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.UserMapper;
 import com.maoxian.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,7 @@ import java.util.List;
  * 加载用户详细信息，权限信息
  */
 @Service
-public class UserDetailServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
     //查询用户信息的bean
     @Autowired
@@ -24,7 +24,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     //查询用户权限的bean
     @Autowired
-    private MenuMapper menuMapper;
+    private PermMapper permMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -32,13 +32,13 @@ public class UserDetailServiceImpl implements UserDetailsService {
         //查询用户信息
         User user = userMapper.queryUserByUsername(username);
         if (user == null) {
-            throw new RuntimeException("用户不存在");
+            throw new BusinessExp("用户不存在");
         }
 
         //查询用户权限信息
-        List<String> list = menuMapper.selectPermsByUserId(user.getId());
+        List<String> list = permMapper.queryPermByUserId(user.getId());
 
         //把数据封装成UserDetails返回
-        return new LoginUser(user, list);
+        return new UserDetailsImpl(user, list);
     }
 }

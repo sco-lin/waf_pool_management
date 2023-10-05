@@ -12,7 +12,9 @@ public interface UserMapper {
      *
      * @return 所有用户信息
      */
-    List<User> queryUserList();
+    List<User> queryUserList(int start, int pageSize);
+
+    Integer selectForCount();
 
     /**
      * 通过id查询用户
@@ -36,4 +38,18 @@ public interface UserMapper {
      * @param user 用户
      */
     void addUser(User user);
+
+    /**
+     * 更新用户
+     *
+     * @param user 用户
+     */
+    void updateUser(User user);
+
+    /**
+     * 删除用户
+     *
+     * @param id id
+     */
+    void deleteUser(Long id);
 }

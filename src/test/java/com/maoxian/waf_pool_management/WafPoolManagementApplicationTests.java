@@ -1,16 +1,13 @@
 package com.maoxian.waf_pool_management;
 
-import com.maoxian.mapper.MenuMapper;
+import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.UserMapper;
 import com.maoxian.pojo.User;
 import com.maoxian.service.LoginService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.util.DigestUtils;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @SpringBootTest
@@ -23,22 +20,18 @@ class WafPoolManagementApplicationTests {
 
 
     @Test
-    void contextLoads() throws SQLException {
-        System.out.println("===================");
-        User user = userMapper.queryUserByUsername("zhangsan");
-        BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        boolean matches = bCryptPasswordEncoder.matches("123456", user.getPassword());
+    void contextLoads() {
+        List<User> user = userMapper.queryUserList(1,2);
         System.out.println(user);
-        System.out.println(matches);
 
     }
 
     @Autowired
-    private MenuMapper menuMapper;
+    private PermMapper permMapper;
 
     @Test
     public void testSelectPermsByUserId(){
-        List<String> list = menuMapper.selectPermsByUserId(1L);
+        List<String> list = permMapper.queryPermByUserId(1L);
         System.out.println(list);
     }
 
