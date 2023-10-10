@@ -39,6 +39,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         List<String> list = permMapper.queryPermByUserId(user.getId());
 
         //把数据封装成UserDetails返回
-        return new UserDetailsImpl(user, list);
+        return new LoginUser(user, list);
     }
 }

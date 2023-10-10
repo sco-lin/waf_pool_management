@@ -1,7 +1,8 @@
 package com.maoxian.service;
 
-import com.maoxian.vo.JsonResult;
 import com.maoxian.pojo.User;
+
+import java.util.Map;
 
 
 public interface LoginService {
@@ -10,14 +11,12 @@ public interface LoginService {
      * 用户登录
      *
      * @param user 用户信息
-     * @return 返回token
+     * @return map 登录信息
      */
-    JsonResult login(User user);
+    Map<String, String> login(User user);
 
     /**
      * 用户登出
-     *
-     * @return 返回登出结果
      */
-    JsonResult logout();
+    void logout();
 }

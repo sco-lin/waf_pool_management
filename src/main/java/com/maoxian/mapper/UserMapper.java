@@ -37,19 +37,19 @@ public interface UserMapper {
      *
      * @param user 用户
      */
-    void addUser(User user);
+    int addUser(User user);
 
     /**
      * 更新用户
      *
      * @param user 用户
      */
-    void updateUser(User user);
+    int updateUser(User user);
 
     /**
      * 删除用户
      *
      * @param id id
      */
-    void deleteUser(Long id);
+    int deleteUser(Long id);
 }

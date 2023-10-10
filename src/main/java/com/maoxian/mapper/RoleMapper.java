@@ -21,19 +21,19 @@ public interface RoleMapper {
      *
      * @param role 角色
      */
-    void addRole(Role role);
+    int addRole(Role role);
 
     /**
      * 删除角色
      *
      * @param role 角色
      */
-    void updateRole(Role role);
+    int updateRole(Role role);
 
     /**
      * 删除角色
      *
      * @param id id
      */
-    void deleteRole(Long id);
+    int deleteRole(Long id);
 }

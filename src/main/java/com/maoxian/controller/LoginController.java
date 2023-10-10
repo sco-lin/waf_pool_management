@@ -6,6 +6,8 @@ import com.maoxian.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 public class LoginController {
 
@@ -14,11 +16,13 @@ public class LoginController {
 
     @PostMapping("login")
     public JsonResult login(@RequestBody User user) {
-        return loginService.login(user);
+        Map<String, String> map = loginService.login(user);
+        return JsonResult.success(map);
     }
 
     @GetMapping("logout")
     public JsonResult logout() {
-        return loginService.logout();
+        loginService.logout();
+        return JsonResult.success();
     }
 }

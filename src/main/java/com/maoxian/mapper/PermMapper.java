@@ -17,19 +17,22 @@ public interface PermMapper {
 
     /**
      * 增加权限
+     *
      * @param perm 权限
      */
-    void addPerm(Perm perm);
+    int addPerm(Perm perm);
 
     /**
      * 更新权限
+     *
      * @param perm 权限
      */
-    void updatePerm(Perm perm);
+    int updatePerm(Perm perm);
 
     /**
      * 删除权限
+     *
      * @param id id
      */
-    void deletePerm(Long id);
+    int deletePerm(Long id);
 }

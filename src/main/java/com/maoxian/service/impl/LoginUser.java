@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 @Data
 @NoArgsConstructor
-public class UserDetailsImpl implements UserDetails {
+public class LoginUser implements UserDetails {
 
     private User user;
 
@@ -27,7 +27,7 @@ public class UserDetailsImpl implements UserDetails {
     //封装后的权限信息
     private List<SimpleGrantedAuthority> authorities;
 
-    public UserDetailsImpl(User user, List<String> permissions) {
+    public LoginUser(User user, List<String> permissions) {
         this.user = user;
         this.permissions = permissions;
     }

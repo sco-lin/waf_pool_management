@@ -2,7 +2,6 @@ package com.maoxian.service.impl;
 
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.mapper.UserMapper;
-import com.maoxian.vo.JsonResult;
 import com.maoxian.vo.QueryResult;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
@@ -25,7 +24,7 @@ public class UserServiceImpl implements UserService {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public JsonResult queryUser(QueryResult<User> userQueryResult) {
+    public QueryResult<User> queryUser(QueryResult<User> userQueryResult) {
         Integer total = userMapper.selectForCount();
         if (total == 0) {
             userQueryResult.setList(Collections.emptyList());
@@ -35,16 +34,18 @@ public class UserServiceImpl implements UserService {
             userQueryResult.setList(users);
         }
         userQueryResult.setTotal(total);
-        return JsonResult.success(userQueryResult);
+        return userQueryResult;
     }
 
     @Override
-    public JsonResult saveOrUpdateUser(User user) {
+    public void saveOrUpdateUser(User user) {
 
         //更新用户
         if (user.getId() != null) {
-            userMapper.updateUser(user);
-            return JsonResult.success();
+            int count = userMapper.updateUser(user);
+            if (count == 0) {
+                throw new BusinessExp("用户不存在");
+            }
         }
 
         //增加用户
@@ -58,12 +59,13 @@ public class UserServiceImpl implements UserService {
         //密码加密
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userMapper.addUser(user);
-        return JsonResult.success();
     }
 
     @Override
-    public JsonResult deleteUser(Long id) {
-        userMapper.deleteUser(id);
-        return JsonResult.success();
+    public void deleteUser(Long id) {
+        int count = userMapper.deleteUser(id);
+        if (count == 0) {
+            throw new BusinessExp("删除失败");
+        }
     }
 }
