@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class QueryResult<T> {
+public class QueryVo<T> {
 
     private Integer pageNum;
 

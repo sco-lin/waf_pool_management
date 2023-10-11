@@ -2,9 +2,10 @@ package com.maoxian.controller;
 
 import com.maoxian.request.QueryRequest;
 import com.maoxian.vo.JsonResult;
-import com.maoxian.vo.QueryResult;
+import com.maoxian.vo.QueryVo;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
+import com.maoxian.vo.UserInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -28,12 +29,24 @@ public class UserController {
     @PostMapping("query")
     @PreAuthorize("hasAuthority('user:select')")
     public JsonResult queryUser(@RequestBody QueryRequest queryRequest) {
-        QueryResult<User> queryResult = userService.queryUser(queryRequest);
-        return JsonResult.success(queryResult);
+        QueryVo<User> queryUser = userService.queryUser(queryRequest);
+        return JsonResult.success(queryUser);
+    }
+
+    @GetMapping("userinfo")
+    public JsonResult userInfo() {
+        UserInfoVo userInfo = userService.userInfo(0);
+        return JsonResult.success(userInfo);
+    }
+
+    @GetMapping("userinfo/{userId}")
+    public JsonResult userInfoByUserId(@PathVariable Integer userId) {
+        UserInfoVo userInfo = userService.userInfo(userId);
+        return JsonResult.success(userInfo);
     }
 
     @GetMapping("perm/{userId}")
-    public JsonResult queryPerm(@PathVariable Integer userId){
+    public JsonResult queryPerm(@PathVariable Integer userId) {
         List<String> perm = userService.queryPermByUserId(userId);
         return JsonResult.success(perm);
     }

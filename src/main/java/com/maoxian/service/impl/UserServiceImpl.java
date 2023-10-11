@@ -2,11 +2,13 @@ package com.maoxian.service.impl;
 
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.mapper.PermMapper;
+import com.maoxian.mapper.RoleMapper;
 import com.maoxian.mapper.UserMapper;
 import com.maoxian.request.QueryRequest;
-import com.maoxian.vo.QueryResult;
+import com.maoxian.vo.QueryVo;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
+import com.maoxian.vo.UserInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -22,6 +24,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    //查询用户角色信息的bean
+    @Autowired
+    private RoleMapper roleMapper;
+
+    //权限信息的bean
     @Autowired
     private PermMapper permMapper;
 
@@ -31,15 +38,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<String> queryPermByUserId(Integer userId) {
-        if (userId == 0) {
-            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            permMapper.queryPermByUserId(user.getId());
+        if (userId <= 0) {
+            LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            permMapper.queryPermByUserId(loginUser.getUser().getId());
         }
         return permMapper.queryPermByUserId(userId);
     }
 
     @Override
-    public QueryResult<User> queryUser(QueryRequest queryRequest) {
+    public QueryVo<User> queryUser(QueryRequest queryRequest) {
 
         Integer pageNum = queryRequest.getPageNum();
         Integer pageSize = queryRequest.getPageSize();
@@ -53,7 +60,7 @@ public class UserServiceImpl implements UserService {
             users = userMapper.queryUserList(start, pageSize);
         }
 
-        return new QueryResult<User>(pageNum, pageSize, users, total);
+        return new QueryVo<>(pageNum, pageSize, users, total);
     }
 
     @Override
@@ -86,5 +93,26 @@ public class UserServiceImpl implements UserService {
         if (count == 0) {
             throw new BusinessExp("删除失败");
         }
+    }
+
+    @Override
+    public UserInfoVo userInfo(Integer userId) {
+        User user;
+        List<String> permissions;
+        //查询当前用户信息
+        if (userId <= 0) {
+            LoginUser loginUser = (LoginUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            user = loginUser.getUser();
+            permissions = loginUser.getPermissions();
+        } else {//查询指定用户信息
+            user = userMapper.queryUserById(userId);
+            permissions = permMapper.queryPermByUserId(userId);
+        }
+        Integer id = user.getId();
+        String username = user.getUsername();
+        String email = user.getEmail();
+        List<String> roles = roleMapper.queryRoleByUserId(id);
+
+        return new UserInfoVo(id, username, email, roles, permissions);
     }
 }

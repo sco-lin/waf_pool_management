@@ -1,6 +1,5 @@
 package com.maoxian.filter;
 
-import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.service.impl.LoginUser;
 import com.maoxian.utils.JwtUtil;
 import com.maoxian.utils.RedisCache;
@@ -43,14 +42,14 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             Claims claims = JwtUtil.parseJWT(token);
             userId = claims.getSubject();
         } catch (Exception e) {
-            throw new BusinessExp("token非法");
+            throw new RuntimeException("token非法");
         }
 
         //从redis中获取用户信息
         String redisKey = "login:" + userId;
         LoginUser loginUser = redisCache.getCacheObject(redisKey);
         if (loginUser == null) {
-            throw new BusinessExp("用户未登录");
+            throw new RuntimeException("用户未登录");
         }
 
         //将认证对象存入SecurityContextHolder中，以便SpringSecurity后续的步骤可以访问用户信息和权限

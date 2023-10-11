@@ -5,6 +5,10 @@ package com.maoxian.exceprion;
  */
 public class BusinessExp extends RuntimeException {
 
+    public BusinessExp() {
+
+    }
+
     public BusinessExp(String message) {
         super(message);
     }

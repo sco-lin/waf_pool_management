@@ -7,6 +7,13 @@ spring:
   redis:
     host: 127.0.0.1
     port: 6379
+  # 当状态码为4xx时直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  # 关闭默认的静态资源路径映射
+  web:
+    resources:
+      add-mappings: false
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.maoxian.pojo

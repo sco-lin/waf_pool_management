@@ -2,13 +2,10 @@ package com.maoxian.controller;
 
 import com.maoxian.request.LoginRequest;
 import com.maoxian.vo.JsonResult;
-import com.maoxian.pojo.User;
 import com.maoxian.service.LoginService;
-import com.maoxian.vo.LoginResult;
+import com.maoxian.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
 
 @RestController
 public class LoginController {
@@ -18,8 +15,8 @@ public class LoginController {
 
     @PostMapping("login")
     public JsonResult login(@RequestBody LoginRequest loginRequest) {
-        LoginResult loginResult = loginService.login(loginRequest);
-        return JsonResult.success(loginResult);
+        LoginVo loginVo = loginService.login(loginRequest);
+        return JsonResult.success(loginVo);
     }
 
     @GetMapping("logout")

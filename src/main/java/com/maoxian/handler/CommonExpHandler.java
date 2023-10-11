@@ -5,14 +5,14 @@ import com.maoxian.vo.JsonResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * 统一异常处理
  */
-@ControllerAdvice
+@RestControllerAdvice
 public class CommonExpHandler {
 
     /**
@@ -22,7 +22,6 @@ public class CommonExpHandler {
      * @return 响应类
      */
     @ExceptionHandler(BusinessExp.class)
-    @ResponseBody
     public JsonResult handler(BusinessExp e) {
         e.printStackTrace();
         return JsonResult.fail(e.getMessage());
@@ -36,7 +35,6 @@ public class CommonExpHandler {
      * @return 响应类
      */
     @ExceptionHandler(AuthenticationException.class)
-    @ResponseBody
     public JsonResult handler(AuthenticationException e) {
         e.printStackTrace();
         return JsonResult.fail(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
@@ -49,7 +47,6 @@ public class CommonExpHandler {
      * @return 响应类
      */
     @ExceptionHandler(AccessDeniedException.class)
-    @ResponseBody
     public JsonResult handler(AccessDeniedException e) {
         e.printStackTrace();
         return JsonResult.fail(HttpStatus.FORBIDDEN.value(), e.getMessage());
@@ -62,9 +59,19 @@ public class CommonExpHandler {
      * @return 响应类
      */
     @ExceptionHandler(RuntimeException.class)
-    @ResponseBody
     public JsonResult handler(RuntimeException e) {
         e.printStackTrace();
         return JsonResult.fail();
+    }
+
+    /**
+     * 处理4xx异常
+     *
+     * @param e 异常
+     * @return 响应类
+     */
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public JsonResult handler(NoHandlerFoundException e) {
+        return JsonResult.fail(e.getMessage());
     }
 }

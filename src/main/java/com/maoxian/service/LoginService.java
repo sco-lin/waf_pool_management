@@ -1,11 +1,7 @@
 package com.maoxian.service;
 
-import com.maoxian.pojo.User;
 import com.maoxian.request.LoginRequest;
-import com.maoxian.vo.LoginResult;
-
-import java.util.Map;
-
+import com.maoxian.vo.LoginVo;
 
 public interface LoginService {
 
@@ -15,7 +11,7 @@ public interface LoginService {
      * @param loginRequest 用户名密码
      * @return map 登录信息
      */
-    LoginResult login(LoginRequest loginRequest);
+    LoginVo login(LoginRequest loginRequest);
 
     /**
      * 用户登出

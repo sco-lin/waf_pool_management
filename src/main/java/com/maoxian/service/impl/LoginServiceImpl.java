@@ -1,18 +1,22 @@
 package com.maoxian.service.impl;
 
 import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.mapper.RoleMapper;
 import com.maoxian.pojo.User;
 import com.maoxian.request.LoginRequest;
 import com.maoxian.service.LoginService;
 import com.maoxian.utils.JwtUtil;
 import com.maoxian.utils.RedisCache;
-import com.maoxian.vo.LoginResult;
+import com.maoxian.vo.LoginVo;
+import com.maoxian.vo.UserInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class LoginServiceImpl implements LoginService {
@@ -25,8 +29,12 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private RedisCache redisCache;
 
+    //查询用户的角色信息的bean
+    @Autowired
+    private RoleMapper roleMapper;
+
     @Override
-    public LoginResult login(LoginRequest loginRequest) {
+    public LoginVo login(LoginRequest loginRequest) {
 
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
@@ -41,14 +49,20 @@ public class LoginServiceImpl implements LoginService {
 
         //认证成功：使用user_id生成jwt
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
-        User userInfo = loginUser.getUser();
-        String userId = userInfo.getId().toString();
-        String jwt = JwtUtil.createJWT(userId);
+        User user = loginUser.getUser();
+        Integer userId = user.getId();
+        String jwt = JwtUtil.createJWT(userId.toString());
 
         //把完整的用户信息存入redis，user_id作为key
         redisCache.setCacheObject("login:" + userId, loginUser);
 
-        return new LoginResult(jwt, userInfo, loginUser.getPermissions());
+        //查询用户角色信息
+        List<String> roles = roleMapper.queryRoleByUserId(userId);
+
+        //返回数据
+        UserInfoVo userInfoVo = new UserInfoVo(userId, user.getUsername(), user.getEmail(), roles, loginUser.getPermissions());
+
+        return new LoginVo(jwt, userInfoVo);
     }
 
     @Override

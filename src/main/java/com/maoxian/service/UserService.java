@@ -1,8 +1,9 @@
 package com.maoxian.service;
 
 import com.maoxian.request.QueryRequest;
-import com.maoxian.vo.QueryResult;
+import com.maoxian.vo.QueryVo;
 import com.maoxian.pojo.User;
+import com.maoxian.vo.UserInfoVo;
 
 import java.util.List;
 
@@ -13,7 +14,7 @@ public interface UserService {
      *
      * @param queryRequest@return userQueryResult 查询结果
      */
-    QueryResult<User> queryUser(QueryRequest queryRequest);
+    QueryVo<User> queryUser(QueryRequest queryRequest);
 
     /**
      * 查询权限
@@ -34,4 +35,10 @@ public interface UserService {
      * @param id id
      */
     void deleteUser(Integer id);
+
+    /**
+     * 查询当前用户信息
+     * @return 用户信息
+     */
+    UserInfoVo userInfo(Integer userId);
 }

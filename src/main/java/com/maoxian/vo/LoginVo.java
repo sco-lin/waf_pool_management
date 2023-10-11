@@ -1,20 +1,15 @@
 package com.maoxian.vo;
 
-import com.maoxian.pojo.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginResult {
+public class LoginVo {
 
     private String token;
 
-    private User user;
-
-    private List<String> permissions;
+    private UserInfoVo userInfo;
 }
