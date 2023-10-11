@@ -51,5 +51,5 @@ public interface UserMapper {
      *
      * @param id id
      */
-    int deleteUser(Long id);
+    int deleteUser(Integer id);
 }

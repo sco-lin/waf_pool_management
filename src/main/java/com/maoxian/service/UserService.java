@@ -1,17 +1,25 @@
 package com.maoxian.service;
 
+import com.maoxian.request.QueryRequest;
 import com.maoxian.vo.QueryResult;
 import com.maoxian.pojo.User;
+
+import java.util.List;
 
 public interface UserService {
 
     /**
      * 查询用户
      *
-     * @param userQueryResult user查询结果
-     * @return userQueryResult 查询结果
+     * @param queryRequest@return userQueryResult 查询结果
      */
-    QueryResult<User> queryUser(QueryResult<User> userQueryResult);
+    QueryResult<User> queryUser(QueryRequest queryRequest);
+
+    /**
+     * 查询权限
+     * @return 权限信息
+     */
+    List<String> queryPermByUserId(Integer userId);
 
     /**
      * 添加或更新用户
@@ -25,5 +33,5 @@ public interface UserService {
      *
      * @param id id
      */
-    void deleteUser(Long id);
+    void deleteUser(Integer id);
 }

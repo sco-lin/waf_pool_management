@@ -31,7 +31,7 @@ class WafPoolManagementApplicationTests {
 
     @Test
     public void testSelectPermsByUserId(){
-        List<String> list = permMapper.queryPermByUserId(1L);
+        List<String> list = permMapper.queryPermByUserId(1);
         System.out.println(list);
     }
 

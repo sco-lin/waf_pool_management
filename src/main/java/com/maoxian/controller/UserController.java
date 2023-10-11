@@ -1,5 +1,6 @@
 package com.maoxian.controller;
 
+import com.maoxian.request.QueryRequest;
 import com.maoxian.vo.JsonResult;
 import com.maoxian.vo.QueryResult;
 import com.maoxian.pojo.User;
@@ -7,6 +8,8 @@ import com.maoxian.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -24,9 +27,15 @@ public class UserController {
 
     @PostMapping("query")
     @PreAuthorize("hasAuthority('user:select')")
-    public JsonResult queryUser(@RequestBody QueryResult<User> userQueryResult) {
-        QueryResult<User> queryResult = userService.queryUser(userQueryResult);
+    public JsonResult queryUser(@RequestBody QueryRequest queryRequest) {
+        QueryResult<User> queryResult = userService.queryUser(queryRequest);
         return JsonResult.success(queryResult);
+    }
+
+    @GetMapping("perm/{userId}")
+    public JsonResult queryPerm(@PathVariable Integer userId){
+        List<String> perm = userService.queryPermByUserId(userId);
+        return JsonResult.success(perm);
     }
 
     @PostMapping("update")
@@ -38,7 +47,7 @@ public class UserController {
 
     @GetMapping("delete/{id}")
     @PreAuthorize("hasAuthority('user:delete')")
-    public JsonResult deleteUser(@PathVariable Long id) {
+    public JsonResult deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
         return JsonResult.success();
     }

@@ -14,7 +14,7 @@ public interface RoleMapper {
      * @param userId 用户id
      * @return 角色信息
      */
-    List<String> queryRoleByUserId(Long userId);
+    List<String> queryRoleByUserId(Integer userId);
 
     /**
      * 增加角色
@@ -35,5 +35,5 @@ public interface RoleMapper {
      *
      * @param id id
      */
-    int deleteRole(Long id);
+    int deleteRole(Integer id);
 }

@@ -1,4 +1,4 @@
-package com.maoxian.pojo;
+package com.maoxian.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,9 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class QueryRequest {
 
-    private Integer id;
+    private Integer pageNum = 1;
 
-    private String name;
-
-    private String roleKey;
+    private Integer pageSize = 5;
 }

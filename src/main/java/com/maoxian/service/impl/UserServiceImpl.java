@@ -1,11 +1,14 @@
 package com.maoxian.service.impl;
 
 import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.UserMapper;
+import com.maoxian.request.QueryRequest;
 import com.maoxian.vo.QueryResult;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,22 +22,38 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private PermMapper permMapper;
+
     //密码加密和验证的bean
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public QueryResult<User> queryUser(QueryResult<User> userQueryResult) {
-        Integer total = userMapper.selectForCount();
-        if (total == 0) {
-            userQueryResult.setList(Collections.emptyList());
-        } else {
-            int start = (userQueryResult.getPageNum() - 1) * userQueryResult.getPageSize();
-            List<User> users = userMapper.queryUserList(start, userQueryResult.getPageSize());
-            userQueryResult.setList(users);
+    public List<String> queryPermByUserId(Integer userId) {
+        if (userId == 0) {
+            User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            permMapper.queryPermByUserId(user.getId());
         }
-        userQueryResult.setTotal(total);
-        return userQueryResult;
+        return permMapper.queryPermByUserId(userId);
+    }
+
+    @Override
+    public QueryResult<User> queryUser(QueryRequest queryRequest) {
+
+        Integer pageNum = queryRequest.getPageNum();
+        Integer pageSize = queryRequest.getPageSize();
+        List<User> users;
+        Integer total = userMapper.selectForCount();
+
+        if (total == 0) {
+            users = Collections.emptyList();
+        } else {
+            int start = (pageNum - 1) * pageSize;
+            users = userMapper.queryUserList(start, pageSize);
+        }
+
+        return new QueryResult<User>(pageNum, pageSize, users, total);
     }
 
     @Override
@@ -62,7 +81,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(Long id) {
+    public void deleteUser(Integer id) {
         int count = userMapper.deleteUser(id);
         if (count == 0) {
             throw new BusinessExp("删除失败");

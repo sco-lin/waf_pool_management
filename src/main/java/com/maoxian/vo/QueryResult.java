@@ -15,9 +15,9 @@ import java.util.List;
 @AllArgsConstructor
 public class QueryResult<T> {
 
-    private Integer pageNum = 1;
+    private Integer pageNum;
 
-    private Integer pageSize = 5;
+    private Integer pageSize;
 
     private List<T> list;
 

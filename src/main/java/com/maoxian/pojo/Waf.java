@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class Waf {
 
-    private Long id;
+    private Integer id;
 
     private String name;
 
     private String ip;
 
-    private Long port;
+    private Integer port;
 
     private String version;
 

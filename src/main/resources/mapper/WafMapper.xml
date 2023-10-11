@@ -3,7 +3,24 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.maoxian.mapper.WafMapper">
-
+    <update id="updateWaf">
+        update waf
+        set name        = #{name},
+            ip          = #{ip},
+            port        = #{port},
+            version     = #{version},
+            status      = #{status},
+            description = #{description}
+        where id = #{id}
+    </update>
+    <delete id="deleteWaf">
+        delete
+        from waf
+        where id = #{id}
+    </delete>
+    <insert id="addWaf">
+        insert into waf (name, ip, port, version, status, description) value (#{name}, #{ip}, #{port}, #{version}, #{status}, #{description})
+    </insert>
     <select id="queryWafById" resultType="Waf">
         select id, name, ip, port, version, status, description from waf where id = #{id}
     </select>

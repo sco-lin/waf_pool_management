@@ -13,7 +13,7 @@ public interface PermMapper {
      * @param userId 用户id
      * @return 用户权限
      */
-    List<String> queryPermByUserId(Long userId);
+    List<String> queryPermByUserId(Integer userId);
 
     /**
      * 增加权限
@@ -34,5 +34,5 @@ public interface PermMapper {
      *
      * @param id id
      */
-    int deletePerm(Long id);
+    int deletePerm(Integer id);
 }

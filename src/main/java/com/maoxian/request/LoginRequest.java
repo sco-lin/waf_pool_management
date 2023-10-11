@@ -1,4 +1,4 @@
-package com.maoxian.pojo;
+package com.maoxian.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,11 +7,10 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Role {
+public class LoginRequest {
 
-    private Integer id;
+    private String username;
 
-    private String name;
+    private String password;
 
-    private String roleKey;
 }
