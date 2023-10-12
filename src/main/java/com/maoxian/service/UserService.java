@@ -41,4 +41,10 @@ public interface UserService {
      * @return 用户信息
      */
     UserInfoVo userInfo(Integer userId);
+
+    /**
+     * 设置用户的角色
+     * @param userId 用户id
+     */
+    void setRoleByUserId(Integer userId);
 }

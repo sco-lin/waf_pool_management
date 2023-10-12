@@ -115,4 +115,9 @@ public class UserServiceImpl implements UserService {
 
         return new UserInfoVo(id, username, email, roles, permissions);
     }
+
+    @Override
+    public void setRoleByUserId(Integer userId) {
+
+    }
 }

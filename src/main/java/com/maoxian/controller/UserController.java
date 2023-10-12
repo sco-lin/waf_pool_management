@@ -1,7 +1,6 @@
 package com.maoxian.controller;
 
 import com.maoxian.request.QueryRequest;
-import com.maoxian.vo.JsonResult;
 import com.maoxian.vo.QueryVo;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
@@ -14,54 +13,49 @@ import java.util.List;
 
 @RestController
 @RequestMapping("user")
+@PreAuthorize("hasAuthority('user')")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
     @PostMapping("register")
-    @PreAuthorize("hasAuthority('user:insert')")
-    public JsonResult signUp(@RequestBody User user) {
+    public void signUp(@RequestBody User user) {
         userService.saveOrUpdateUser(user);
-        return JsonResult.success();
     }
 
     @PostMapping("query")
-    @PreAuthorize("hasAuthority('user:select')")
-    public JsonResult queryUser(@RequestBody QueryRequest queryRequest) {
-        QueryVo<User> queryUser = userService.queryUser(queryRequest);
-        return JsonResult.success(queryUser);
+    public QueryVo<User> queryUser(@RequestBody QueryRequest queryRequest) {
+        return userService.queryUser(queryRequest);
     }
 
     @GetMapping("userinfo")
-    public JsonResult userInfo() {
-        UserInfoVo userInfo = userService.userInfo(0);
-        return JsonResult.success(userInfo);
+    public UserInfoVo userInfo() {
+        return userService.userInfo(0);
     }
 
     @GetMapping("userinfo/{userId}")
-    public JsonResult userInfoByUserId(@PathVariable Integer userId) {
-        UserInfoVo userInfo = userService.userInfo(userId);
-        return JsonResult.success(userInfo);
+    public UserInfoVo userInfoByUserId(@PathVariable Integer userId) {
+        return userService.userInfo(userId);
     }
 
     @GetMapping("perm/{userId}")
-    public JsonResult queryPerm(@PathVariable Integer userId) {
-        List<String> perm = userService.queryPermByUserId(userId);
-        return JsonResult.success(perm);
+    public List<String> queryPerm(@PathVariable Integer userId) {
+        return userService.queryPermByUserId(userId);
     }
 
     @PostMapping("update")
-    @PreAuthorize("hasAuthority('user:update')")
-    public JsonResult updateUser(@RequestBody User user) {
+    public void updateUser(@RequestBody User user) {
         userService.saveOrUpdateUser(user);
-        return JsonResult.success();
     }
 
-    @GetMapping("delete/{id}")
-    @PreAuthorize("hasAuthority('user:delete')")
-    public JsonResult deleteUser(@PathVariable Integer id) {
+    @GetMapping("remove/{id}")
+    public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
-        return JsonResult.success();
+    }
+
+    @PostMapping("role/{userId}")
+    public void setRoleByUserId(@PathVariable Integer userId){
+        userService.setRoleByUserId(userId);
     }
 }

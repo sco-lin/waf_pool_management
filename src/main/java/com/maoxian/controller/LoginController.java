@@ -1,7 +1,6 @@
 package com.maoxian.controller;
 
 import com.maoxian.request.LoginRequest;
-import com.maoxian.vo.JsonResult;
 import com.maoxian.service.LoginService;
 import com.maoxian.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,14 +13,12 @@ public class LoginController {
     private LoginService loginService;
 
     @PostMapping("login")
-    public JsonResult login(@RequestBody LoginRequest loginRequest) {
-        LoginVo loginVo = loginService.login(loginRequest);
-        return JsonResult.success(loginVo);
+    public LoginVo login(@RequestBody LoginRequest loginRequest) {
+        return loginService.login(loginRequest);
     }
 
     @GetMapping("logout")
-    public JsonResult logout() {
+    public void logout() {
         loginService.logout();
-        return JsonResult.success();
     }
 }
