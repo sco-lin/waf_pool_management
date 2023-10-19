@@ -24,12 +24,12 @@ public class WafController {
         wafService.saveOrUpdateWaf(waf);
     }
 
-    @PostMapping("update")
+    @PutMapping("update")
     public void updateWaf(Waf waf) {
         wafService.saveOrUpdateWaf(waf);
     }
 
-    @GetMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     public void deleteWaf(@PathVariable Integer id) {
         wafService.deleteWaf(id);
     }

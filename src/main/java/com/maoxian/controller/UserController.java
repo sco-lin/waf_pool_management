@@ -44,17 +44,17 @@ public class UserController {
         return userService.queryPermByUserId(userId);
     }
 
-    @PostMapping("update")
+    @PutMapping("update")
     public void updateUser(@RequestBody User user) {
         userService.saveOrUpdateUser(user);
     }
 
-    @GetMapping("remove/{id}")
+    @DeleteMapping("remove/{id}")
     public void deleteUser(@PathVariable Integer id) {
         userService.deleteUser(id);
     }
 
-    @PostMapping("role/{userId}")
+    @PutMapping ("role/{userId}")
     public void setRoleByUserId(@PathVariable Integer userId){
         userService.setRoleByUserId(userId);
     }

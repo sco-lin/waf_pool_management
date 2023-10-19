@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.LogMapper">
+
+    <select id="selectLog" resultType="Log">
+        select id, uuid, method, source_ip, path, time, waf_id, parent_id
+        from log
+        where id = #{id}
+    </select>
+    <select id="selectLogByParentId" resultType="Log">
+        select id, uuid, method, source_ip, path, time, waf_id, parent_id
+        from log
+        where parent_id = #{parentId}
+    </select>
+    <select id="selectLogIdByUUID" resultType="Integer">
+        select id
+        from log
+        where uuid = #{uuid} and parent_id = 0
+    </select>
+    <select id="findUUIDList" resultType="String">
+        select distinct uuid
+        from log
+    </select>
+</mapper>
