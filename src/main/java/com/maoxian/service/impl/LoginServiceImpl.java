@@ -38,6 +38,7 @@ public class LoginServiceImpl implements LoginService {
 
         String username = loginRequest.getUsername();
         String password = loginRequest.getPassword();
+        String verifyCode = loginRequest.getVerifyCode();
 
         if (username == null || password == null) {
             throw new BusinessExp("用户名和密码不能为空");
@@ -47,9 +48,19 @@ public class LoginServiceImpl implements LoginService {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
 
-        //认证成功：使用user_id生成jwt
+
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         User user = loginUser.getUser();
+
+        //验证码校验
+        String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
+        if (code != null){
+            if (!code.equals(verifyCode)){
+                throw new BusinessExp("验证码错误");
+            }
+        }
+
+        //认证成功：使用user_id生成jwt
         Integer userId = user.getId();
         String jwt = JwtUtil.createJWT(userId.toString());
 

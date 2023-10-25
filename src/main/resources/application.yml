@@ -14,6 +14,20 @@ spring:
   web:
     resources:
       add-mappings: false
+  mail:
+    host: smtp.qq.com
+    port: 587
+    username: 2425074199@qq.com
+    password: mzbleoodpqrrdjeb
+    properties:
+      mail.smtp.auth: true
+      mail.smtp.starttls.enabled: true
+    default-encoding: UTF-8
+    protocol: smtp
+    valid: 5
+    title: "用户验证"
+    template: "您的动态验证码为：<strong style='color: red'>%s</strong>, %d分钟有效，若非本人操作，请勿泄露"
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.maoxian.pojo

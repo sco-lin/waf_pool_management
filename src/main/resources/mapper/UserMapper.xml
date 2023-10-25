@@ -4,21 +4,28 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.maoxian.mapper.UserMapper">
     <select id="queryUserList" resultType="User">
-        select id, username, password, email
+        select id, username, password, email, status
         from user
         limit #{start}, #{pageSize}
     </select>
     <select id="queryUserById" resultType="User">
-        select id, username, password, email from user where id = #{id}
+        select id, username, password, email, status
+        from user
+        where id = #{id}
     </select>
     <select id="queryUserByUsername" parameterType="String" resultType="User">
-        select id, username, password, email
+        select id, username, password, email, status
         from user
         where username = #{name}
     </select>
     <select id="selectForCount" resultType="Integer">
         select count(*)
         from user
+    </select>
+    <select id="queryUserByEmail" resultType="User">
+        select id, username, password, email, status
+        from user
+        where email = #{email}
     </select>
     <insert id="addUser" parameterType="User">
         insert into user (username, password, email) value (#{username}, #{password}, #{email})

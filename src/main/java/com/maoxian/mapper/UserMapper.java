@@ -33,6 +33,13 @@ public interface UserMapper {
     User queryUserByUsername(String username);
 
     /**
+     * 通过email查询用户
+     * @param email 邮箱
+     * @return 用户信息
+     */
+    User queryUserByEmail(String email);
+
+    /**
      * 增加用户
      *
      * @param user 用户

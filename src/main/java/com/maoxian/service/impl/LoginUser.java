@@ -65,7 +65,7 @@ public class LoginUser implements UserDetails {
     //账户是否被锁定
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return user.getStatus().equals("0");
     }
 
     //账户是否凭证过期

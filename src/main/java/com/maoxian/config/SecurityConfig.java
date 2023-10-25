@@ -75,8 +75,8 @@ public class SecurityConfig {
                 .and()
                 //配置请求的授权规则
                 .authorizeRequests()
-                //对于登录接口，允许匿名访问
-                .antMatchers("/login").anonymous()
+                //对于登录接口和邮箱验证接口，允许匿名访问
+                .antMatchers("/login","/email/**").anonymous()
                 //除上面的所有请求全部都需要认证
                 .anyRequest().authenticated();
 
