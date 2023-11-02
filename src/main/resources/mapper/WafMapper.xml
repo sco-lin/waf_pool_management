@@ -24,4 +24,29 @@
     <select id="queryWafById" resultType="Waf">
         select id, name, ip, port, version, status, description from waf where id = #{id}
     </select>
+    <select id="queryWafList" resultType="Waf">
+        select id, name, ip, port, version, status, description
+        from waf
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip like concat('%', #{ip}, '%')
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
+    <select id="selectForCount" resultType="Integer">
+        select count(id)
+        from waf
+        <where>
+            <if test="name != null and name != ''">
+                name like concat('%', #{name}, '%')
+            </if>
+            <if test="ip != null and ip != ''">
+                and ip like concat('%', #{ip}, '%')
+            </if>
+        </where>
+    </select>
 </mapper>

@@ -21,6 +21,8 @@ public class Log {
 
     private Integer time;
 
+    private String result;
+
     private Integer wafId;
 
     private Integer parentId;

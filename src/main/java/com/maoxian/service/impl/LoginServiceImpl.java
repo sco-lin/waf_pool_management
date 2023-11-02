@@ -54,10 +54,8 @@ public class LoginServiceImpl implements LoginService {
 
         //验证码校验
         String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
-        if (code != null){
-            if (!code.equals(verifyCode)){
-                throw new BusinessExp("验证码错误");
-            }
+        if (!verifyCode.equals(code)) {
+            throw new BusinessExp("验证码错误");
         }
 
         //认证成功：使用user_id生成jwt

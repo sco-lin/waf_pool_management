@@ -4,7 +4,6 @@ import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.RoleMapper;
 import com.maoxian.mapper.UserMapper;
-import com.maoxian.request.QueryRequest;
 import com.maoxian.vo.QueryVo;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
@@ -14,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    private final String emailRegular = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$";
+
     @Override
     public List<String> queryPermByUserId(Integer userId) {
         if (userId <= 0) {
@@ -46,21 +48,37 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public QueryVo<User> queryUser(QueryRequest queryRequest) {
-
-        Integer pageNum = queryRequest.getPageNum();
-        Integer pageSize = queryRequest.getPageSize();
+    public QueryVo<UserInfoVo> queryUser(Integer pageNum, Integer pageSize, String search) {
         List<User> users;
-        Integer total = userMapper.selectForCount();
+        List<String> roles;
+        List<String> permissions;
+        List<UserInfoVo> userInfoVos = new ArrayList<>();
+
+        String username = null;
+        String email = null;
+        if (search.matches(emailRegular)) {
+            email = search;
+        } else {
+            username = search;
+        }
+
+        Integer total = userMapper.selectForCount(username, email);
 
         if (total == 0) {
             users = Collections.emptyList();
         } else {
             int start = (pageNum - 1) * pageSize;
-            users = userMapper.queryUserList(start, pageSize);
+            users = userMapper.queryUserList(start, pageSize, username, email);
         }
 
-        return new QueryVo<>(pageNum, pageSize, users, total);
+        for (User user : users) {
+            roles = roleMapper.queryRoleByUserId(user.getId());
+            permissions = permMapper.queryPermByUserId(user.getId());
+            UserInfoVo userInfoVo = new UserInfoVo(user.getId(), user.getUsername(), user.getEmail(), roles, permissions);
+            userInfoVos.add(userInfoVo);
+        }
+
+        return new QueryVo<>(pageNum, pageSize, userInfoVos, total);
     }
 
     @Override

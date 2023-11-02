@@ -3,8 +3,14 @@ package com.maoxian.mapper;
 import com.maoxian.pojo.Waf;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.List;
+
 @Mapper
 public interface WafMapper {
+
+    Integer selectForCount(String name, String ip);
+
+    List<Waf> queryWafList(int start, int pageSize, String name, String ip);
 
     /**
      * 通过id查询waf

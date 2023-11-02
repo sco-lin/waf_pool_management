@@ -17,17 +17,18 @@ public class LogController {
     @Autowired
     private LogService logService;
 
+    //TODO 预计废除
     @GetMapping("/query/{id}")
     List<LogVo> findLogChain(@PathVariable Integer id) {
         return logService.findLogChain(id);
     }
 
-    @GetMapping("/query-uuid")
+    @GetMapping("/uuid")
     List<String> findUUIDList() {
         return logService.findUUIDList();
     }
 
-    @GetMapping("query-log/{uuid}")
+    @GetMapping("info/{uuid}")
     List<List<LogVo>> findLogChain(@PathVariable String uuid) {
         return logService.findLogChainByUUID(uuid);
     }

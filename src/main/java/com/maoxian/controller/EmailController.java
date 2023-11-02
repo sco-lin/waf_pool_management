@@ -3,6 +3,7 @@ package com.maoxian.controller;
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,6 +21,7 @@ public class EmailController {
         emailService.sendEmailCode(email);
     }
 
+    //TODO 预计废除
     @GetMapping("sendActivateUrl/{email}")
     public void sendEmailActivateUrl(@PathVariable String email) {
         if (email == null) {
@@ -28,6 +30,7 @@ public class EmailController {
         emailService.sendEmailActivateUrl(email);
     }
 
+    //TODO 预计废除
     @GetMapping("activate/{email}/{key}")
     public void activate(@PathVariable String email, @PathVariable String key) {
         if (email == null || key == null) {

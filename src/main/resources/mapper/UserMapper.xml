@@ -6,6 +6,14 @@
     <select id="queryUserList" resultType="User">
         select id, username, password, email, status
         from user
+        <where>
+            <if test="username != null and username != ''">
+                username like concat('%', #{username}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                and email like concat('%', #{email}, '%')
+            </if>
+        </where>
         limit #{start}, #{pageSize}
     </select>
     <select id="queryUserById" resultType="User">
@@ -19,8 +27,16 @@
         where username = #{name}
     </select>
     <select id="selectForCount" resultType="Integer">
-        select count(*)
+        select count(id)
         from user
+        <where>
+            <if test="username != null and username != ''">
+                username like concat('%', #{username}, '%')
+            </if>
+            <if test="email != null and email != ''">
+                and email like concat('%', #{email}, '%')
+            </if>
+        </where>
     </select>
     <select id="queryUserByEmail" resultType="User">
         select id, username, password, email, status

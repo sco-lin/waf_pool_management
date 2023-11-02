@@ -6,7 +6,6 @@ public interface EmailService {
      * 发送邮箱验证码
      *
      * @param targetEmail 目标邮箱
-     * @return 验证码
      */
     void sendEmailCode(String targetEmail);
 

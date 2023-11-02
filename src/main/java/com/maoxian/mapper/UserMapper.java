@@ -12,9 +12,9 @@ public interface UserMapper {
      *
      * @return 所有用户信息
      */
-    List<User> queryUserList(int start, int pageSize);
+    List<User> queryUserList(int start, int pageSize, String username, String email);
 
-    Integer selectForCount();
+    Integer selectForCount(String username, String email);
 
     /**
      * 通过id查询用户
@@ -34,6 +34,7 @@ public interface UserMapper {
 
     /**
      * 通过email查询用户
+     *
      * @param email 邮箱
      * @return 用户信息
      */

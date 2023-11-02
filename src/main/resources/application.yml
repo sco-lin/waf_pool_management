@@ -25,8 +25,14 @@ spring:
     default-encoding: UTF-8
     protocol: smtp
     valid: 5
-    title: "用户验证"
-    template: "您的动态验证码为：<strong style='color: red'>%s</strong>, %d分钟有效，若非本人操作，请勿泄露"
+  thymeleaf:
+    cache: false
+    mode: LEGACYHTM5
+    prefix: classpath:/templates/
+    suffix: .html
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

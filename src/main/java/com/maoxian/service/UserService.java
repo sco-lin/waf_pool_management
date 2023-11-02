@@ -1,6 +1,5 @@
 package com.maoxian.service;
 
-import com.maoxian.request.QueryRequest;
 import com.maoxian.vo.QueryVo;
 import com.maoxian.pojo.User;
 import com.maoxian.vo.UserInfoVo;
@@ -12,12 +11,16 @@ public interface UserService {
     /**
      * 查询用户
      *
-     * @param queryRequest@return userQueryResult 查询结果
+     * @param pageNum  第几页
+     * @param pageSize 页面大小
+     * @param search   模糊查询字符串
+     * @return 用户信息
      */
-    QueryVo<User> queryUser(QueryRequest queryRequest);
+    QueryVo<UserInfoVo> queryUser(Integer pageNum, Integer pageSize, String search);
 
     /**
      * 查询权限
+     *
      * @return 权限信息
      */
     List<String> queryPermByUserId(Integer userId);
@@ -38,12 +41,14 @@ public interface UserService {
 
     /**
      * 查询当前用户信息
+     *
      * @return 用户信息
      */
     UserInfoVo userInfo(Integer userId);
 
     /**
      * 设置用户的角色
+     *
      * @param userId 用户id
      */
     void setRoleByUserId(Integer userId);
