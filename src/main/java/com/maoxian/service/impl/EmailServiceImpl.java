@@ -64,7 +64,7 @@ public class EmailServiceImpl implements EmailService {
     @Override
     public void activate(String email, String key) {
         // 通过email查询用户
-        User user = userMapper.queryUserByEmail(email);
+        User user = userMapper.selectByEmail(email);
         if (user == null) {
             throw new BusinessExp("用户不存在");
         }
@@ -80,7 +80,7 @@ public class EmailServiceImpl implements EmailService {
 
         // 设置用户的status=0，为激活状态
         user.setStatus("0");
-        int count = userMapper.updateUser(user);
+        int count = userMapper.update(user);
         if (count < 1) {
             throw new BusinessExp("激活失败");
         }

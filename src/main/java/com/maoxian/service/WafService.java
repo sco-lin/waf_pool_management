@@ -1,7 +1,7 @@
 package com.maoxian.service;
 
 import com.maoxian.pojo.Waf;
-import com.maoxian.vo.QueryVo;
+import com.maoxian.vo.PageResult;
 
 public interface WafService {
 
@@ -10,27 +10,27 @@ public interface WafService {
      *
      * @return 所有waf信息
      */
-    QueryVo<Waf> queryWafList(Integer pageNum, Integer pageSize, String search);
+    PageResult<Waf> findWafList(Integer pageNum, Integer pageSize, String search);
 
     /**
      * 通过id查询waf
      *
-     * @param id id
+     * @param id 查询条件
      * @return 查询结果
      */
-    Waf queryWaf(Integer id);
+    Waf findWafById(Integer id);
 
     /**
-     * 添加或更新waf
+     * 增加或更新waf
      *
      * @param waf waf信息
      */
-    void saveOrUpdateWaf(Waf waf);
+    void addOrModifyWaf(Waf waf);
 
     /**
-     * 删除waf
+     * 通过id删除waf
      *
-     * @param id id
+     * @param id 删除条件
      */
-    void deleteWaf(Integer id);
+    void deleteWafById(Integer id);
 }

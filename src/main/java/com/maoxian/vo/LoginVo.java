@@ -1,5 +1,7 @@
 package com.maoxian.vo;
 
+import com.maoxian.dto.UserBaseInfoDTO;
+import com.maoxian.dto.UserInfoDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,5 +13,5 @@ public class LoginVo {
 
     private String token;
 
-    private UserInfoVo userInfo;
+    private UserInfoDTO userInfo;
 }

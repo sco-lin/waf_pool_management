@@ -10,29 +10,29 @@ public interface PermMapper {
     /**
      * 通过用户id查询权限
      *
-     * @param userId 用户id
+     * @param userId 查询条件
      * @return 用户权限
      */
-    List<String> queryPermByUserId(Integer userId);
+    List<String> selectByUserId(Integer userId);
 
     /**
      * 增加权限
      *
      * @param perm 权限
      */
-    int addPerm(Perm perm);
+    int insert(Perm perm);
 
     /**
      * 更新权限
      *
      * @param perm 权限
      */
-    int updatePerm(Perm perm);
+    int update(Perm perm);
 
     /**
-     * 删除权限
+     * 通过id删除权限
      *
-     * @param id id
+     * @param id 删除条件
      */
-    int deletePerm(Integer id);
+    int deleteById(Integer id);
 }

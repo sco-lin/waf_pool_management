@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.maoxian.mapper.PermMapper">
-    <select id="queryPermByUserId" resultType="String">
+    <select id="selectByUserId" resultType="String">
         select distinct p.perm
         from user_role ur
                  left join role r on ur.role_id = r.id
@@ -11,16 +11,16 @@
                  left join perm p on p.id = rp.perm_id
         where ur.user_id = #{userId}
     </select>
-    <insert id="addPerm" parameterType="Perm">
+    <insert id="insert" parameterType="Perm">
         insert into perm (name, perm) value (#{name}, #{perm})
     </insert>
-    <update id="updatePerm" parameterType="Perm">
+    <update id="update" parameterType="Perm">
         update perm
         set name=#{name},
             perm=#{perm}
         where id = #{id}
     </update>
-    <delete id="deletePerm">
+    <delete id="deleteById">
         delete
         from perm
         where id = #{id}

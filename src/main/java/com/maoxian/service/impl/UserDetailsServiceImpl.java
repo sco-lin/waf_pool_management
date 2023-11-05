@@ -30,13 +30,16 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         //查询用户信息
-        User user = userMapper.queryUserByUsername(username);
+        User user = userMapper.selectByUsername(username);
         if (user == null) {
             throw new BusinessExp("用户不存在");
         }
 
         //查询用户权限信息
-        List<String> list = permMapper.queryPermByUserId(user.getId());
+        List<String> list = permMapper.selectByUserId(user.getId());
+        if (list.isEmpty()) {
+            throw new BusinessExp("查询权限失败");
+        }
 
         //把数据封装成UserDetails返回
         return new LoginUser(user, list);

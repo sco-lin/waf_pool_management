@@ -13,6 +13,11 @@ public class EmailController {
     @Autowired
     private EmailService emailService;
 
+    /**
+     * 发送邮箱验证码
+     *
+     * @param email 邮箱
+     */
     @GetMapping("sendCode/{email}")
     public void sendMail(@PathVariable String email) {
         if (email == null) {

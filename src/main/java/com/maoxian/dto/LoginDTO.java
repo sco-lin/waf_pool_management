@@ -1,4 +1,4 @@
-package com.maoxian.request;
+package com.maoxian.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginRequest {
+public class LoginDTO {
 
     private String username;
 

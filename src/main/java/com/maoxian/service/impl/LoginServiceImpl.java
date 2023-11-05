@@ -1,14 +1,14 @@
 package com.maoxian.service.impl;
 
+import com.maoxian.dto.UserInfoDTO;
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.mapper.RoleMapper;
 import com.maoxian.pojo.User;
-import com.maoxian.request.LoginRequest;
 import com.maoxian.service.LoginService;
 import com.maoxian.utils.JwtUtil;
 import com.maoxian.utils.RedisCache;
 import com.maoxian.vo.LoginVo;
-import com.maoxian.vo.UserInfoVo;
+import com.maoxian.dto.UserBaseInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,20 +34,11 @@ public class LoginServiceImpl implements LoginService {
     private RoleMapper roleMapper;
 
     @Override
-    public LoginVo login(LoginRequest loginRequest) {
-
-        String username = loginRequest.getUsername();
-        String password = loginRequest.getPassword();
-        String verifyCode = loginRequest.getVerifyCode();
-
-        if (username == null || password == null) {
-            throw new BusinessExp("用户名和密码不能为空");
-        }
+    public LoginVo login(String username, String password, String verifyCode) {
 
         //用户身份认证，认证失败则抛出异常
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
-
 
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         User user = loginUser.getUser();
@@ -66,12 +57,15 @@ public class LoginServiceImpl implements LoginService {
         redisCache.setCacheObject("login:" + userId, loginUser);
 
         //查询用户角色信息
-        List<String> roles = roleMapper.queryRoleByUserId(userId);
+        List<String> roles = roleMapper.selectByUserId(userId);
+        if (roles.isEmpty()) {
+            throw new BusinessExp("查询角色失败");
+        }
 
         //返回数据
-        UserInfoVo userInfoVo = new UserInfoVo(userId, user.getUsername(), user.getEmail(), roles, loginUser.getPermissions());
+        UserInfoDTO userInfoDTO = new UserInfoDTO(userId, user.getUsername(), user.getEmail(), roles, loginUser.getPermissions());
 
-        return new LoginVo(jwt, userInfoVo);
+        return new LoginVo(jwt, userInfoDTO);
     }
 
     @Override

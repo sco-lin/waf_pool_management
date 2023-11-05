@@ -3,16 +3,16 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.maoxian.mapper.RoleMapper">
-    <select id="queryRoleByUserId" resultType="String">
+    <select id="selectByUserId" resultType="String">
         select r.role_key
         from user_role ur
                  left join role r on ur.role_id = r.id
         where ur.user_id = #{userId}
     </select>
-    <insert id="addRole" parameterType="Perm">
+    <insert id="insert" parameterType="Perm">
         insert into role (name, role_key) value (#{name}, #{roleKey})
     </insert>
-    <update id="updateRole" parameterType="Perm">
+    <update id="update" parameterType="Perm">
         update role
         set name=#{name},
             role_key=#{roleKey}

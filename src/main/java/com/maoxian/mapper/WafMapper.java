@@ -8,36 +8,52 @@ import java.util.List;
 @Mapper
 public interface WafMapper {
 
-    Integer selectForCount(String name, String ip);
+    /**
+     * 查询记录数：模糊查询
+     *
+     * @param name 模糊查询字段
+     * @param ip 模糊查询字段
+     * @return 记录数
+     */
+    Integer count(String name, String ip);
 
-    List<Waf> queryWafList(int start, int pageSize, String name, String ip);
+    /**
+     * 查询waf列表：分页+模糊查询
+     *
+     * @param start   开始位置
+     * @param pageSize 查询个数
+     * @param name 模糊查询字段
+     * @param ip 模糊查询字段
+     * @return waf列表
+     */
+    List<Waf> selectList(int start, int pageSize, String name, String ip);
 
     /**
      * 通过id查询waf
      *
-     * @param id id
+     * @param id 查询条件
      * @return waf信息
      */
-    Waf queryWafById(Integer id);
+    Waf selectById(Integer id);
 
     /**
      * 增加waf
      *
      * @param waf waf信息
      */
-    int addWaf(Waf waf);
+    int insert(Waf waf);
 
     /**
      * 更新waf
      *
      * @param waf waf信息
      */
-    int updateWaf(Waf waf);
+    int update(Waf waf);
 
     /**
-     * 删除waf
+     * 通过id删除waf
      *
-     * @param id id
+     * @param id
      */
-    int deleteWaf(Integer id);
+    int deleteById(Integer id);
 }

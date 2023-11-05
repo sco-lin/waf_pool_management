@@ -1,10 +1,10 @@
 package com.maoxian.service;
 
-import com.maoxian.vo.QueryVo;
+import com.maoxian.dto.UserPasswordDTO;
+import com.maoxian.dto.UserBaseInfoDTO;
+import com.maoxian.dto.UserInfoDTO;
+import com.maoxian.vo.PageResult;
 import com.maoxian.pojo.User;
-import com.maoxian.vo.UserInfoVo;
-
-import java.util.List;
 
 public interface UserService {
 
@@ -16,40 +16,42 @@ public interface UserService {
      * @param search   模糊查询字符串
      * @return 用户信息
      */
-    QueryVo<UserInfoVo> queryUser(Integer pageNum, Integer pageSize, String search);
+    PageResult<UserInfoDTO> findUserInfo(Integer pageNum, Integer pageSize, String search);
 
     /**
-     * 查询权限
-     *
-     * @return 权限信息
-     */
-    List<String> queryPermByUserId(Integer userId);
-
-    /**
-     * 添加或更新用户
+     * 增加用户
      *
      * @param user 用户信息
      */
-    void saveOrUpdateUser(User user);
+    void addUser(User user);
 
     /**
-     * 删除用户
+     * 修改用户基本信息
      *
-     * @param id id
+     * @param userBaseInfoDTO 用户基本信息
      */
-    void deleteUser(Integer id);
+    void modifyUser(UserBaseInfoDTO userBaseInfoDTO);
 
     /**
-     * 查询当前用户信息
+     * 修改用户密码
      *
+     * @param userPasswordDTO 用户密码
+     */
+    void modifyUser(UserPasswordDTO userPasswordDTO);
+
+    /**
+     * 通过id删除用户
+     *
+     * @param id 删除条件
+     */
+    void deleteUserById(Integer id);
+
+    /**
+     * 通过id查询用户信息
+     *
+     * @param id 查询条件
      * @return 用户信息
      */
-    UserInfoVo userInfo(Integer userId);
+    UserInfoDTO findUserInfoById(Integer id);
 
-    /**
-     * 设置用户的角色
-     *
-     * @param userId 用户id
-     */
-    void setRoleByUserId(Integer userId);
 }

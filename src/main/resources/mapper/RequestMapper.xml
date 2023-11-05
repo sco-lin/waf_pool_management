@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.RequestMapper">
+    <select id="count" resultType="Integer">
+        select count(id)
+        from request
+        <where>
+            <if test="uuid != null and uuid != ''">
+                uuid like concat('%', #{uuid}, '%')
+            </if>
+        </where>
+    </select>
+    <select id="selectList" resultType="Request">
+        select id, uuid, method, source_ip, url, start_time, time, status
+        from request
+        <where>
+            <if test="uuid != null and uuid !=''">
+                uuid like concat('%', #{uuid}, '%')
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
+</mapper>

@@ -1,14 +1,15 @@
-package com.maoxian.vo;
+package com.maoxian.pojo;
 
-import com.maoxian.pojo.Waf;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LogVo {
+public class Request {
 
     private Integer id;
 
@@ -16,11 +17,11 @@ public class LogVo {
 
     private String method;
 
-    private String sourceIp;
+    private String sourceI;
 
-    private String path;
+    private String url;
 
-    private Integer time;
+    private LocalDateTime startTime;
 
-    private Waf waf;
+    private String status;
 }

@@ -1,29 +1,34 @@
 package com.maoxian.waf_pool_management;
 
+import com.maoxian.dto.UserPasswordDTO;
 import com.maoxian.mapper.PermMapper;
-import com.maoxian.mapper.LogMapper;
+import com.maoxian.mapper.RequestMapper;
+import com.maoxian.mapper.RequestChainMapper;
 import com.maoxian.mapper.UserMapper;
+import com.maoxian.pojo.RequestChain;
 import com.maoxian.pojo.User;
+import com.maoxian.pojo.Waf;
 import com.maoxian.service.LoginService;
 
 import com.maoxian.service.UserService;
 import com.maoxian.service.WafService;
 import com.maoxian.utils.EmailUtil;
+import com.maoxian.vo.PageResult;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @SpringBootTest
 class WafPoolManagementApplicationTests {
 
     @Autowired
-    LogMapper logMapper;
+    RequestMapper requestMapper;
 
-    @Autowired LoginService loginService;
+    @Autowired
+    LoginService loginService;
 
     @Autowired
     private PermMapper permMapper;
@@ -40,12 +45,67 @@ class WafPoolManagementApplicationTests {
     @Autowired
     private WafService wafService;
 
+    @Autowired
+    private ModelMapper modelMapper;
+
     private String emailRegular = "^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(.[a-zA-Z0-9_-]+)+$";
 
     private String ipRegular = "^(((\\d)|([1-9]\\d)|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))\\.){3}((\\d)|([1-9]\\d)|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))$";
 
+    @Autowired
+    private RequestChainMapper requestChainMapper;
+
     @Test
-    public void testRegular(){
+    public void testModelMapper() {
+        UserPasswordDTO userPasswordDTO = new UserPasswordDTO(1, "a", "b", "1");
+        User user = modelMapper.map(userPasswordDTO, User.class);
+        System.out.println(user);
+    }
+
+    @Test
+    public void test() {
+        Integer a = 1;
+        Integer b = 1;
+        System.out.println(a == b);
+        System.out.println(a.equals(b));
+    }
+
+    @Test
+    public void testRequestChain() {
+        Random random = new Random();
+        for (int i = 1; i < 1001; i++) {
+            List<RequestChain> byRequestId = requestChainMapper.selectList(i);
+            int count1 = byRequestId.size() / 3;
+            if (count1 < 1) {
+                break;
+            }
+            int count = random.nextInt(count1);
+            if (count < 1) {
+                count = 1;
+            }
+            for (int j = 0; j < count; j++) {
+                Integer id = byRequestId.get(j).getId();
+//                requestChainMapper.updateChain(id);
+            }
+        }
+    }
+
+    @Test
+    public void testWaf() {
+        PageResult<Waf> wafPageResult = wafService.findWafList(1, 10, "");
+        System.out.println(wafPageResult);
+    }
+
+    @Test
+    public void getUUID() {
+        String s = UUID.randomUUID().toString();
+        String s2 = UUID.randomUUID().toString();
+        System.out.println(s);
+        System.out.println(s2);
+    }
+
+    @Test
+    public void testRegular() {
         System.out.println("zls@163.com".matches(emailRegular));
         System.out.println("sdff@af".matches(emailRegular));
         System.out.println("12.54.18.24".matches(ipRegular));
@@ -53,24 +113,25 @@ class WafPoolManagementApplicationTests {
     }
 
     @Test
-    public void testSelectPermsByUserId(){
-        List<String> list = permMapper.queryPermByUserId(1);
+    public void testSelectPermsByUserId() {
+        List<String> list = permMapper.selectByUserId(1);
         System.out.println(list);
     }
+
     @Test
-    public void testUser(){
-        User user = userMapper.queryUserById(1);
+    public void testUser() {
+        User user = userMapper.selectById(1);
         System.out.println(user);
     }
 
     @Test
-    public void testSendTemplateEmail(){
+    public void testSendTemplateEmail() {
         Map<String, Object> variables = new HashMap<>();
-        variables.put("email","zls2434474199@163.com");
-        variables.put("key","dddddd");
+        variables.put("email", "zls2434474199@163.com");
+        variables.put("key", "dddddd");
 //        variables.put("verifyCode","12345");
 //        variables.put("valid",5);
-        emailUtil.sendHtmlEmail("zls2434474199@163.com","测试","activateUrl.html",variables);
+        emailUtil.sendHtmlEmail("zls2434474199@163.com", "测试", "activateUrl.html", variables);
     }
 
 }

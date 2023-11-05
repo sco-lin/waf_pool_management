@@ -1,14 +1,15 @@
 package com.maoxian.controller;
 
-import com.maoxian.vo.QueryVo;
+import com.maoxian.dto.UserPasswordDTO;
+import com.maoxian.dto.UserBaseInfoDTO;
+import com.maoxian.dto.UserInfoDTO;
+import com.maoxian.vo.PageResult;
+import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
-import com.maoxian.vo.UserInfoVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("user")
@@ -24,8 +25,20 @@ public class UserController {
      * @param user 用户信息
      */
     @PostMapping("register")
-    public void signUp(@RequestBody User user) {
-        userService.saveOrUpdateUser(user);
+    public void register(@RequestBody User user) {
+        String username = user.getUsername();
+        String password = user.getPassword();
+        String email = user.getEmail();
+        if (username.isEmpty()) {
+            throw new BusinessExp("用户名不能为空");
+        }
+        if (password.isEmpty()) {
+            throw new BusinessExp("密码不能为空");
+        }
+        if (email.isEmpty()) {
+            throw new BusinessExp("邮箱不能为空");
+        }
+        userService.addUser(user);
     }
 
     /**
@@ -33,54 +46,70 @@ public class UserController {
      *
      * @param pageNum  第几页
      * @param pageSize 页面大小
-     * @return 第几页、页面大小、查询结果、总数
+     * @param search   模糊查询字段
+     * @return 查询结果
      */
     @GetMapping
-    public QueryVo<UserInfoVo> queryUser(@RequestParam(defaultValue = "1") Integer pageNum,
-                                   @RequestParam(defaultValue = "5") Integer pageSize,
-                                   @RequestParam(defaultValue = "") String search) {
-        return userService.queryUser(pageNum, pageSize, search);
+    public PageResult<UserInfoDTO> queryUser(@RequestParam(defaultValue = "1") Integer pageNum,
+                                             @RequestParam(defaultValue = "5") Integer pageSize,
+                                             @RequestParam(defaultValue = "") String search) {
+        return userService.findUserInfo(pageNum, pageSize, search);
     }
 
+    //TODO 需要优化
+
     /**
-     * 查询当前用户信息
+     * 查询用户信息
      *
      * @return 用户信息
      */
     @GetMapping("info")
-    public UserInfoVo userInfo() {
-        return userService.userInfo(0);
+    public UserInfoDTO userInfo() {
+        return userService.findUserInfoById(0);
     }
 
     /**
      * 更新用户信息
      *
-     * @param user 新的用户信息
+     * @param userBaseInfoDTO 用户的基本信息
      */
     @PutMapping
-    public void updateUser(@RequestBody User user) {
-        userService.saveOrUpdateUser(user);
+    public void updateUserInfo(@RequestBody UserBaseInfoDTO userBaseInfoDTO) {
+        Integer id = userBaseInfoDTO.getId();
+        if (id == null) {
+            throw new BusinessExp("id不能为空");
+        }
+        userService.modifyUser(userBaseInfoDTO);
+    }
+
+    @PutMapping("/password")
+    public void updateUserPassword(@RequestBody UserPasswordDTO userPasswordDTO) {
+        Integer id = userPasswordDTO.getId();
+        String oldPassword = userPasswordDTO.getOldPassword();
+        String newPassword = userPasswordDTO.getNewPassword();
+        String verifyCode = userPasswordDTO.getVerifyCode();
+        if (id == null) {
+            throw new BusinessExp("id不能为空");
+        }
+        if (oldPassword == null) {
+            throw new BusinessExp("旧密码不能为空");
+        }
+        if (newPassword == null) {
+            throw new BusinessExp("新密码不能为空");
+        }
+        if (verifyCode == null) {
+            throw new BusinessExp("验证码不能为空");
+        }
+        userService.modifyUser(userPasswordDTO);
     }
 
     /**
      * 根据id删除用户
      *
-     * @param id 用户id
+     * @param id 删除条件
      */
     @DeleteMapping("{id}")
     public void deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
-    }
-
-    //TODO 未使用
-    @PutMapping("role/{userId}")
-    public void setRoleByUserId(@PathVariable Integer userId) {
-        userService.setRoleByUserId(userId);
-    }
-
-    //TODO 未使用
-    @GetMapping("perm/{userId}")
-    public List<String> queryPerm(@PathVariable Integer userId) {
-        return userService.queryPermByUserId(userId);
+        userService.deleteUserById(id);
     }
 }

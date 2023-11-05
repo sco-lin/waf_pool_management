@@ -11,29 +11,29 @@ public interface RoleMapper {
     /**
      * 通过用户id查询角色
      *
-     * @param userId 用户id
+     * @param userId 查询条件
      * @return 角色信息
      */
-    List<String> queryRoleByUserId(Integer userId);
+    List<String> selectByUserId(Integer userId);
 
     /**
      * 增加角色
      *
      * @param role 角色
      */
-    int addRole(Role role);
+    int insert(Role role);
 
     /**
      * 删除角色
      *
      * @param role 角色
      */
-    int updateRole(Role role);
+    int update(Role role);
 
     /**
-     * 删除角色
+     * 通过i删除角色
      *
-     * @param id id
+     * @param id 删除条件
      */
-    int deleteRole(Integer id);
+    int deleteById(Integer id);
 }

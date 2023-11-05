@@ -3,29 +3,40 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.maoxian.mapper.WafMapper">
-    <update id="updateWaf">
+    <update id="update">
         update waf
         set name        = #{name},
             ip          = #{ip},
             port        = #{port},
-            version     = #{version},
+            config_url  = #{configUrl},
+            enable      = #{enable},
             status      = #{status},
+            cpu         = #{cpu},
+            memory      = #{memory},
+            start_time  = #{startTime},
+            up_time     = #{upTime},
             description = #{description}
         where id = #{id}
     </update>
-    <delete id="deleteWaf">
+    <delete id="deleteById">
         delete
         from waf
         where id = #{id}
     </delete>
-    <insert id="addWaf">
-        insert into waf (name, ip, port, version, status, description) value (#{name}, #{ip}, #{port}, #{version}, #{status}, #{description})
+    <insert id="insert">
+        insert into waf (name, ip, port, config_url, enable, status, cpu, memory, start_time, up_time,
+                         description)
+            value (#{name}, #{ip}, #{port}, #{configUrl}, #{enable}, #{status}, #{cpu}, #{memory}, #{startTime},
+                   #{upTime},
+                   #{description})
     </insert>
-    <select id="queryWafById" resultType="Waf">
-        select id, name, ip, port, version, status, description from waf where id = #{id}
+    <select id="selectById" resultType="Waf">
+        select id, name, ip, port, config_url, enable, status, cpu, memory, start_time, up_time, description
+        from waf
+        where id = #{id}
     </select>
-    <select id="queryWafList" resultType="Waf">
-        select id, name, ip, port, version, status, description
+    <select id="selectList" resultType="Waf">
+        select id, name, ip, port, config_url, enable, status, cpu, memory, start_time, up_time, description
         from waf
         <where>
             <if test="name != null and name != ''">
@@ -37,7 +48,7 @@
         </where>
         limit #{start}, #{pageSize}
     </select>
-    <select id="selectForCount" resultType="Integer">
+    <select id="count" resultType="Integer">
         select count(id)
         from waf
         <where>

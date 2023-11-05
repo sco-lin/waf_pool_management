@@ -4,26 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Log {
+public class RequestChain {
 
     private Integer id;
 
-    private String uuid;
-
-    private String method;
-
-    private String sourceIp;
-
-    private String path;
+    private String status;
 
     private Integer time;
 
-    private String result;
-
     private Integer wafId;
 
+    private Integer requestId;
+
     private Integer parentId;
+
+    private List<RequestChain> children;
 }
