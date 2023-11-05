@@ -44,13 +44,28 @@
         where email = #{email}
     </select>
     <insert id="insert" parameterType="User">
-        insert into user (username, password, email) value (#{username}, #{password}, #{email})
+        insert into user
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="username != null">username,</if>
+            <if test="password != null">password,</if>
+            <if test="email != null">email,</if>
+            <if test="status != null">status</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="username != null">#{username},</if>
+            <if test="password != null">#{password},</if>
+            <if test="email != null">#{email},</if>
+            <if test="status != null">#{status}</if>
+        </trim>
     </insert>
     <update id="update" parameterType="User">
         update user
-        set username = #{username},
-            password = #{password},
-            email    = #{email}
+        <set>
+            <if test="username != null">username = #{username},</if>
+            <if test="password != null">password = #{password},</if>
+            <if test="email != null">email = #{email}</if>
+            <if test="status != null">status = #{status}</if>
+        </set>
         where id = #{id}
     </update>
     <delete id="deleteById">

@@ -43,7 +43,7 @@ public class WafController {
      * @param waf waf信息
      */
     @PostMapping
-    public void addWaf(Waf waf) {
+    public void addWaf(@RequestBody Waf waf) {
         String name = waf.getName();
         String ip = waf.getIp();
         Integer port = waf.getPort();
@@ -69,7 +69,7 @@ public class WafController {
      * @param waf waf信息
      */
     @PutMapping
-    public void updateWaf(Waf waf) {
+    public void updateWaf(@RequestBody Waf waf) {
         Integer id = waf.getId();
         if (id == null) {
             throw new BusinessExp("id不能为空");

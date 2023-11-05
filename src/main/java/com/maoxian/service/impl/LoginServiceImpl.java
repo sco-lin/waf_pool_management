@@ -8,7 +8,6 @@ import com.maoxian.service.LoginService;
 import com.maoxian.utils.JwtUtil;
 import com.maoxian.utils.RedisCache;
 import com.maoxian.vo.LoginVo;
-import com.maoxian.dto.UserBaseInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -63,7 +62,7 @@ public class LoginServiceImpl implements LoginService {
         }
 
         //返回数据
-        UserInfoDTO userInfoDTO = new UserInfoDTO(userId, user.getUsername(), user.getEmail(), roles, loginUser.getPermissions());
+        UserInfoDTO userInfoDTO = new UserInfoDTO(userId, user.getUsername(), user.getEmail(), user.getStatus(), roles, loginUser.getPermissions());
 
         return new LoginVo(jwt, userInfoDTO);
     }

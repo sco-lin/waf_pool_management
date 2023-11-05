@@ -17,6 +17,8 @@ public class UserInfoDTO {
 
     private String email;
 
+    private String status;
+
     private List<String> roles;
 
     private List<String> permissions;

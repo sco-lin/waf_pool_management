@@ -12,7 +12,6 @@ import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
 import com.maoxian.dto.UserBaseInfoDTO;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -90,7 +89,7 @@ public class UserServiceImpl implements UserService {
             if (permissions.isEmpty()) {
                 throw new BusinessExp("查询权限失败");
             }
-            UserInfoDTO userInfoDTO = new UserInfoDTO(user.getId(), user.getUsername(), user.getEmail(), roles, permissions);
+            UserInfoDTO userInfoDTO = new UserInfoDTO(user.getId(), user.getUsername(), user.getEmail(), user.getStatus(), roles, permissions);
             userInfoDTOS.add(userInfoDTO);
         }
 
@@ -145,12 +144,9 @@ public class UserServiceImpl implements UserService {
             throw new BusinessExp("旧密码错误");
         }
 
-        //TODO 使用模型映射器时报错
         // 设置密码
-        String encode = passwordEncoder.encode(newPassword);
-        User updateUser = new User();
-        updateUser.setId(id);
-        updateUser.setPassword(encode);
+        userPasswordDTO.setNewPassword(passwordEncoder.encode(newPassword));
+        User updateUser = modelMapper.map(userPasswordDTO, User.class);
 
         int count = userMapper.update(updateUser);
         if (count == 0) {
@@ -190,12 +186,13 @@ public class UserServiceImpl implements UserService {
         Integer id = user.getId();
         String username = user.getUsername();
         String email = user.getEmail();
+        String status = user.getStatus();
         List<String> roles = roleMapper.selectByUserId(id);
         if (roles.isEmpty()) {
             throw new BusinessExp("查询角色失败");
         }
 
-        return new UserInfoDTO(id, username, email, roles, permissions);
+        return new UserInfoDTO(id, username, email, status, roles, permissions);
     }
 
 }

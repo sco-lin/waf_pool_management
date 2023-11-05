@@ -15,11 +15,13 @@ public class RequestDTO {
 
     private String method;
 
-    private String sourceI;
+    private String sourceIp;
 
     private String url;
 
     private LocalDateTime startTime;
+
+    private Integer time;
 
     private String status;
 }
