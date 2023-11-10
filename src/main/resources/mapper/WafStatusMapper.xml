@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.WafStatusMapper">
+    <insert id="insert">
+        insert into waf_status
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="cpu != null">cpu,</if>
+            <if test="memory != null">memory,</if>
+            <if test="start_time != null">start_time,</if>
+            <if test="up_time != null">up_time</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="cpu != null">#{cpu},</if>
+            <if test="memory != null">#{memory},</if>
+            <if test="start_time != null">#{startTime},</if>
+            <if test="up_time != null">#{upTime}</if>
+        </trim>
+    </insert>
+    <update id="update">
+        update waf_status
+        <set>
+            <if test="cpu != null">cpu = #{cpu},</if>
+            <if test="memory != null">memory = #{memory},</if>
+            <if test="start_time != null">start_time = #{startTime},</if>
+            <if test="up_time != null">up_time = #{upTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete
+        from waf_status
+        where id = #{id}
+
+    </delete>
+
+    <select id="selectByWafId" resultType="WafStatus">
+        select id, cpu, memory, start_time, up_time, waf_id
+        from waf_status
+        where waf_id = #{wafId}
+    </select>
+</mapper>

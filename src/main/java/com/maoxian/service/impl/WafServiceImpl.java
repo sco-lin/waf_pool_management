@@ -2,7 +2,9 @@ package com.maoxian.service.impl;
 
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.mapper.WafMapper;
+import com.maoxian.mapper.WafStatusMapper;
 import com.maoxian.pojo.Waf;
+import com.maoxian.pojo.WafStatus;
 import com.maoxian.service.WafService;
 import com.maoxian.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,37 +19,25 @@ public class WafServiceImpl implements WafService {
     @Autowired
     private WafMapper wafMapper;
 
+    @Autowired
+    private WafStatusMapper wafStatusMapper;
+
     @Override
-    public PageResult<Waf> findWafList(Integer pageNum, Integer pageSize, String search) {
-
-        String name = null;
-        String ip = null;
-        String ipRegular = "^(((\\d)|([1-9]\\d)|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))\\.){3}((\\d)|([1-9]\\d)|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))$";
-
-        // 通过正则表达式判断模糊查询的字段
-        if (search.matches(ipRegular)) {
-            ip = search;
-        } else {
-            name = search;
-        }
-
-        List<Waf> wafs;
-
-        // 查询总数
-        Integer total = wafMapper.count(name, ip);
-
-        if (total == 0) {
-            wafs = Collections.emptyList();
-        } else {
-            // 查询waf列表
-            int start = (pageNum - 1) * pageSize;
-            wafs = wafMapper.selectList(start, pageSize, name, ip);
-        }
+    public List<Waf> findWafList() {
+        List<Waf> wafs = wafMapper.selectList();
         if (wafs.isEmpty()) {
             throw new BusinessExp("waf查询失败");
         }
+        return wafs;
+    }
 
-        return new PageResult<>(pageNum, pageSize, wafs, total);
+    @Override
+    public WafStatus findWafStatusById(Integer wafId) {
+        WafStatus wafStatus = wafStatusMapper.selectByWafId(wafId);
+        if (wafStatus == null) {
+            throw new BusinessExp("waf状态查询失败");
+        }
+        return wafStatus;
     }
 
     @Override

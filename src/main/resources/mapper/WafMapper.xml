@@ -10,12 +10,7 @@
             <if test="ip != null">ip = #{ip},</if>
             <if test="port != null">port = #{port},</if>
             <if test="configUrl != null">config_url = #{configUrl},</if>
-            <if test="enable != null">enable = #{enable},</if>
             <if test="status != null">status = #{status},</if>
-            <if test="cpu != null">cpu = #{cpu},</if>
-            <if test="memory != null">memory = #{memory},</if>
-            <if test="startTime != null">start_time = #{startTime},</if>
-            <if test="upTime != null">up_time = #{upTime},</if>
             <if test="description != null">description = #{description}</if>
         </set>
         where id = #{id}
@@ -32,12 +27,7 @@
             <if test="ip != null">ip,</if>
             <if test="port != null">port,</if>
             <if test="configUrl != null">config_url,</if>
-            <if test="enable != null">enable,</if>
             <if test="status != null">status,</if>
-            <if test="cpu != null">cpu,</if>
-            <if test="memory != null">memory,</if>
-            <if test="startTime != null">start_time,</if>
-            <if test="upTime != null">up_time,</if>
             <if test="description != null">description</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -45,43 +35,21 @@
             <if test="ip != null">#{ip},</if>
             <if test="port != null">#{port},</if>
             <if test="configUrl != null">#{configUrl},</if>
-            <if test="enable != null">#{enable},</if>
             <if test="status != null">#{status},</if>
-            <if test="cpu != null">#{cpu},</if>
-            <if test="memory != null">#{memory},</if>
-            <if test="startTime != null">#{startTime},</if>
-            <if test="upTime != null">#{upTime},</if>
             <if test="description != null">#{description}</if>
         </trim>
     </insert>
     <select id="selectById" resultType="Waf">
-        select id, name, ip, port, config_url, enable, status, cpu, memory, start_time, up_time, description
+        select id, name, ip, port, config_url, status, description
         from waf
         where id = #{id}
     </select>
     <select id="selectList" resultType="Waf">
-        select id, name, ip, port, config_url, enable, status, cpu, memory, start_time, up_time, description
+        select id, name, ip, port, config_url, status, description
         from waf
-        <where>
-            <if test="name != null and name != ''">
-                name like concat('%', #{name}, '%')
-            </if>
-            <if test="ip != null and ip != ''">
-                and ip like concat('%', #{ip}, '%')
-            </if>
-        </where>
-        limit #{start}, #{pageSize}
     </select>
     <select id="count" resultType="Integer">
         select count(id)
         from waf
-        <where>
-            <if test="name != null and name != ''">
-                name like concat('%', #{name}, '%')
-            </if>
-            <if test="ip != null and ip != ''">
-                and ip like concat('%', #{ip}, '%')
-            </if>
-        </where>
     </select>
 </mapper>

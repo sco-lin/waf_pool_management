@@ -92,7 +92,7 @@ class WafPoolManagementApplicationTests {
 
     @Test
     public void testWaf() {
-        PageResult<Waf> wafPageResult = wafService.findWafList(1, 10, "");
+        List<Waf> wafPageResult = wafService.findWafList();
         System.out.println(wafPageResult);
     }
 

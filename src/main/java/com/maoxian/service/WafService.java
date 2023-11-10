@@ -1,7 +1,9 @@
 package com.maoxian.service;
 
 import com.maoxian.pojo.Waf;
-import com.maoxian.vo.PageResult;
+import com.maoxian.pojo.WafStatus;
+
+import java.util.List;
 
 public interface WafService {
 
@@ -10,7 +12,14 @@ public interface WafService {
      *
      * @return 所有waf信息
      */
-    PageResult<Waf> findWafList(Integer pageNum, Integer pageSize, String search);
+    List<Waf> findWafList();
+
+    /**
+     * 查询waf的状态信息
+     * @param wafId wafId
+     * @return 查询结果
+     */
+    WafStatus findWafStatusById(Integer wafId);
 
     /**
      * 通过id查询waf

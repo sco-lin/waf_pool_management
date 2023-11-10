@@ -2,11 +2,14 @@ package com.maoxian.controller;
 
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.pojo.Waf;
+import com.maoxian.pojo.WafStatus;
 import com.maoxian.service.WafService;
 import com.maoxian.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("waf")
@@ -17,18 +20,18 @@ public class WafController {
     private WafService wafService;
 
     /**
-     * 查询所有请求：分页+模糊查询
+     * 查询所有waf
      *
-     * @param pageNum  第几页
-     * @param pageSize 页面大小
-     * @param search   模糊查询字段
      * @return 查询结果
      */
     @GetMapping
-    public PageResult<Waf> queryWaf(@RequestParam(defaultValue = "1") Integer pageNum,
-                                    @RequestParam(defaultValue = "5") Integer pageSize,
-                                    @RequestParam(defaultValue = "") String search) {
-        return wafService.findWafList(pageNum, pageSize, search);
+    public List<Waf> queryWaf() {
+        return wafService.findWafList();
+    }
+
+    @GetMapping("status/{wafId}")
+    public WafStatus queryWafStatus(@PathVariable Integer wafId){
+        return wafService.findWafStatusById(wafId);
     }
 
     //TODO 将废弃

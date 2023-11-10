@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 public class Perm {
 
     private Integer id;
-
     private String name;
-
     private String perm;
 }

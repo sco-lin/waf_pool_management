@@ -10,14 +10,9 @@ import lombok.NoArgsConstructor;
 public class RequestChain {
 
     private Integer id;
-
     private String status;
-
     private Integer time;
-
     private Integer wafId;
-
     private Integer requestId;
-
     private Integer parentId;
 }
