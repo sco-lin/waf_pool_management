@@ -82,22 +82,41 @@ public class UserController {
         userService.modifyUser(userBaseInfoDTO);
     }
 
+    /**
+     * 修改密码
+     *
+     * @param userPasswordDTO 密码
+     */
     @PutMapping("/password")
     public void updateUserPassword(@RequestBody UserPasswordDTO userPasswordDTO) {
         Integer id = userPasswordDTO.getId();
-        String oldPassword = userPasswordDTO.getOldPassword();
         String newPassword = userPasswordDTO.getNewPassword();
-        String verifyCode = userPasswordDTO.getVerifyCode();
         if (id == null) {
             throw new BusinessExp("id不能为空");
         }
-        if (oldPassword == null) {
-            throw new BusinessExp("旧密码不能为空");
-        }
-        if (newPassword == null) {
+        if (newPassword.isEmpty()) {
             throw new BusinessExp("新密码不能为空");
         }
-        if (verifyCode == null) {
+        userService.modifyUser(userPasswordDTO);
+    }
+
+    /**
+     * 重置密码
+     *
+     * @param userPasswordDTO 密码
+     */
+    @PutMapping("/reset")
+    public void resetPassword(@RequestBody UserPasswordDTO userPasswordDTO) {
+        String email = userPasswordDTO.getEmail();
+        String newPassword = userPasswordDTO.getNewPassword();
+        String verifyCode = userPasswordDTO.getVerifyCode();
+        if (email.isEmpty()) {
+            throw new BusinessExp("email不能为空");
+        }
+        if (newPassword.isEmpty()) {
+            throw new BusinessExp("新密码不能为空");
+        }
+        if (verifyCode.isEmpty()) {
             throw new BusinessExp("验证码不能为空");
         }
         userService.modifyUser(userPasswordDTO);

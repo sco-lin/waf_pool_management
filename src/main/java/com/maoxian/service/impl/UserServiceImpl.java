@@ -124,24 +124,26 @@ public class UserServiceImpl implements UserService {
     @Override
     public void modifyUser(UserPasswordDTO userPasswordDTO) {
         Integer id = userPasswordDTO.getId();
-        String oldPassword = userPasswordDTO.getOldPassword();
+        String email = userPasswordDTO.getEmail();
         String newPassword = userPasswordDTO.getNewPassword();
         String verifyCode = userPasswordDTO.getVerifyCode();
 
-        User user = userMapper.selectById(id);
+        User user;
+        if (id != null) {
+            user = userMapper.selectById(id);
+        } else {
+            user = userMapper.selectByEmail(email);
+            userPasswordDTO.setId(user.getId());
+        }
+
         if (user == null) {
             throw new BusinessExp("查询用户失败");
         }
 
         //验证码校验
         String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
-        if (!verifyCode.equals(code)) {
+        if (code != null && !verifyCode.equals(code)) {
             throw new BusinessExp("验证码错误");
-        }
-
-        // 验证旧密码
-        if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
-            throw new BusinessExp("旧密码错误");
         }
 
         // 设置密码

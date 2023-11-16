@@ -20,7 +20,7 @@ public class EmailController {
      */
     @GetMapping("sendCode/{email}")
     public void sendMail(@PathVariable String email) {
-        if (email == null) {
+        if (email.isEmpty()) {
             throw new BusinessExp("邮箱不能为空");
         }
         emailService.sendEmailCode(email);
@@ -29,7 +29,7 @@ public class EmailController {
     //TODO 预计废除
     @GetMapping("sendActivateUrl/{email}")
     public void sendEmailActivateUrl(@PathVariable String email) {
-        if (email == null) {
+        if (email.isEmpty()) {
             throw new BusinessExp("邮箱不能为空");
         }
         emailService.sendEmailActivateUrl(email);
@@ -38,7 +38,7 @@ public class EmailController {
     //TODO 预计废除
     @GetMapping("activate/{email}/{key}")
     public void activate(@PathVariable String email, @PathVariable String key) {
-        if (email == null || key == null) {
+        if (email.isEmpty() || key.isEmpty()) {
             throw new BusinessExp("邮箱或key不能为空");
         }
         emailService.activate(email, key);

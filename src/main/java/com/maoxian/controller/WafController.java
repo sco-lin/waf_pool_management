@@ -51,16 +51,16 @@ public class WafController {
         String ip = waf.getIp();
         Integer port = waf.getPort();
         String configUrl = waf.getConfigUrl();
-        if (name == null) {
+        if (name.isEmpty()) {
             throw new BusinessExp("名称不能为空");
         }
-        if (ip == null) {
+        if (ip.isEmpty()) {
             throw new BusinessExp("ip不能为空");
         }
         if (port == null) {
             throw new BusinessExp("端口不能为空");
         }
-        if (configUrl == null) {
+        if (configUrl.isEmpty()) {
             throw new BusinessExp("配置地址不能为空");
         }
         wafService.addOrModifyWaf(waf);

@@ -8,12 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserPasswordDTO {
-
     private Integer id;
-
-    private String oldPassword;
-
+    private String email;
     private String newPassword;
-
     private String verifyCode;
 }
