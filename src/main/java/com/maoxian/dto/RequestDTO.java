@@ -10,18 +10,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestDTO {
-
     private String uuid;
-
     private String method;
-
     private String sourceIp;
-
     private String url;
-
     private LocalDateTime startTime;
-
     private Integer time;
-
     private String status;
 }

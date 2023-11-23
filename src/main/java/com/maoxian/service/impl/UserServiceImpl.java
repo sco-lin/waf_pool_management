@@ -56,9 +56,9 @@ public class UserServiceImpl implements UserService {
 
         // 通过正则表达式判断模糊查询的字段
         if (search.matches(emailRegular)) {
-            email = search;
+            email = "%" + search + "%";
         } else {
-            username = search;
+            username = "%" + search + "%";
         }
 
         List<User> users;

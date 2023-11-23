@@ -8,12 +8,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserBaseInfoDTO {
-
     private Integer id;
-
     private String username;
-
     private String email;
-
     private String status;
 }

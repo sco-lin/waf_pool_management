@@ -14,12 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PageResult<T> {
-
     private Integer pageNum;
-
     private Integer pageSize;
-
     private List<T> list;
-
     private Integer total;
 }

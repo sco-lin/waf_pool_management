@@ -1,10 +1,10 @@
 package com.maoxian.controller;
 
 import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.exceprion.RequestExp;
 import com.maoxian.pojo.Waf;
 import com.maoxian.pojo.WafStatus;
 import com.maoxian.service.WafService;
-import com.maoxian.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +30,7 @@ public class WafController {
     }
 
     @GetMapping("status/{wafId}")
-    public WafStatus queryWafStatus(@PathVariable Integer wafId){
+    public WafStatus queryWafStatus(@PathVariable Integer wafId) {
         return wafService.findWafStatusById(wafId);
     }
 
@@ -51,17 +51,17 @@ public class WafController {
         String ip = waf.getIp();
         Integer port = waf.getPort();
         String configUrl = waf.getConfigUrl();
-        if (name.isEmpty()) {
-            throw new BusinessExp("名称不能为空");
+        if (name == null || name.isEmpty()) {
+            throw new RequestExp("名称不能为空");
         }
-        if (ip.isEmpty()) {
-            throw new BusinessExp("ip不能为空");
+        if (ip == null || ip.isEmpty()) {
+            throw new RequestExp("ip不能为空");
         }
         if (port == null) {
-            throw new BusinessExp("端口不能为空");
+            throw new RequestExp("端口不能为空");
         }
-        if (configUrl.isEmpty()) {
-            throw new BusinessExp("配置地址不能为空");
+        if (configUrl == null || configUrl.isEmpty()) {
+            throw new RequestExp("配置地址不能为空");
         }
         wafService.addOrModifyWaf(waf);
     }
@@ -75,7 +75,7 @@ public class WafController {
     public void updateWaf(@RequestBody Waf waf) {
         Integer id = waf.getId();
         if (id == null) {
-            throw new BusinessExp("id不能为空");
+            throw new RequestExp("id不能为空");
         }
         wafService.addOrModifyWaf(waf);
     }

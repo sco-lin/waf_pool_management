@@ -8,10 +8,10 @@
         from user
         <where>
             <if test="username != null and username != ''">
-                username like concat('%', #{username}, '%')
+                username like #{username}
             </if>
             <if test="email != null and email != ''">
-                and email like concat('%', #{email}, '%')
+                and email like #{email}
             </if>
         </where>
         limit #{start}, #{pageSize}
@@ -31,10 +31,10 @@
         from user
         <where>
             <if test="username != null and username != ''">
-                username like concat('%', #{username}, '%')
+                username like #{username}
             </if>
             <if test="email != null and email != ''">
-                and email like concat('%', #{email}, '%')
+                and email like #{email}
             </if>
         </where>
     </select>

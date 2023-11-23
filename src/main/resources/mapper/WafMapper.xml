@@ -52,4 +52,9 @@
         select count(id)
         from waf
     </select>
+    <select id="countForStatus" resultType="Integer">
+        select count(id)
+        from waf
+        where status = #{status}
+    </select>
 </mapper>

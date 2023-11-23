@@ -8,7 +8,7 @@
         from request
         <where>
             <if test="uuid != null and uuid != ''">
-                uuid like concat('%', #{uuid}, '%')
+                uuid like #{uuid}
             </if>
         </where>
     </select>
@@ -17,9 +17,19 @@
         from request
         <where>
             <if test="uuid != null and uuid !=''">
-                uuid like concat('%', #{uuid}, '%')
+                uuid like #{uuid}
             </if>
         </where>
         limit #{start}, #{pageSize}
+    </select>
+    <select id="selectRequestTimeAfterTargetTime" resultType="Integer">
+        select time
+        from request
+        where start_time > #{targetTime}
+    </select>
+    <select id="countForStatus" resultType="Integer">
+        select count(id)
+        from request
+        where status = #{status}
     </select>
 </mapper>

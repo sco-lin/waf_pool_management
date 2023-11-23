@@ -1,10 +1,13 @@
 package com.maoxian.handler;
 
+import com.maoxian.enums.HttpStatusEnum;
 import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.exceprion.RequestExp;
 import com.maoxian.vo.JsonResult;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -27,6 +30,17 @@ public class CommonExpHandler {
         return JsonResult.fail(e.getMessage());
     }
 
+    /**
+     * 请求参数异常
+     *
+     * @param e 错误
+     * @return 响应类
+     */
+    @ExceptionHandler(RequestExp.class)
+    public JsonResult handler(RequestExp e) {
+        e.printStackTrace();
+        return JsonResult.fail(HttpStatusEnum.BAD_REQUEST);
+    }
 
     /**
      * 认证异常，处理认证失败
@@ -53,6 +67,18 @@ public class CommonExpHandler {
     }
 
     /**
+     * 请求方式不支持异常
+     *
+     * @param e 异常
+     * @return 响应类
+     */
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public JsonResult handler(HttpRequestMethodNotSupportedException e) {
+        e.printStackTrace();
+        return JsonResult.fail(e.getMessage());
+    }
+
+    /**
      * 运行时异常，处理除认证授权外的异常
      *
      * @param e 错误
@@ -72,6 +98,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public JsonResult handler(NoHandlerFoundException e) {
+        e.printStackTrace();
         return JsonResult.fail(e.getMessage());
     }
 }

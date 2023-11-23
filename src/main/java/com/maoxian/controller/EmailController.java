@@ -1,9 +1,9 @@
 package com.maoxian.controller;
 
 import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.exceprion.RequestExp;
 import com.maoxian.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -21,7 +21,7 @@ public class EmailController {
     @GetMapping("sendCode/{email}")
     public void sendMail(@PathVariable String email) {
         if (email.isEmpty()) {
-            throw new BusinessExp("邮箱不能为空");
+            throw new RequestExp("邮箱不能为空");
         }
         emailService.sendEmailCode(email);
     }
@@ -30,7 +30,7 @@ public class EmailController {
     @GetMapping("sendActivateUrl/{email}")
     public void sendEmailActivateUrl(@PathVariable String email) {
         if (email.isEmpty()) {
-            throw new BusinessExp("邮箱不能为空");
+            throw new RequestExp("邮箱不能为空");
         }
         emailService.sendEmailActivateUrl(email);
     }
@@ -39,7 +39,7 @@ public class EmailController {
     @GetMapping("activate/{email}/{key}")
     public void activate(@PathVariable String email, @PathVariable String key) {
         if (email.isEmpty() || key.isEmpty()) {
-            throw new BusinessExp("邮箱或key不能为空");
+            throw new RequestExp("邮箱或key不能为空");
         }
         emailService.activate(email, key);
     }

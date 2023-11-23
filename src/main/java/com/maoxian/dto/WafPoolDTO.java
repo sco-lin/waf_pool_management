@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LoginDTO {
-    private String username;
-    private String password;
-    private String verifyCode;
+public class WafPoolDTO {
+    private Integer total;
+    private Integer online;
 }

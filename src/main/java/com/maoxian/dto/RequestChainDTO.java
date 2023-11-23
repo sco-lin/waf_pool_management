@@ -10,12 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RequestChainDTO {
-
     private String status;
-
     private Integer time;
-
     private Integer wafId;
-
     private List<RequestChainDTO> children;
 }

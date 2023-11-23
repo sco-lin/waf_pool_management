@@ -3,6 +3,7 @@ package com.maoxian.controller;
 import com.maoxian.dto.UserPasswordDTO;
 import com.maoxian.dto.UserBaseInfoDTO;
 import com.maoxian.dto.UserInfoDTO;
+import com.maoxian.exceprion.RequestExp;
 import com.maoxian.vo.PageResult;
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.pojo.User;
@@ -29,14 +30,14 @@ public class UserController {
         String username = user.getUsername();
         String password = user.getPassword();
         String email = user.getEmail();
-        if (username.isEmpty()) {
-            throw new BusinessExp("用户名不能为空");
+        if (username == null || username.isEmpty()) {
+            throw new RequestExp("用户名不能为空");
         }
-        if (password.isEmpty()) {
-            throw new BusinessExp("密码不能为空");
+        if (password == null || password.isEmpty()) {
+            throw new RequestExp("密码不能为空");
         }
-        if (email.isEmpty()) {
-            throw new BusinessExp("邮箱不能为空");
+        if (email == null || email.isEmpty()) {
+            throw new RequestExp("邮箱不能为空");
         }
         userService.addUser(user);
     }
@@ -94,7 +95,7 @@ public class UserController {
         if (id == null) {
             throw new BusinessExp("id不能为空");
         }
-        if (newPassword.isEmpty()) {
+        if (newPassword == null || newPassword.isEmpty()) {
             throw new BusinessExp("新密码不能为空");
         }
         userService.modifyUser(userPasswordDTO);
@@ -110,13 +111,13 @@ public class UserController {
         String email = userPasswordDTO.getEmail();
         String newPassword = userPasswordDTO.getNewPassword();
         String verifyCode = userPasswordDTO.getVerifyCode();
-        if (email.isEmpty()) {
+        if (email == null || email.isEmpty()) {
             throw new BusinessExp("email不能为空");
         }
-        if (newPassword.isEmpty()) {
+        if (newPassword == null || newPassword.isEmpty()) {
             throw new BusinessExp("新密码不能为空");
         }
-        if (verifyCode.isEmpty()) {
+        if (verifyCode == null || verifyCode.isEmpty()) {
             throw new BusinessExp("验证码不能为空");
         }
         userService.modifyUser(userPasswordDTO);

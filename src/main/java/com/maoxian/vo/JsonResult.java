@@ -1,9 +1,11 @@
 package com.maoxian.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.maoxian.enums.HttpStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
 
 /**
  * json响应类
@@ -13,16 +15,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class JsonResult {
-
     //状态码
     private Integer code;
-
     //提示信息
     private String msg;
-
     //响应状态
     private String status;
-
     //查询到的结果
     private Object data;
 
@@ -44,5 +42,9 @@ public class JsonResult {
 
     public static JsonResult fail(int code, String msg) {
         return new JsonResult(code, msg, "fail", null);
+    }
+
+    public static JsonResult fail(HttpStatusEnum httpStatus) {
+        return fail(httpStatus.getCode(), httpStatus.getMessage());
     }
 }

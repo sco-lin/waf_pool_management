@@ -16,6 +16,14 @@ public interface WafMapper {
     Integer count();
 
     /**
+     * 查询指定状态waf的数量
+     *
+     * @param status waf状态
+     * @return waf数量
+     */
+    Integer countForStatus(Integer status);
+
+    /**
      * 查询waf列表
      *
      * @return waf列表

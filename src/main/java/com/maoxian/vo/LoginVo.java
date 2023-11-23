@@ -10,8 +10,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class LoginVo {
-
     private String token;
-
     private UserInfoDTO userInfo;
 }

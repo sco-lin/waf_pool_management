@@ -10,17 +10,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfoDTO {
-
     private Integer id;
-
     private String username;
-
     private String email;
-
     private String status;
-
     private List<String> roles;
-
     private List<String> permissions;
-
 }

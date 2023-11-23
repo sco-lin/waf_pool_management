@@ -35,14 +35,14 @@ public class RequestServiceImpl implements RequestService {
         List<RequestDTO> requestDTOS;
 
         // 查询总数
-        Integer total = requestMapper.count(uuid);
+        Integer total = requestMapper.count("%" + uuid + "%");
 
         if (total == 0) {
             requestDTOS = Collections.emptyList();
         } else {
             // 查询请求列表
             int start = (pageNum - 1) * paeSize;
-            List<Request> requestList = requestMapper.selectList(start, paeSize, uuid);
+            List<Request> requestList = requestMapper.selectList(start, paeSize, "%" + uuid + "%");
             if (requestList.isEmpty()) {
                 throw new BusinessExp("查询请求失败");
             }

@@ -2,6 +2,7 @@ package com.maoxian.controller;
 
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.dto.LoginDTO;
+import com.maoxian.exceprion.RequestExp;
 import com.maoxian.service.LoginService;
 import com.maoxian.vo.LoginVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,14 +26,14 @@ public class LoginController {
         String password = loginDTO.getPassword();
         String verifyCode = loginDTO.getVerifyCode();
 
-        if (username.isEmpty()) {
-            throw new BusinessExp("用户名不能为空");
+        if (username == null || username.isEmpty()) {
+            throw new RequestExp("用户名不能为空");
         }
-        if (password.isEmpty()) {
-            throw new BusinessExp("密码不能为空");
+        if (password == null || password.isEmpty()) {
+            throw new RequestExp("密码不能为空");
         }
-        if (verifyCode.isEmpty()) {
-            throw new BusinessExp("验证码不能为空");
+        if (verifyCode == null || verifyCode.isEmpty()) {
+            throw new RequestExp("验证码不能为空");
         }
         return loginService.login(username, password, verifyCode);
     }
