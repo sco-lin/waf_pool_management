@@ -1,4 +1,4 @@
-package com.maoxian.vo;
+package com.maoxian.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

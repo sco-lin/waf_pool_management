@@ -1,12 +1,12 @@
 package com.maoxian.mapper;
 
-import com.maoxian.pojo.RequestChain;
+import com.maoxian.pojo.RequestDetail;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
 @Mapper
-public interface RequestChainMapper {
+public interface RequestDetailMapper {
 
     /**
      * 通过parentId查询请求链列表
@@ -14,5 +14,5 @@ public interface RequestChainMapper {
      * @param requestId 夫id
      * @return 请求链列表
      */
-    List<RequestChain> selectList(Integer requestId);
+    List<RequestDetail> selectList(Integer requestId);
 }

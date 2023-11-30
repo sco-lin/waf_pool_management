@@ -6,11 +6,9 @@ import com.maoxian.mapper.WafStatusMapper;
 import com.maoxian.pojo.Waf;
 import com.maoxian.pojo.WafStatus;
 import com.maoxian.service.WafService;
-import com.maoxian.vo.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service

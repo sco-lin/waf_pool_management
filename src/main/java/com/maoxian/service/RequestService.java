@@ -1,10 +1,8 @@
 package com.maoxian.service;
 
-import com.maoxian.dto.RequestChainDTO;
-import com.maoxian.dto.RequestDTO;
-import com.maoxian.vo.PageResult;
-
-import java.util.List;
+import com.maoxian.dto.RequestDetailDTO;
+import com.maoxian.pojo.Request;
+import com.maoxian.dto.PageResult;
 
 public interface RequestService {
 
@@ -16,13 +14,13 @@ public interface RequestService {
      * @param uuid    模糊查询字段
      * @return 查询结果
      */
-    PageResult<RequestDTO> findRequest(Integer pageNum, Integer paeSize, String uuid);
+    PageResult<Request> findRequest(Integer pageNum, Integer paeSize, String uuid);
 
     /**
-     * 通过请求id查询请求链
+     * 通过请求id查询请求数组
      *
      * @param requestId 请求id
-     * @return 请求链
+     * @return 请求数组
      */
-    List<RequestChainDTO> findRequestChainList(Integer requestId);
+    RequestDetailDTO findRequestDetailList(Integer requestId);
 }

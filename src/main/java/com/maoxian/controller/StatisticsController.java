@@ -1,12 +1,15 @@
 package com.maoxian.controller;
 
 import com.maoxian.dto.RequestStatusDTO;
+import com.maoxian.dto.WafIPDTO;
 import com.maoxian.dto.WafPoolDTO;
 import com.maoxian.service.StatisticsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("stat")
@@ -43,5 +46,15 @@ public class StatisticsController {
     @GetMapping("traffic")
     public RequestStatusDTO getRequestStatus() {
         return statisticsService.getRequestStatus();
+    }
+
+    /**
+     * 获取waf的IP
+     *
+     * @return waf信息
+     */
+    @GetMapping("init")
+    public List<WafIPDTO> getWafIP(){
+        return statisticsService.getWafIP();
     }
 }

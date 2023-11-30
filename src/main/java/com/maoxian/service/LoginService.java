@@ -1,6 +1,6 @@
 package com.maoxian.service;
 
-import com.maoxian.vo.LoginVo;
+import com.maoxian.dto.LoginInfoDTO;
 
 public interface LoginService {
 
@@ -11,7 +11,7 @@ public interface LoginService {
      * @param verifyCode 验证码
      * @return 登录信息
      */
-    LoginVo login(String username, String password, String verifyCode);
+    LoginInfoDTO login(String username, String password, String verifyCode);
 
     /**
      * 用户登出

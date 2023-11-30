@@ -2,7 +2,7 @@ package com.maoxian.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.maoxian.utils.WebUtil;
-import com.maoxian.vo.JsonResult;
+import com.maoxian.utils.JsonResult;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;

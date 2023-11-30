@@ -35,6 +35,13 @@ public interface RequestMapper {
     List<Request> selectList(int start, int pageSize, String uuid);
 
     /**
+     * 通过id查询请求模式
+     * @param id id
+     * @return 请求模式
+     */
+    Integer selectModeById(Integer id);
+
+    /**
      * 查询指定时间之后的所有请求的请求时间
      *
      * @param targetTime 指定时间

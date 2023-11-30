@@ -3,7 +3,7 @@ package com.maoxian.service;
 import com.maoxian.dto.UserPasswordDTO;
 import com.maoxian.dto.UserBaseInfoDTO;
 import com.maoxian.dto.UserInfoDTO;
-import com.maoxian.vo.PageResult;
+import com.maoxian.dto.PageResult;
 import com.maoxian.pojo.User;
 
 public interface UserService {

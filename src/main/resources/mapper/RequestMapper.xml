@@ -13,7 +13,7 @@
         </where>
     </select>
     <select id="selectList" resultType="Request">
-        select id, uuid, method, source_ip, url, start_time, time, status
+        select id, uuid, method, source_ip, url, mode, start_time, time, status
         from request
         <where>
             <if test="uuid != null and uuid !=''">
@@ -31,5 +31,10 @@
         select count(id)
         from request
         where status = #{status}
+    </select>
+    <select id="selectModeById" resultType="Integer">
+        select mode
+        from request
+        where id = #{id}
     </select>
 </mapper>

@@ -1,16 +1,19 @@
 package com.maoxian.service.impl;
 
 import com.maoxian.dto.RequestStatusDTO;
+import com.maoxian.dto.WafIPDTO;
 import com.maoxian.dto.WafPoolDTO;
 import com.maoxian.mapper.RequestMapper;
 import com.maoxian.mapper.WafMapper;
-import com.maoxian.mapper.WafStatusMapper;
+import com.maoxian.pojo.Waf;
 import com.maoxian.service.StatisticsService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
@@ -20,6 +23,9 @@ public class StatisticsServiceImpl implements StatisticsService {
 
     @Autowired
     private RequestMapper requestMapper;
+
+    @Autowired
+    private ModelMapper modelMapper;
 
     @Override
     public WafPoolDTO findWafPoolStatus() {
@@ -52,5 +58,11 @@ public class StatisticsServiceImpl implements StatisticsService {
         Integer total = requestMapper.count(null);
         Integer malicious = requestMapper.countForStatus(1);
         return new RequestStatusDTO(total,malicious);
+    }
+
+    @Override
+    public List<WafIPDTO> getWafIP() {
+        List<Waf> wafs = wafMapper.selectList();
+        return wafs.stream().map(waf -> modelMapper.map(waf, WafIPDTO.class)).collect(Collectors.toList());
     }
 }

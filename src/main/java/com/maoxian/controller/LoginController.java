@@ -1,10 +1,9 @@
 package com.maoxian.controller;
 
-import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.dto.LoginDTO;
 import com.maoxian.exceprion.RequestExp;
 import com.maoxian.service.LoginService;
-import com.maoxian.vo.LoginVo;
+import com.maoxian.dto.LoginInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,7 +20,7 @@ public class LoginController {
      * @return 返回token和用户信息
      */
     @PostMapping("login")
-    public LoginVo login(@RequestBody LoginDTO loginDTO) {
+    public LoginInfoDTO login(@RequestBody LoginDTO loginDTO) {
         String username = loginDTO.getUsername();
         String password = loginDTO.getPassword();
         String verifyCode = loginDTO.getVerifyCode();

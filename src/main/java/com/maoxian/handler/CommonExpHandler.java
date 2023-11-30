@@ -3,7 +3,8 @@ package com.maoxian.handler;
 import com.maoxian.enums.HttpStatusEnum;
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.exceprion.RequestExp;
-import com.maoxian.vo.JsonResult;
+import com.maoxian.utils.JsonResult;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -16,6 +17,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
  * 统一异常处理
  */
 @RestControllerAdvice
+@Slf4j
 public class CommonExpHandler {
 
     /**
@@ -26,7 +28,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(BusinessExp.class)
     public JsonResult handler(BusinessExp e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return JsonResult.fail(e.getMessage());
     }
 
@@ -38,7 +40,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(RequestExp.class)
     public JsonResult handler(RequestExp e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return JsonResult.fail(HttpStatusEnum.BAD_REQUEST);
     }
 
@@ -50,7 +52,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(AuthenticationException.class)
     public JsonResult handler(AuthenticationException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return JsonResult.fail(HttpStatus.UNAUTHORIZED.value(), e.getMessage());
     }
 
@@ -62,7 +64,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(AccessDeniedException.class)
     public JsonResult handler(AccessDeniedException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return JsonResult.fail(HttpStatus.FORBIDDEN.value(), e.getMessage());
     }
 
@@ -74,7 +76,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public JsonResult handler(HttpRequestMethodNotSupportedException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return JsonResult.fail(e.getMessage());
     }
 
@@ -86,7 +88,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(RuntimeException.class)
     public JsonResult handler(RuntimeException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return JsonResult.fail();
     }
 
@@ -98,7 +100,7 @@ public class CommonExpHandler {
      */
     @ExceptionHandler(NoHandlerFoundException.class)
     public JsonResult handler(NoHandlerFoundException e) {
-        e.printStackTrace();
+        log.error(e.getMessage());
         return JsonResult.fail(e.getMessage());
     }
 }

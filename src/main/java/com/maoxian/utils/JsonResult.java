@@ -1,11 +1,10 @@
-package com.maoxian.vo;
+package com.maoxian.utils;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.maoxian.enums.HttpStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.http.HttpStatus;
 
 /**
  * json响应类

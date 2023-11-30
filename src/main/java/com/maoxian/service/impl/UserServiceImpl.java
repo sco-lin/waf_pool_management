@@ -7,7 +7,7 @@ import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.RoleMapper;
 import com.maoxian.mapper.UserMapper;
 import com.maoxian.utils.RedisCache;
-import com.maoxian.vo.PageResult;
+import com.maoxian.dto.PageResult;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;
 import com.maoxian.dto.UserBaseInfoDTO;

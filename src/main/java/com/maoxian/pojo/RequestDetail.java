@@ -1,17 +1,17 @@
-package com.maoxian.dto;
+package com.maoxian.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestChainDTO {
+public class RequestDetail {
+
+    private Integer id;
     private String status;
     private Integer time;
     private Integer wafId;
-    private List<RequestChainDTO> children;
+    private Integer requestId;
 }

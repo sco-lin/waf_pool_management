@@ -1,7 +1,10 @@
 package com.maoxian.service;
 
 import com.maoxian.dto.RequestStatusDTO;
+import com.maoxian.dto.WafIPDTO;
 import com.maoxian.dto.WafPoolDTO;
+
+import java.util.List;
 
 public interface StatisticsService {
     /**
@@ -24,4 +27,11 @@ public interface StatisticsService {
      * @return 请求情况
      */
     RequestStatusDTO getRequestStatus();
+
+    /**
+     * 获取waf的IP
+     *
+     * @return waf信息
+     */
+    List<WafIPDTO> getWafIP();
 }

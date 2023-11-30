@@ -7,7 +7,7 @@ import com.maoxian.pojo.User;
 import com.maoxian.service.LoginService;
 import com.maoxian.utils.JwtUtil;
 import com.maoxian.utils.RedisCache;
-import com.maoxian.vo.LoginVo;
+import com.maoxian.dto.LoginInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -33,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
     private RoleMapper roleMapper;
 
     @Override
-    public LoginVo login(String username, String password, String verifyCode) {
+    public LoginInfoDTO login(String username, String password, String verifyCode) {
 
         //用户身份认证，认证失败则抛出异常
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(username, password);
@@ -42,11 +42,11 @@ public class LoginServiceImpl implements LoginService {
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         User user = loginUser.getUser();
 
-        //验证码校验
-        String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
-        if (!verifyCode.equals(code)) {
-            throw new BusinessExp("验证码错误");
-        }
+//        //验证码校验
+//        String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
+//        if (!verifyCode.equals(code)) {
+//            throw new BusinessExp("验证码错误");
+//        }
 
         //认证成功：使用user_id生成jwt
         Integer userId = user.getId();
@@ -64,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
         //返回数据
         UserInfoDTO userInfoDTO = new UserInfoDTO(userId, user.getUsername(), user.getEmail(), user.getStatus(), roles, loginUser.getPermissions());
 
-        return new LoginVo(jwt, userInfoDTO);
+        return new LoginInfoDTO(jwt, userInfoDTO);
     }
 
     @Override

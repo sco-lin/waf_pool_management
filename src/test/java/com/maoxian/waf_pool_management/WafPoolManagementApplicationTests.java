@@ -3,9 +3,9 @@ package com.maoxian.waf_pool_management;
 import com.maoxian.dto.UserPasswordDTO;
 import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.RequestMapper;
-import com.maoxian.mapper.RequestChainMapper;
+import com.maoxian.mapper.RequestDetailMapper;
 import com.maoxian.mapper.UserMapper;
-import com.maoxian.pojo.RequestChain;
+import com.maoxian.pojo.RequestDetail;
 import com.maoxian.pojo.User;
 import com.maoxian.pojo.Waf;
 import com.maoxian.service.LoginService;
@@ -13,7 +13,6 @@ import com.maoxian.service.LoginService;
 import com.maoxian.service.UserService;
 import com.maoxian.service.WafService;
 import com.maoxian.utils.EmailUtil;
-import com.maoxian.vo.PageResult;
 import org.junit.jupiter.api.Test;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +52,7 @@ class WafPoolManagementApplicationTests {
     private String ipRegular = "^(((\\d)|([1-9]\\d)|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))\\.){3}((\\d)|([1-9]\\d)|(1\\d{2})|(2[0-4]\\d)|(25[0-5]))$";
 
     @Autowired
-    private RequestChainMapper requestChainMapper;
+    private RequestDetailMapper requestDetailMapper;
 
     @Test
     public void testModelMapper() {
@@ -74,7 +73,7 @@ class WafPoolManagementApplicationTests {
     public void testRequestChain() {
         Random random = new Random();
         for (int i = 1; i < 1001; i++) {
-            List<RequestChain> byRequestId = requestChainMapper.selectList(i);
+            List<RequestDetail> byRequestId = requestDetailMapper.selectList(i);
             int count1 = byRequestId.size() / 3;
             if (count1 < 1) {
                 break;

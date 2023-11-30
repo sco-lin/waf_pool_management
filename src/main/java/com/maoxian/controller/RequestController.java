@@ -1,13 +1,11 @@
 package com.maoxian.controller;
 
-import com.maoxian.dto.RequestChainDTO;
-import com.maoxian.dto.RequestDTO;
+import com.maoxian.dto.RequestDetailDTO;
+import com.maoxian.pojo.Request;
 import com.maoxian.service.RequestService;
-import com.maoxian.vo.PageResult;
+import com.maoxian.dto.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("request")
@@ -25,20 +23,20 @@ public class RequestController {
      * @return 查询结果
      */
     @GetMapping
-    public PageResult<RequestDTO> getRequest(@RequestParam(defaultValue = "1") Integer pageNum,
-                                             @RequestParam(defaultValue = "5") Integer pageSize,
-                                             @RequestParam(defaultValue = "") String uuid) {
+    public PageResult<Request> getRequest(@RequestParam(defaultValue = "1") Integer pageNum,
+                                          @RequestParam(defaultValue = "5") Integer pageSize,
+                                          @RequestParam(defaultValue = "") String uuid) {
         return requestService.findRequest(pageNum, pageSize, uuid);
     }
 
     /**
-     * 通过请求id获取请求链
+     * 通过请求id获取请求数组
      *
      * @param requestId 请求id
-     * @return 请求链
+     * @return 请求数组
      */
-    @GetMapping("chain/{requestId}")
-    public List<RequestChainDTO> getRequestChain(@PathVariable Integer requestId) {
-        return requestService.findRequestChainList(requestId);
+    @GetMapping("detail/{requestId}")
+    public RequestDetailDTO getRequestDetail(@PathVariable Integer requestId) {
+        return requestService.findRequestDetailList(requestId);
     }
 }

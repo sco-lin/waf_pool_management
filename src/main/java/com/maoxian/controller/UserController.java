@@ -4,7 +4,7 @@ import com.maoxian.dto.UserPasswordDTO;
 import com.maoxian.dto.UserBaseInfoDTO;
 import com.maoxian.dto.UserInfoDTO;
 import com.maoxian.exceprion.RequestExp;
-import com.maoxian.vo.PageResult;
+import com.maoxian.dto.PageResult;
 import com.maoxian.exceprion.BusinessExp;
 import com.maoxian.pojo.User;
 import com.maoxian.service.UserService;

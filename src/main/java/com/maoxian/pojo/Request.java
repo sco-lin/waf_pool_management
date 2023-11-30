@@ -16,6 +16,7 @@ public class Request {
     private String method;
     private String sourceIp;
     private String url;
+    private Integer mode;
     private LocalDateTime startTime;
     private Integer time;
     private String status;
