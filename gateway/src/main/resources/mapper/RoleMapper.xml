@@ -23,4 +23,7 @@
         from role
         where id = #{id}
     </delete>
+    <delete id="deleteById">
+
+    </delete>
 </mapper>

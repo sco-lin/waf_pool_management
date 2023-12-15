@@ -11,8 +11,13 @@
     <groupId>com.waf</groupId>
     <artifactId>waf_pool_management</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>waf_pool_management</name>
     <description>waf_pool_management</description>
+    <modules>
+        <module>scheduler</module>
+        <module>gateway</module>
+    </modules>
     <properties>
         <java.version>1.8</java.version>
     </properties>

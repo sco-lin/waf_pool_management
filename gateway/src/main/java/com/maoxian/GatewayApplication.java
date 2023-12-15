@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class WafPoolManagementApplication {
+public class GatewayApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(WafPoolManagementApplication.class, args);
+        SpringApplication.run(GatewayApplication.class, args);
     }
 
 }
