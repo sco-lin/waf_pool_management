@@ -1,10 +1,8 @@
 package com.maoxian.mapper;
 
-import com.maoxian.pojo.Waf;
 import com.maoxian.pojo.WafStatus;
 import org.apache.ibatis.annotations.Mapper;
 
-import java.util.List;
 
 @Mapper
 public interface WafStatusMapper {

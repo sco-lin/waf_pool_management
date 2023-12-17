@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.RequestDetailMapper">
+    <insert id="insert">
+        insert into request_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="time != null">time,</if>
+            <if test="status != null">status,</if>
+            <if test="waf_id != null">waf_id,</if>
+            <if test="request_id != null">request_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="time != null">#{time},</if>
+            <if test="status != null">#{status},</if>
+            <if test="wafId != null">#{waf_id},</if>
+            <if test="requestId != null">#{request_id},</if>
+        </trim>
+    </insert>
+    <select id="selectList" resultType="RequestDetail">
+        select id, time, status, waf_id, request_id
+        from request_detail
+        where request_id = #{requestId}
+    </select>
+</mapper>

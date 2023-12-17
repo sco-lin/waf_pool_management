@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.WafMapper">
+    <update id="update">
+        update waf
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="ip != null">ip = #{ip},</if>
+            <if test="port != null">port = #{port},</if>
+            <if test="configUrl != null">config_url = #{configUrl},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="description != null">description = #{description}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="deleteById">
+        delete
+        from waf
+        where id = #{id}
+    </delete>
+    <insert id="insert">
+        insert into waf
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="ip != null">ip,</if>
+            <if test="port != null">port,</if>
+            <if test="configUrl != null">config_url,</if>
+            <if test="status != null">status,</if>
+            <if test="description != null">description</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="ip != null">#{ip},</if>
+            <if test="port != null">#{port},</if>
+            <if test="configUrl != null">#{configUrl},</if>
+            <if test="status != null">#{status},</if>
+            <if test="description != null">#{description}</if>
+        </trim>
+    </insert>
+    <select id="selectById" resultType="Waf">
+        select id, name, ip, port, config_url, status, description
+        from waf
+        where id = #{id}
+    </select>
+    <select id="selectList" resultType="Waf">
+        select id, name, ip, port, config_url, status, description
+        from waf
+    </select>
+    <select id="count" resultType="Integer">
+        select count(id)
+        from waf
+    </select>
+    <select id="countForStatus" resultType="Integer">
+        select count(id)
+        from waf
+        where status = #{status}
+    </select>
+    <select id="selectListForStatus" resultType="Waf">
+        select id, name, ip, port, config_url, status, description
+        from waf
+        where status = #{status}
+    </select>
+</mapper>
