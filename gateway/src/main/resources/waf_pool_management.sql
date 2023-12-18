@@ -11,11 +11,35 @@
  Target Server Version : 50741
  File Encoding         : 65001
 
- Date: 27/11/2023 21:40:25
+ Date: 18/12/2023 23:35:41
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for image_info
+-- ----------------------------
+DROP TABLE IF EXISTS `image_info`;
+CREATE TABLE `image_info`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '镜像名',
+  `tag` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '镜像的TAG',
+  `image_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '镜像id',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'docker镜像信息表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of image_info
+-- ----------------------------
+INSERT INTO `image_info` VALUES (1, 'sha256:41dc8ea0f13974958c4abc07b9d2ac20ac56793834c216633db012be18899f67', '2.5', 'FC4AVHVrfK', '2023-12-18 23:16:34', '2023-12-18 23:26:33');
+INSERT INTO `image_info` VALUES (2, 'sha256:cf1c9961eeb6ad29607c1b409396eada508171e95b9fdd9ace3710959fd65fb6', '3.2', 'cT4qFddOFx', '2023-12-18 23:16:34', '2023-12-18 23:28:15');
+INSERT INTO `image_info` VALUES (3, 'sha256:6c3c2a225947fba15a76015eb596fd1e768b0fbec7829008e57d54d35cee039c', '2.6', 'lnnh7nWkRy', '2023-12-18 23:16:34', '2023-12-18 23:28:20');
+INSERT INTO `image_info` VALUES (4, 'Flores', '3.4', 'FSjcGsmu5H', '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `image_info` VALUES (5, 'Torres', '5.6', '1kHW3OF8lb', '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `image_info` VALUES (6, 'Hunter', '3.6', 're2PIuDBqd', '2023-12-18 23:16:34', '2023-12-18 23:16:34');
 
 -- ----------------------------
 -- Table structure for perm
@@ -37,444 +61,37 @@ INSERT INTO `perm` VALUES (3, '权限管理', 'perm');
 INSERT INTO `perm` VALUES (4, 'waf管理', 'waf');
 
 -- ----------------------------
--- Table structure for request
+-- Table structure for request_record
 -- ----------------------------
-DROP TABLE IF EXISTS `request`;
-CREATE TABLE `request`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `uuid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '请求的唯一标识',
-  `method` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT 'GET' COMMENT '请求方法',
-  `source_ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '源IP',
-  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '/' COMMENT '请求路径',
-  `mode` tinyint(1) NOT NULL DEFAULT 1 COMMENT '请求模式（1：串行，0：并行）',
-  `start_time` datetime NOT NULL COMMENT '请求时间',
-  `time` int(11) NOT NULL DEFAULT 0 COMMENT '请求时间',
-  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '0' COMMENT '请求状态（0：成功，1：失败）',
+DROP TABLE IF EXISTS `request_record`;
+CREATE TABLE `request_record`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `uuid` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求的唯一标识',
+  `method` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求方法',
+  `src_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '源ip',
+  `des_ip` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '目的ip',
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '请求路径',
+  `mode` tinyint(1) NULL DEFAULT NULL COMMENT '请求的调度模式（1：串行，0：并行）',
+  `time` bigint(11) NULL DEFAULT NULL COMMENT '请求处理时间',
+  `is_pass` tinyint(1) NULL DEFAULT NULL COMMENT '是否放行',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '请求记录表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '请求记录表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of request
+-- Records of request_record
 -- ----------------------------
-INSERT INTO `request` VALUES (1, '3f656abe-f537-f50e-08bb-5c5c7af4a57c', 'GET', '89.47.252.22', 'http://video.tamsw8.biz/IndustrialScientificSupplies', 1, '2023-11-04 20:45:46', 7803, '0');
-INSERT INTO `request` VALUES (2, '8ec03057-0ff8-9906-0184-e70b6c3d68c8', 'DELETE', '6.7.1.0', 'http://drive.sato8.co.jp/Books', 0, '2023-11-02 06:45:53', 4623, '1');
-INSERT INTO `request` VALUES (3, 'a3a22dbe-2ed1-8bd4-ddc8-d3bfd3a8cebd', 'DELETE', '7.38.253.78', 'http://auth.jonathanw.xyz/CellPhonesAccessories', 1, '2023-11-03 08:44:47', 5861, '0');
-INSERT INTO `request` VALUES (4, 'e328f2a9-f5ac-19ff-287f-9c73cd442029', 'PATCH', '69.255.254.219', 'http://drive.syng.info/ToolsHomeDecoration', 0, '2023-11-01 17:29:09', 7167, '0');
-INSERT INTO `request` VALUES (5, 'f7dab3cb-a715-893b-d501-b5db2d975c6e', 'GET', '250.181.55.119', 'https://image.shizita83.cn/ToolsHomeDecoration', 0, '2023-11-04 16:46:52', 2349, '1');
-INSERT INTO `request` VALUES (6, 'dd53b0f3-e5a4-9e67-a79e-17dc12c1a3c1', 'GET', '59.7.140.206', 'https://www.renakanek.com/CellPhonesAccessories', 0, '2023-11-01 06:49:40', 8764, '0');
-INSERT INTO `request` VALUES (7, '5e7e80e3-da66-52b4-268f-3ac6b633aa59', 'PUT', '163.7.242.2', 'https://image.yky.biz/VideoGames', 0, '2023-11-04 03:19:07', 5566, '1');
-INSERT INTO `request` VALUES (8, '3cc1ac9f-632a-12f9-e4ae-19a9ef06e95e', 'GET', '144.5.7.254', 'https://www.dezhiyuan.info/ToolsHomeDecoration', 1, '2023-11-04 23:49:00', 5851, '0');
-INSERT INTO `request` VALUES (9, 'dfd12478-8ecc-8833-0d40-b07e5fff8756', 'POST', '113.154.250.203', 'https://auth.yungkafai.us/PetSupplies', 0, '2023-11-04 22:25:47', 3460, '1');
-INSERT INTO `request` VALUES (10, '8328a26d-a3ce-450b-6362-b3cfa92d0ff6', 'GET', '252.1.158.159', 'http://video.chancl.jp/Handcrafts', 1, '2023-11-03 15:09:34', 647, '0');
-INSERT INTO `request` VALUES (11, '0c2906ad-cc27-b568-37c6-a31ce588fbb3', 'DELETE', '251.255.9.250', 'http://www.josrog7.xyz/PetSupplies', 0, '2023-11-03 07:59:22', 5004, '1');
-INSERT INTO `request` VALUES (12, 'c855a479-6117-4e7c-78b2-f30343eaa718', 'PUT', '65.0.230.255', 'http://auth.takwch.biz/HouseholdKitchenAppliances', 1, '2023-11-01 05:48:02', 3277, '0');
-INSERT INTO `request` VALUES (13, 'b83fa3cc-f78f-127f-914a-77b59a3b9fe0', 'PUT', '21.186.6.5', 'https://video.kasharada.net/Baby', 0, '2023-11-03 14:58:52', 7972, '0');
-INSERT INTO `request` VALUES (14, '814a0213-472a-d585-3ed6-91f8534bd327', 'PATCH', '252.4.255.255', 'https://image.twtsang9.org/Beauty', 1, '2023-11-04 22:43:58', 2126, '0');
-INSERT INTO `request` VALUES (15, '50af187a-9e5e-1626-3d79-ab82a291f5da', 'POST', '246.250.10.243', 'http://image.wantw01.xyz/CellPhonesAccessories', 1, '2023-11-03 18:18:13', 8396, '1');
-INSERT INTO `request` VALUES (16, '6859ec84-ca48-4978-086b-050b7686966e', 'DELETE', '252.9.7.144', 'https://www.jackson3.org/VideoGames', 0, '2023-11-04 23:12:24', 4609, '1');
-INSERT INTO `request` VALUES (17, '7fe38b69-dd18-3728-273b-41f74f9499d0', 'PUT', '172.71.185.253', 'http://www.jianz.cn/Baby', 0, '2023-11-04 09:52:41', 5887, '1');
-INSERT INTO `request` VALUES (18, '3bc26e52-601c-ba3d-96ba-24874da2ec75', 'PUT', '240.5.0.175', 'https://video.yuzhe810.jp/SportsOutdoor', 1, '2023-11-04 10:19:51', 1836, '0');
-INSERT INTO `request` VALUES (19, '622e2c7c-bbdc-0e9c-8853-39e0e33a8186', 'POST', '178.251.254.101', 'http://drive.lopeza.net/Food', 0, '2023-11-01 01:05:38', 68, '0');
-INSERT INTO `request` VALUES (20, '355c7eb0-9cc8-77ec-a013-f280f4f3b2c7', 'PUT', '104.165.233.199', 'http://drive.herrerae.biz/ComputersElectronics', 1, '2023-11-04 12:34:00', 45, '1');
-INSERT INTO `request` VALUES (21, '3690b898-6045-0623-018d-40992e8e8dab', 'PUT', '224.1.255.251', 'https://auth.itsuks.jp/AppsGames', 1, '2023-11-04 02:31:40', 4198, '1');
-INSERT INTO `request` VALUES (22, '09f2fdab-3f38-8345-eb86-4975fb9fbda4', 'DELETE', '228.255.124.22', 'http://auth.huimemi.jp/Appliances', 0, '2023-11-04 15:47:41', 5819, '1');
-INSERT INTO `request` VALUES (23, '2104fd40-38e0-4e98-bbf6-2e194320b76d', 'PATCH', '245.240.253.68', 'http://auth.myech.org/Baby', 1, '2023-11-04 14:01:54', 3728, '0');
-INSERT INTO `request` VALUES (24, '0c6025d1-ab3f-8250-fae3-134617264174', 'DELETE', '209.251.6.235', 'http://www.gcon.jp/HouseholdKitchenAppliances', 1, '2023-11-01 01:56:05', 2358, '1');
-INSERT INTO `request` VALUES (25, '51b4cd9a-9076-98ed-b240-2f1f71c98788', 'PATCH', '20.253.255.12', 'https://auth.barryhawki.biz/ToolsHomeDecoration', 1, '2023-11-04 05:22:34', 3363, '1');
-INSERT INTO `request` VALUES (26, 'e668feb4-c3f7-b22e-f643-613b0f55c59f', 'PATCH', '251.22.7.41', 'http://drive.yamashazuki55.co.jp/Books', 0, '2023-11-03 16:25:39', 1413, '0');
-INSERT INTO `request` VALUES (27, '7c230e8f-84ca-21ef-22ca-5bedbcd2038c', 'GET', '225.153.170.1', 'https://drive.anqil1019.biz/CenturionGardenOutdoor', 0, '2023-11-03 19:39:08', 862, '0');
-INSERT INTO `request` VALUES (28, 'bca565cd-e369-b2c6-c0ad-d026e73c3ed7', 'DELETE', '150.227.251.133', 'http://video.hows.org/PetSupplies', 1, '2023-11-03 01:40:43', 9385, '0');
-INSERT INTO `request` VALUES (29, '970e406c-0f0b-ee49-d5ad-c26d122820cc', 'POST', '77.7.177.253', 'http://auth.onna3.net/ClothingShoesandJewelry', 1, '2023-11-04 03:57:42', 7383, '0');
-INSERT INTO `request` VALUES (30, '7c6f7b81-eaf5-27ef-3d8a-04bc7f467b65', 'PUT', '251.67.4.230', 'http://auth.huaziyi.cn/Appliances', 1, '2023-11-01 13:49:05', 8491, '0');
-INSERT INTO `request` VALUES (31, '6c43612d-b92a-1769-1c49-abe5be2955b8', 'PATCH', '126.206.252.75', 'http://www.heung5.co.jp/ToysGames', 1, '2023-11-01 11:29:02', 9395, '1');
-INSERT INTO `request` VALUES (32, '471819fb-48cc-1486-e3b9-f765c269d49b', 'PUT', '22.151.40.255', 'http://video.cho312.jp/BaggageTravelEquipment', 0, '2023-11-04 14:52:38', 7612, '0');
-INSERT INTO `request` VALUES (33, 'e3a138f0-44cd-39da-3f28-7874feb9e94f', 'PUT', '112.0.201.205', 'http://auth.wlu1.com/IndustrialScientificSupplies', 0, '2023-11-01 04:24:16', 137, '0');
-INSERT INTO `request` VALUES (34, 'b7034d21-2e8a-ccb2-7479-e4748ebca0ba', 'POST', '49.53.5.7', 'https://drive.probinson.xyz/MusicalInstrument', 1, '2023-11-04 20:41:28', 7298, '1');
-INSERT INTO `request` VALUES (35, '5a5d1848-3816-a17f-f72a-8c8aa97f1d99', 'POST', '6.207.199.24', 'https://image.robertsonv.info/SportsOutdoor', 1, '2023-11-02 19:13:52', 6615, '1');
-INSERT INTO `request` VALUES (36, '7fec4287-73fc-08d9-8d1a-74320b861494', 'DELETE', '3.34.157.0', 'https://video.chm.biz/BaggageTravelEquipment', 0, '2023-11-01 09:56:29', 6158, '1');
-INSERT INTO `request` VALUES (37, 'ce3d649f-2c02-87af-7b08-26b2efce0d37', 'POST', '254.43.176.123', 'http://auth.zhennan5.xyz/HealthBabyCare', 1, '2023-11-04 13:27:52', 4893, '1');
-INSERT INTO `request` VALUES (38, 'b9a91936-0c9e-cbcc-27ac-6bdd7fc3b514', 'DELETE', '255.7.193.98', 'https://drive.noguchiairi.net/HealthBabyCare', 0, '2023-11-02 18:37:28', 709, '0');
-INSERT INTO `request` VALUES (39, 'a3cdb7ba-9585-b12d-750d-419583d339a9', 'PUT', '252.182.96.200', 'http://auth.yeowyuling97.com/Handcrafts', 1, '2023-11-04 07:47:22', 8589, '0');
-INSERT INTO `request` VALUES (40, '85c50221-8cc8-6c68-4ae1-2d238939a507', 'PATCH', '183.167.101.216', 'https://video.harredw211.us/HouseholdKitchenAppliances', 0, '2023-11-02 02:25:23', 4094, '1');
-INSERT INTO `request` VALUES (41, 'eac026ca-d2ae-c389-5a4c-c4128835e2e3', 'GET', '5.13.204.4', 'https://www.ksw.org/Baby', 1, '2023-11-03 22:10:35', 690, '1');
-INSERT INTO `request` VALUES (42, '5604cbec-4e1b-879d-18b8-cd66e2c3be7b', 'GET', '6.27.37.134', 'http://image.wmt.org/ToysGames', 1, '2023-11-04 11:54:34', 3953, '1');
-INSERT INTO `request` VALUES (43, 'c3716d0f-aec5-d6f8-be7c-cf55d90dd6a6', 'DELETE', '5.250.31.221', 'http://drive.stephglor.us/HealthBabyCare', 0, '2023-11-02 04:03:59', 7677, '0');
-INSERT INTO `request` VALUES (44, '4e12178d-8f12-8178-0c2d-7528066e3f84', 'DELETE', '243.0.238.204', 'http://video.smc.co.jp/AppsGames', 0, '2023-11-03 16:09:19', 7675, '0');
-INSERT INTO `request` VALUES (45, 'e07083e6-16eb-0b90-5f54-8216400ad25e', 'GET', '110.250.100.5', 'http://www.wongyf52.org/CenturionGardenOutdoor', 0, '2023-11-03 15:07:45', 8317, '0');
-INSERT INTO `request` VALUES (46, '465c43bf-9692-90ae-b670-653dd2e3c3f0', 'POST', '245.140.238.4', 'http://drive.eugea.net/CollectiblesFineArt', 0, '2023-11-02 15:43:56', 1400, '1');
-INSERT INTO `request` VALUES (47, 'bdf8fce9-5c6b-4975-a2df-0fac71a4b529', 'PATCH', '206.45.9.181', 'https://image.lu3.biz/Others', 1, '2023-11-02 22:06:01', 4360, '1');
-INSERT INTO `request` VALUES (48, 'f5f0cf64-6415-a22d-fc31-fc9c9b707b41', 'DELETE', '0.60.8.8', 'https://video.lam2020.net/Food', 1, '2023-11-03 03:39:39', 4607, '1');
-INSERT INTO `request` VALUES (49, '2016e555-3e81-7957-b630-c8e612dd59c6', 'PATCH', '2.238.63.232', 'https://drive.rtorres.info/FilmSupplies', 1, '2023-11-04 01:54:11', 7303, '0');
-INSERT INTO `request` VALUES (50, '2a9d670e-7c87-4558-9207-b32c6b09f82f', 'DELETE', '230.251.9.250', 'http://www.swta.net/BaggageTravelEquipment', 1, '2023-11-03 06:10:03', 5973, '0');
-INSERT INTO `request` VALUES (51, 'aba60334-a522-152b-0829-70e536ea10d2', 'PATCH', '47.2.6.207', 'http://video.haikki1230.co.jp/SportsOutdoor', 0, '2023-11-03 09:55:49', 2539, '1');
-INSERT INTO `request` VALUES (52, '4e7a609d-4b73-8cae-6131-5df65e409a48', 'PATCH', '171.251.3.6', 'https://auth.fong6.biz/Baby', 1, '2023-11-01 12:12:56', 7766, '1');
-INSERT INTO `request` VALUES (53, '301be743-5ec4-6853-bde9-e5de0af5f62e', 'GET', '196.2.245.89', 'http://www.tikk1.info/PetSupplies', 0, '2023-11-01 16:20:46', 6810, '0');
-INSERT INTO `request` VALUES (54, '32dc3a84-be67-0efa-07e8-f074634e7925', 'PUT', '64.140.254.24', 'http://auth.fumin.info/CollectiblesFineArt', 0, '2023-11-04 05:11:11', 2397, '1');
-INSERT INTO `request` VALUES (55, 'fb3db159-4c63-075f-e990-6d5991eef50a', 'DELETE', '141.254.185.252', 'http://auth.lulu406.us/MusicalInstrument', 1, '2023-11-02 03:39:13', 6880, '1');
-INSERT INTO `request` VALUES (56, '762c4307-0756-5ab2-52e7-70ba7fd4d3fc', 'PATCH', '45.7.55.250', 'http://video.xiuying2.cn/Books', 1, '2023-11-01 01:16:58', 3834, '0');
-INSERT INTO `request` VALUES (57, 'be211d1a-cb0f-06c5-65b0-7350ea9e4578', 'PATCH', '228.91.38.159', 'https://auth.ab11.xyz/CDsVinyl', 0, '2023-11-04 03:51:59', 4504, '1');
-INSERT INTO `request` VALUES (58, 'c92cebca-e282-cae4-39f1-68f4b0602119', 'PATCH', '178.169.228.105', 'https://video.ayatin4.net/ClothingShoesandJewelry', 1, '2023-11-01 02:35:18', 6716, '0');
-INSERT INTO `request` VALUES (59, '859349a9-ace7-7d85-67e9-f5d2ad355c65', 'POST', '52.241.46.207', 'http://auth.huisaiwing.info/Handcrafts', 1, '2023-11-04 03:26:58', 373, '1');
-INSERT INTO `request` VALUES (60, '33b10491-961e-a895-6627-75e8d5842fc9', 'GET', '105.23.254.22', 'https://video.lji.com/MusicalInstrument', 1, '2023-11-01 12:03:09', 3081, '0');
-INSERT INTO `request` VALUES (61, 'e6118176-6f8c-7e9c-92d3-20b7531800d9', 'PUT', '143.253.212.0', 'http://www.rui9.xyz/CellPhonesAccessories', 1, '2023-11-02 16:57:09', 1747, '0');
-INSERT INTO `request` VALUES (62, '9d0ee401-83c3-581f-da50-9f10fea2a9a3', 'POST', '176.251.7.254', 'https://video.wangz811.co.jp/ToolsHomeDecoration', 0, '2023-11-03 04:06:23', 1338, '0');
-INSERT INTO `request` VALUES (63, 'efdcbcf4-326a-bea6-570b-c8e7358fb742', 'POST', '190.130.6.148', 'https://auth.chengwingsze.org/Handcrafts', 0, '2023-11-03 21:12:40', 4615, '0');
-INSERT INTO `request` VALUES (64, 'efd9b4b5-f35a-8848-8a30-cc6e11bf4cd2', 'GET', '254.10.7.43', 'http://image.chanz3.xyz/SportsOutdoor', 0, '2023-11-04 00:12:22', 9226, '0');
-INSERT INTO `request` VALUES (65, '05465a0e-8521-3aef-0ba2-0af56450ad1d', 'PUT', '250.237.237.69', 'https://drive.hxiaoming.net/CellPhonesAccessories', 0, '2023-11-03 14:15:25', 2660, '0');
-INSERT INTO `request` VALUES (66, 'd51f8d61-5741-d402-7d73-27c19d0569d4', 'POST', '112.252.236.9', 'http://image.lia9.cn/FilmSupplies', 0, '2023-11-02 08:48:29', 7180, '0');
-INSERT INTO `request` VALUES (67, '5b103d6e-35b5-bc8f-2694-25b9d3d2a150', 'POST', '8.251.73.232', 'https://drive.tanghy.biz/ComputersElectronics', 1, '2023-11-03 06:39:18', 2104, '1');
-INSERT INTO `request` VALUES (68, '51860da4-12f9-ced8-3890-85ca0329af14', 'PATCH', '54.229.190.0', 'http://drive.kaitomasuda.biz/FilmSupplies', 1, '2023-11-01 07:58:28', 78, '0');
-INSERT INTO `request` VALUES (69, '588dc416-ce9e-117a-d27a-d03eec48e60c', 'PUT', '210.252.214.3', 'https://video.tsubasanakamori1130.jp/ClothingShoesandJewelry', 0, '2023-11-03 11:21:37', 180, '1');
-INSERT INTO `request` VALUES (70, 'e393a9ba-426b-4812-83a3-ab3619174ae5', 'GET', '1.207.196.249', 'https://drive.ota1975.biz/Beauty', 1, '2023-11-04 12:50:59', 8847, '1');
-INSERT INTO `request` VALUES (71, 'cfded3c8-9ae7-4f27-7fff-58a9f80763f7', 'DELETE', '103.184.3.254', 'http://auth.wala.info/PetSupplies', 0, '2023-11-03 04:27:05', 6219, '1');
-INSERT INTO `request` VALUES (72, 'b58eb407-bcec-0826-7f4e-be10d988d362', 'POST', '9.210.71.254', 'http://www.focynthia3.info/CellPhonesAccessories', 0, '2023-11-02 09:34:45', 9881, '1');
-INSERT INTO `request` VALUES (73, '0051c512-360e-838c-0164-b19d6b30fac5', 'PUT', '10.252.51.223', 'https://drive.washington56.com/IndustrialScientificSupplies', 0, '2023-11-02 15:33:18', 6637, '1');
-INSERT INTO `request` VALUES (74, '4ba7fb8f-3bc7-49af-3092-7b9cfe0938da', 'GET', '240.8.93.3', 'https://video.hayashiy.xyz/BeautyPersonalCare', 1, '2023-11-04 14:57:09', 7711, '0');
-INSERT INTO `request` VALUES (75, '8465362e-d03e-680c-efbb-b9506f8b0e9c', 'DELETE', '8.6.93.79', 'https://video.ming506.org/AppsGames', 0, '2023-11-01 15:17:15', 3294, '0');
-INSERT INTO `request` VALUES (76, 'd7fe906d-9f54-f955-f3d9-c3bd17d6346d', 'PUT', '251.7.252.9', 'http://www.anqi10.jp/CollectiblesFineArt', 1, '2023-11-02 20:33:54', 8559, '1');
-INSERT INTO `request` VALUES (77, '260557b7-ec11-931c-98a7-64093d056737', 'GET', '53.251.219.5', 'https://www.takwahlau.com/MusicalInstrument', 1, '2023-11-02 19:50:06', 2131, '0');
-INSERT INTO `request` VALUES (78, 'd282420d-70de-bffd-a908-212725188022', 'PUT', '206.136.236.250', 'http://www.wxiaom94.cn/CollectiblesFineArt', 1, '2023-11-01 07:46:49', 2817, '0');
-INSERT INTO `request` VALUES (79, 'f391212b-baf3-ea9d-9b7c-2e353ef199bd', 'PUT', '245.54.58.188', 'https://www.lu809.jp/Books', 1, '2023-11-04 21:59:49', 9875, '1');
-INSERT INTO `request` VALUES (80, 'f7eb8fc7-4cb2-ecb7-02b2-dc7957847ac4', 'POST', '219.197.67.0', 'https://www.hikaru10.biz/ClothingShoesandJewelry', 0, '2023-11-03 12:52:26', 6077, '0');
-INSERT INTO `request` VALUES (81, '027928ee-e40c-7f9f-01bd-686a22bce931', 'PUT', '252.215.7.148', 'http://auth.yzhu.com/PetSupplies', 1, '2023-11-03 11:26:37', 4750, '1');
-INSERT INTO `request` VALUES (82, '233bca1d-1bdc-eb99-bc94-916bcbfec512', 'POST', '0.37.255.253', 'https://auth.kwokyinlo.jp/ToysGames', 0, '2023-11-01 23:19:45', 5843, '1');
-INSERT INTO `request` VALUES (83, 'c977871c-38a2-2642-7002-e525ccb0faab', 'POST', '64.207.129.254', 'https://image.wmai217.us/FilmSupplies', 1, '2023-11-01 14:00:07', 772, '1');
-INSERT INTO `request` VALUES (84, 'bee97f5d-51ee-1d6a-526b-3db076deaec8', 'PUT', '117.39.197.115', 'http://www.szekwanyeung.net/AppsGames', 1, '2023-11-02 04:36:17', 5378, '0');
-INSERT INTO `request` VALUES (85, 'da2d2161-4cc1-90f1-80d2-beaa0b8996e5', 'GET', '215.54.24.35', 'http://www.chingwan7.com/AppsGames', 0, '2023-11-03 17:57:25', 6661, '1');
-INSERT INTO `request` VALUES (86, '4bd1ae59-27bc-6366-f405-68416a5b53c5', 'DELETE', '92.35.4.11', 'https://drive.lazhao.cn/Appliances', 1, '2023-11-03 22:04:32', 4665, '0');
-INSERT INTO `request` VALUES (87, '647d60e9-ba5f-6893-687a-272e3b6289d3', 'PUT', '57.213.242.2', 'https://drive.robes217.cn/SportsOutdoor', 1, '2023-11-02 11:19:11', 1446, '1');
-INSERT INTO `request` VALUES (88, '85c958cb-221f-9501-c764-3ba15ca51e0e', 'DELETE', '1.163.252.225', 'https://www.haradahikari.biz/ArtsHandicraftsSewing', 0, '2023-11-04 02:30:15', 8999, '0');
-INSERT INTO `request` VALUES (89, 'f1043d9f-08fd-197d-04cb-cd69feab487d', 'PATCH', '197.239.237.2', 'http://video.ryotm.co.jp/ComputersElectronics', 1, '2023-11-02 03:51:05', 9358, '0');
-INSERT INTO `request` VALUES (90, '9c03fa1a-cccc-170c-c3ab-03569bd6886e', 'PUT', '64.254.252.3', 'https://drive.mhy1960.xyz/ClothingShoesandJewelry', 0, '2023-11-04 12:37:31', 1461, '1');
-INSERT INTO `request` VALUES (91, 'fffba034-a9fd-f173-231e-13217b975647', 'POST', '240.254.8.225', 'https://www.jackpatterson10.com/AutomotivePartsAccessories', 1, '2023-11-02 09:28:52', 9096, '1');
-INSERT INTO `request` VALUES (92, '4a454ccc-c5c8-49e2-76d6-1965021da2be', 'PUT', '165.227.1.214', 'https://auth.xzhennan.co.jp/MusicalInstrument', 0, '2023-11-04 09:37:19', 6798, '1');
-INSERT INTO `request` VALUES (93, '52b9fc70-aaf3-245e-91d2-973c6d9c509c', 'PATCH', '243.157.197.7', 'http://video.chiyuen48.net/ArtsHandicraftsSewing', 1, '2023-11-02 13:37:55', 6613, '0');
-INSERT INTO `request` VALUES (94, 'f7110bbc-fae2-0904-7207-267b77155166', 'POST', '183.5.28.64', 'http://drive.onnalui3.cn/CDsVinyl', 1, '2023-11-03 02:10:56', 5179, '0');
-INSERT INTO `request` VALUES (95, '59315bc3-1c42-4653-4f06-39c618fa33a8', 'POST', '203.253.5.253', 'http://auth.torresvaler62.xyz/Others', 0, '2023-11-02 14:21:04', 8836, '1');
-INSERT INTO `request` VALUES (96, '4c2a15d1-09b0-147b-37d5-d693665c5738', 'POST', '124.128.211.100', 'http://www.chiyuen2012.co.jp/AppsGames', 1, '2023-11-01 06:21:20', 3689, '1');
-INSERT INTO `request` VALUES (97, '9acfba17-e856-8514-d6c3-ec7b04cb0ed8', 'PUT', '89.255.4.9', 'http://www.bryad4.net/IndustrialScientificSupplies', 1, '2023-11-02 15:08:15', 8864, '0');
-INSERT INTO `request` VALUES (98, '50a85069-f3d7-715f-2559-a094269929cf', 'DELETE', '250.181.55.114', 'http://drive.jiazh.us/Others', 0, '2023-11-01 14:56:14', 4686, '0');
-INSERT INTO `request` VALUES (99, 'ceea12b7-2752-4d58-56f2-a28485224b05', 'GET', '6.49.6.135', 'https://video.glan1952.us/PetSupplies', 0, '2023-11-04 13:49:06', 7725, '1');
-INSERT INTO `request` VALUES (100, '2156be5f-9ca2-c4b2-1225-b89e8b1ea271', 'PATCH', '255.141.250.160', 'https://image.yuningtang.info/SportsOutdoor', 1, '2023-11-02 07:44:09', 2247, '1');
-
--- ----------------------------
--- Table structure for request_detail
--- ----------------------------
-DROP TABLE IF EXISTS `request_detail`;
-CREATE TABLE `request_detail`  (
-  `id` int(11) NOT NULL,
-  `time` int(11) NOT NULL COMMENT '请求时间',
-  `status` char(1) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '请求状态（0：成功，1：失败）',
-  `waf_id` int(11) NOT NULL COMMENT 'waf的id',
-  `request_id` int(11) NOT NULL COMMENT '请求id',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `request_id`(`request_id`) USING BTREE,
-  CONSTRAINT `request_detail_ibfk_1` FOREIGN KEY (`request_id`) REFERENCES `request` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
-
--- ----------------------------
--- Records of request_detail
--- ----------------------------
-INSERT INTO `request_detail` VALUES (1, 568, '0', 1, 87);
-INSERT INTO `request_detail` VALUES (2, 934, '0', 2, 17);
-INSERT INTO `request_detail` VALUES (3, 894, '1', 3, 40);
-INSERT INTO `request_detail` VALUES (4, 105, '0', 5, 38);
-INSERT INTO `request_detail` VALUES (5, 712, '1', 5, 90);
-INSERT INTO `request_detail` VALUES (6, 64, '1', 4, 94);
-INSERT INTO `request_detail` VALUES (7, 165, '0', 4, 47);
-INSERT INTO `request_detail` VALUES (8, 478, '1', 4, 22);
-INSERT INTO `request_detail` VALUES (9, 530, '0', 4, 69);
-INSERT INTO `request_detail` VALUES (10, 468, '0', 2, 37);
-INSERT INTO `request_detail` VALUES (11, 653, '1', 1, 65);
-INSERT INTO `request_detail` VALUES (12, 91, '1', 4, 21);
-INSERT INTO `request_detail` VALUES (13, 368, '1', 3, 70);
-INSERT INTO `request_detail` VALUES (14, 558, '0', 5, 21);
-INSERT INTO `request_detail` VALUES (15, 636, '0', 3, 6);
-INSERT INTO `request_detail` VALUES (16, 102, '1', 2, 84);
-INSERT INTO `request_detail` VALUES (17, 567, '1', 4, 63);
-INSERT INTO `request_detail` VALUES (18, 347, '1', 4, 9);
-INSERT INTO `request_detail` VALUES (19, 587, '1', 6, 25);
-INSERT INTO `request_detail` VALUES (20, 857, '0', 2, 8);
-INSERT INTO `request_detail` VALUES (21, 373, '0', 2, 28);
-INSERT INTO `request_detail` VALUES (22, 118, '0', 5, 34);
-INSERT INTO `request_detail` VALUES (23, 926, '0', 2, 5);
-INSERT INTO `request_detail` VALUES (24, 747, '0', 2, 42);
-INSERT INTO `request_detail` VALUES (25, 379, '1', 5, 7);
-INSERT INTO `request_detail` VALUES (26, 346, '0', 2, 57);
-INSERT INTO `request_detail` VALUES (27, 56, '0', 3, 31);
-INSERT INTO `request_detail` VALUES (28, 37, '1', 4, 36);
-INSERT INTO `request_detail` VALUES (29, 129, '0', 2, 80);
-INSERT INTO `request_detail` VALUES (30, 797, '1', 2, 95);
-INSERT INTO `request_detail` VALUES (31, 702, '1', 2, 91);
-INSERT INTO `request_detail` VALUES (32, 858, '0', 5, 64);
-INSERT INTO `request_detail` VALUES (33, 653, '1', 2, 50);
-INSERT INTO `request_detail` VALUES (34, 312, '1', 3, 24);
-INSERT INTO `request_detail` VALUES (35, 504, '0', 5, 45);
-INSERT INTO `request_detail` VALUES (36, 640, '0', 5, 80);
-INSERT INTO `request_detail` VALUES (37, 942, '1', 5, 25);
-INSERT INTO `request_detail` VALUES (38, 724, '1', 1, 28);
-INSERT INTO `request_detail` VALUES (39, 48, '1', 2, 14);
-INSERT INTO `request_detail` VALUES (40, 493, '0', 3, 39);
-INSERT INTO `request_detail` VALUES (41, 833, '0', 2, 6);
-INSERT INTO `request_detail` VALUES (42, 110, '0', 5, 84);
-INSERT INTO `request_detail` VALUES (43, 62, '1', 4, 100);
-INSERT INTO `request_detail` VALUES (44, 247, '0', 3, 50);
-INSERT INTO `request_detail` VALUES (45, 34, '1', 3, 77);
-INSERT INTO `request_detail` VALUES (46, 453, '0', 3, 54);
-INSERT INTO `request_detail` VALUES (47, 756, '1', 2, 81);
-INSERT INTO `request_detail` VALUES (48, 294, '1', 6, 9);
-INSERT INTO `request_detail` VALUES (49, 292, '0', 2, 10);
-INSERT INTO `request_detail` VALUES (50, 373, '1', 5, 73);
-INSERT INTO `request_detail` VALUES (51, 215, '0', 4, 23);
-INSERT INTO `request_detail` VALUES (52, 9, '0', 3, 64);
-INSERT INTO `request_detail` VALUES (53, 596, '1', 2, 51);
-INSERT INTO `request_detail` VALUES (54, 556, '0', 5, 4);
-INSERT INTO `request_detail` VALUES (55, 983, '0', 3, 38);
-INSERT INTO `request_detail` VALUES (56, 486, '0', 5, 62);
-INSERT INTO `request_detail` VALUES (57, 465, '0', 5, 14);
-INSERT INTO `request_detail` VALUES (58, 743, '1', 3, 93);
-INSERT INTO `request_detail` VALUES (59, 711, '1', 5, 5);
-INSERT INTO `request_detail` VALUES (60, 898, '0', 6, 74);
-INSERT INTO `request_detail` VALUES (61, 152, '0', 2, 63);
-INSERT INTO `request_detail` VALUES (62, 755, '1', 2, 56);
-INSERT INTO `request_detail` VALUES (63, 397, '0', 2, 36);
-INSERT INTO `request_detail` VALUES (64, 663, '1', 3, 15);
-INSERT INTO `request_detail` VALUES (65, 357, '0', 4, 63);
-INSERT INTO `request_detail` VALUES (66, 79, '1', 5, 60);
-INSERT INTO `request_detail` VALUES (67, 969, '1', 5, 5);
-INSERT INTO `request_detail` VALUES (68, 874, '0', 4, 14);
-INSERT INTO `request_detail` VALUES (69, 692, '0', 4, 84);
-INSERT INTO `request_detail` VALUES (70, 769, '1', 2, 39);
-INSERT INTO `request_detail` VALUES (71, 337, '1', 5, 73);
-INSERT INTO `request_detail` VALUES (72, 409, '0', 4, 93);
-INSERT INTO `request_detail` VALUES (73, 901, '0', 1, 90);
-INSERT INTO `request_detail` VALUES (74, 975, '1', 4, 88);
-INSERT INTO `request_detail` VALUES (75, 410, '0', 3, 42);
-INSERT INTO `request_detail` VALUES (76, 495, '0', 4, 19);
-INSERT INTO `request_detail` VALUES (77, 4, '0', 2, 77);
-INSERT INTO `request_detail` VALUES (78, 382, '1', 3, 13);
-INSERT INTO `request_detail` VALUES (79, 96, '1', 3, 46);
-INSERT INTO `request_detail` VALUES (80, 401, '1', 4, 13);
-INSERT INTO `request_detail` VALUES (81, 476, '1', 3, 8);
-INSERT INTO `request_detail` VALUES (82, 464, '1', 5, 41);
-INSERT INTO `request_detail` VALUES (83, 796, '0', 1, 92);
-INSERT INTO `request_detail` VALUES (84, 665, '0', 4, 47);
-INSERT INTO `request_detail` VALUES (85, 115, '0', 4, 20);
-INSERT INTO `request_detail` VALUES (86, 287, '1', 3, 57);
-INSERT INTO `request_detail` VALUES (87, 370, '1', 5, 28);
-INSERT INTO `request_detail` VALUES (88, 187, '1', 3, 13);
-INSERT INTO `request_detail` VALUES (89, 37, '0', 4, 45);
-INSERT INTO `request_detail` VALUES (90, 241, '0', 4, 62);
-INSERT INTO `request_detail` VALUES (91, 888, '0', 3, 48);
-INSERT INTO `request_detail` VALUES (92, 8, '1', 1, 56);
-INSERT INTO `request_detail` VALUES (93, 525, '1', 1, 57);
-INSERT INTO `request_detail` VALUES (94, 770, '0', 5, 10);
-INSERT INTO `request_detail` VALUES (95, 857, '0', 5, 67);
-INSERT INTO `request_detail` VALUES (96, 920, '0', 2, 45);
-INSERT INTO `request_detail` VALUES (97, 263, '1', 5, 18);
-INSERT INTO `request_detail` VALUES (98, 541, '0', 4, 27);
-INSERT INTO `request_detail` VALUES (99, 95, '1', 1, 72);
-INSERT INTO `request_detail` VALUES (100, 615, '1', 3, 25);
-INSERT INTO `request_detail` VALUES (101, 227, '1', 3, 74);
-INSERT INTO `request_detail` VALUES (102, 767, '0', 6, 68);
-INSERT INTO `request_detail` VALUES (103, 954, '0', 2, 89);
-INSERT INTO `request_detail` VALUES (104, 843, '0', 3, 1);
-INSERT INTO `request_detail` VALUES (105, 888, '0', 5, 93);
-INSERT INTO `request_detail` VALUES (106, 200, '0', 5, 94);
-INSERT INTO `request_detail` VALUES (107, 762, '0', 4, 58);
-INSERT INTO `request_detail` VALUES (108, 655, '1', 4, 1);
-INSERT INTO `request_detail` VALUES (109, 1, '1', 4, 7);
-INSERT INTO `request_detail` VALUES (110, 148, '0', 4, 85);
-INSERT INTO `request_detail` VALUES (111, 472, '0', 1, 56);
-INSERT INTO `request_detail` VALUES (112, 703, '0', 2, 24);
-INSERT INTO `request_detail` VALUES (113, 813, '0', 2, 94);
-INSERT INTO `request_detail` VALUES (114, 723, '0', 4, 59);
-INSERT INTO `request_detail` VALUES (115, 325, '0', 1, 91);
-INSERT INTO `request_detail` VALUES (116, 720, '0', 4, 96);
-INSERT INTO `request_detail` VALUES (117, 636, '0', 4, 91);
-INSERT INTO `request_detail` VALUES (118, 142, '0', 5, 81);
-INSERT INTO `request_detail` VALUES (119, 987, '1', 4, 52);
-INSERT INTO `request_detail` VALUES (120, 106, '0', 3, 2);
-INSERT INTO `request_detail` VALUES (121, 864, '0', 6, 49);
-INSERT INTO `request_detail` VALUES (122, 40, '0', 1, 61);
-INSERT INTO `request_detail` VALUES (123, 176, '0', 5, 52);
-INSERT INTO `request_detail` VALUES (124, 60, '0', 3, 32);
-INSERT INTO `request_detail` VALUES (125, 74, '0', 5, 50);
-INSERT INTO `request_detail` VALUES (126, 72, '0', 5, 81);
-INSERT INTO `request_detail` VALUES (127, 368, '1', 4, 60);
-INSERT INTO `request_detail` VALUES (128, 474, '1', 4, 10);
-INSERT INTO `request_detail` VALUES (129, 176, '0', 2, 23);
-INSERT INTO `request_detail` VALUES (130, 432, '0', 2, 51);
-INSERT INTO `request_detail` VALUES (131, 894, '0', 5, 9);
-INSERT INTO `request_detail` VALUES (132, 366, '0', 1, 42);
-INSERT INTO `request_detail` VALUES (133, 20, '0', 6, 86);
-INSERT INTO `request_detail` VALUES (134, 872, '1', 5, 33);
-INSERT INTO `request_detail` VALUES (135, 262, '0', 5, 47);
-INSERT INTO `request_detail` VALUES (136, 527, '1', 6, 23);
-INSERT INTO `request_detail` VALUES (137, 906, '0', 2, 51);
-INSERT INTO `request_detail` VALUES (138, 140, '0', 4, 6);
-INSERT INTO `request_detail` VALUES (139, 681, '1', 1, 68);
-INSERT INTO `request_detail` VALUES (140, 806, '0', 4, 99);
-INSERT INTO `request_detail` VALUES (141, 9, '0', 3, 76);
-INSERT INTO `request_detail` VALUES (142, 272, '0', 2, 36);
-INSERT INTO `request_detail` VALUES (143, 280, '0', 2, 87);
-INSERT INTO `request_detail` VALUES (144, 650, '1', 3, 31);
-INSERT INTO `request_detail` VALUES (145, 747, '0', 2, 49);
-INSERT INTO `request_detail` VALUES (146, 508, '0', 2, 72);
-INSERT INTO `request_detail` VALUES (147, 785, '0', 2, 60);
-INSERT INTO `request_detail` VALUES (148, 777, '1', 3, 55);
-INSERT INTO `request_detail` VALUES (149, 821, '0', 2, 27);
-INSERT INTO `request_detail` VALUES (150, 73, '0', 5, 30);
-INSERT INTO `request_detail` VALUES (151, 22, '0', 4, 90);
-INSERT INTO `request_detail` VALUES (152, 543, '0', 4, 61);
-INSERT INTO `request_detail` VALUES (153, 424, '0', 4, 21);
-INSERT INTO `request_detail` VALUES (154, 741, '1', 1, 18);
-INSERT INTO `request_detail` VALUES (155, 418, '1', 1, 1);
-INSERT INTO `request_detail` VALUES (156, 495, '1', 5, 41);
-INSERT INTO `request_detail` VALUES (157, 245, '1', 3, 95);
-INSERT INTO `request_detail` VALUES (158, 596, '0', 5, 72);
-INSERT INTO `request_detail` VALUES (159, 248, '0', 3, 75);
-INSERT INTO `request_detail` VALUES (160, 625, '0', 5, 19);
-INSERT INTO `request_detail` VALUES (161, 202, '0', 2, 74);
-INSERT INTO `request_detail` VALUES (162, 307, '1', 3, 96);
-INSERT INTO `request_detail` VALUES (163, 270, '1', 5, 40);
-INSERT INTO `request_detail` VALUES (164, 454, '1', 2, 87);
-INSERT INTO `request_detail` VALUES (165, 94, '1', 6, 80);
-INSERT INTO `request_detail` VALUES (166, 975, '1', 4, 98);
-INSERT INTO `request_detail` VALUES (167, 932, '1', 4, 99);
-INSERT INTO `request_detail` VALUES (168, 805, '0', 2, 99);
-INSERT INTO `request_detail` VALUES (169, 179, '0', 5, 40);
-INSERT INTO `request_detail` VALUES (170, 846, '1', 4, 35);
-INSERT INTO `request_detail` VALUES (171, 133, '0', 6, 71);
-INSERT INTO `request_detail` VALUES (172, 585, '1', 2, 77);
-INSERT INTO `request_detail` VALUES (173, 496, '1', 1, 53);
-INSERT INTO `request_detail` VALUES (174, 432, '0', 4, 82);
-INSERT INTO `request_detail` VALUES (175, 846, '1', 1, 39);
-INSERT INTO `request_detail` VALUES (176, 209, '1', 3, 89);
-INSERT INTO `request_detail` VALUES (177, 805, '1', 3, 100);
-INSERT INTO `request_detail` VALUES (178, 971, '0', 4, 46);
-INSERT INTO `request_detail` VALUES (179, 180, '1', 3, 86);
-INSERT INTO `request_detail` VALUES (180, 915, '1', 3, 7);
-INSERT INTO `request_detail` VALUES (181, 578, '1', 1, 4);
-INSERT INTO `request_detail` VALUES (182, 980, '1', 2, 43);
-INSERT INTO `request_detail` VALUES (183, 485, '0', 4, 66);
-INSERT INTO `request_detail` VALUES (184, 694, '1', 3, 24);
-INSERT INTO `request_detail` VALUES (185, 786, '1', 6, 38);
-INSERT INTO `request_detail` VALUES (186, 41, '0', 4, 49);
-INSERT INTO `request_detail` VALUES (187, 274, '1', 2, 88);
-INSERT INTO `request_detail` VALUES (188, 799, '1', 2, 86);
-INSERT INTO `request_detail` VALUES (189, 763, '0', 6, 35);
-INSERT INTO `request_detail` VALUES (190, 309, '0', 2, 54);
-INSERT INTO `request_detail` VALUES (191, 948, '0', 5, 97);
-INSERT INTO `request_detail` VALUES (192, 554, '0', 2, 35);
-INSERT INTO `request_detail` VALUES (193, 5, '1', 4, 32);
-INSERT INTO `request_detail` VALUES (194, 717, '0', 4, 53);
-INSERT INTO `request_detail` VALUES (195, 335, '1', 6, 70);
-INSERT INTO `request_detail` VALUES (196, 258, '0', 4, 66);
-INSERT INTO `request_detail` VALUES (197, 188, '0', 2, 30);
-INSERT INTO `request_detail` VALUES (198, 471, '0', 2, 26);
-INSERT INTO `request_detail` VALUES (199, 495, '0', 6, 70);
-INSERT INTO `request_detail` VALUES (200, 777, '0', 3, 20);
-INSERT INTO `request_detail` VALUES (201, 107, '0', 5, 75);
-INSERT INTO `request_detail` VALUES (202, 473, '0', 1, 98);
-INSERT INTO `request_detail` VALUES (203, 896, '0', 4, 41);
-INSERT INTO `request_detail` VALUES (204, 350, '1', 6, 62);
-INSERT INTO `request_detail` VALUES (205, 872, '0', 2, 69);
-INSERT INTO `request_detail` VALUES (206, 413, '0', 2, 26);
-INSERT INTO `request_detail` VALUES (207, 443, '0', 5, 34);
-INSERT INTO `request_detail` VALUES (208, 278, '1', 4, 73);
-INSERT INTO `request_detail` VALUES (209, 247, '0', 4, 37);
-INSERT INTO `request_detail` VALUES (210, 722, '0', 5, 95);
-INSERT INTO `request_detail` VALUES (211, 306, '1', 6, 65);
-INSERT INTO `request_detail` VALUES (212, 291, '0', 5, 17);
-INSERT INTO `request_detail` VALUES (213, 563, '1', 3, 69);
-INSERT INTO `request_detail` VALUES (214, 405, '1', 3, 71);
-INSERT INTO `request_detail` VALUES (215, 397, '1', 5, 59);
-INSERT INTO `request_detail` VALUES (216, 72, '1', 6, 20);
-INSERT INTO `request_detail` VALUES (217, 830, '1', 3, 76);
-INSERT INTO `request_detail` VALUES (218, 323, '0', 2, 58);
-INSERT INTO `request_detail` VALUES (219, 596, '0', 3, 46);
-INSERT INTO `request_detail` VALUES (220, 195, '1', 5, 30);
-INSERT INTO `request_detail` VALUES (221, 984, '0', 4, 100);
-INSERT INTO `request_detail` VALUES (222, 833, '1', 3, 22);
-INSERT INTO `request_detail` VALUES (223, 832, '0', 1, 98);
-INSERT INTO `request_detail` VALUES (224, 193, '0', 5, 71);
-INSERT INTO `request_detail` VALUES (225, 492, '1', 5, 31);
-INSERT INTO `request_detail` VALUES (226, 896, '0', 2, 26);
-INSERT INTO `request_detail` VALUES (227, 554, '0', 6, 78);
-INSERT INTO `request_detail` VALUES (228, 309, '1', 5, 64);
-INSERT INTO `request_detail` VALUES (229, 516, '1', 6, 22);
-INSERT INTO `request_detail` VALUES (230, 253, '0', 1, 97);
-INSERT INTO `request_detail` VALUES (231, 763, '1', 1, 76);
-INSERT INTO `request_detail` VALUES (232, 762, '0', 4, 58);
-INSERT INTO `request_detail` VALUES (233, 185, '0', 5, 17);
-INSERT INTO `request_detail` VALUES (234, 281, '0', 3, 89);
-INSERT INTO `request_detail` VALUES (235, 734, '0', 1, 78);
-INSERT INTO `request_detail` VALUES (236, 362, '1', 2, 75);
-INSERT INTO `request_detail` VALUES (237, 303, '1', 3, 85);
-INSERT INTO `request_detail` VALUES (238, 513, '1', 3, 37);
-INSERT INTO `request_detail` VALUES (239, 29, '1', 2, 12);
-INSERT INTO `request_detail` VALUES (240, 371, '0', 5, 54);
-INSERT INTO `request_detail` VALUES (241, 853, '0', 1, 3);
-INSERT INTO `request_detail` VALUES (242, 720, '0', 3, 61);
-INSERT INTO `request_detail` VALUES (243, 239, '0', 6, 79);
-INSERT INTO `request_detail` VALUES (244, 266, '1', 4, 29);
-INSERT INTO `request_detail` VALUES (245, 534, '1', 2, 3);
-INSERT INTO `request_detail` VALUES (246, 227, '1', 5, 2);
-INSERT INTO `request_detail` VALUES (247, 189, '1', 6, 66);
-INSERT INTO `request_detail` VALUES (248, 302, '1', 5, 85);
-INSERT INTO `request_detail` VALUES (249, 663, '0', 4, 52);
-INSERT INTO `request_detail` VALUES (250, 545, '0', 5, 59);
-INSERT INTO `request_detail` VALUES (251, 544, '1', 3, 68);
-INSERT INTO `request_detail` VALUES (252, 934, '1', 4, 27);
-INSERT INTO `request_detail` VALUES (253, 824, '0', 2, 15);
-INSERT INTO `request_detail` VALUES (254, 542, '1', 3, 33);
-INSERT INTO `request_detail` VALUES (255, 395, '0', 4, 11);
-INSERT INTO `request_detail` VALUES (256, 410, '0', 4, 19);
-INSERT INTO `request_detail` VALUES (257, 976, '1', 2, 8);
-INSERT INTO `request_detail` VALUES (258, 15, '0', 5, 4);
-INSERT INTO `request_detail` VALUES (259, 518, '0', 5, 53);
-INSERT INTO `request_detail` VALUES (260, 608, '0', 6, 33);
-INSERT INTO `request_detail` VALUES (261, 710, '1', 2, 15);
-INSERT INTO `request_detail` VALUES (262, 340, '1', 3, 29);
-INSERT INTO `request_detail` VALUES (263, 876, '1', 1, 92);
-INSERT INTO `request_detail` VALUES (264, 757, '1', 5, 67);
-INSERT INTO `request_detail` VALUES (265, 704, '0', 3, 88);
-INSERT INTO `request_detail` VALUES (266, 770, '1', 5, 67);
-INSERT INTO `request_detail` VALUES (267, 788, '1', 6, 11);
-INSERT INTO `request_detail` VALUES (268, 497, '0', 4, 29);
-INSERT INTO `request_detail` VALUES (269, 99, '0', 2, 78);
-INSERT INTO `request_detail` VALUES (270, 764, '0', 2, 11);
-INSERT INTO `request_detail` VALUES (271, 429, '1', 5, 65);
-INSERT INTO `request_detail` VALUES (272, 260, '1', 3, 18);
-INSERT INTO `request_detail` VALUES (273, 248, '1', 2, 2);
-INSERT INTO `request_detail` VALUES (274, 996, '0', 3, 43);
-INSERT INTO `request_detail` VALUES (275, 647, '1', 6, 96);
-INSERT INTO `request_detail` VALUES (276, 454, '1', 3, 97);
-INSERT INTO `request_detail` VALUES (277, 468, '0', 4, 48);
-INSERT INTO `request_detail` VALUES (278, 760, '0', 3, 3);
-INSERT INTO `request_detail` VALUES (279, 154, '0', 1, 48);
-INSERT INTO `request_detail` VALUES (280, 577, '0', 6, 34);
-INSERT INTO `request_detail` VALUES (281, 836, '0', 4, 43);
-INSERT INTO `request_detail` VALUES (282, 62, '0', 6, 44);
-INSERT INTO `request_detail` VALUES (283, 702, '1', 4, 32);
-INSERT INTO `request_detail` VALUES (284, 501, '0', 1, 82);
-INSERT INTO `request_detail` VALUES (285, 712, '0', 4, 79);
-INSERT INTO `request_detail` VALUES (286, 18, '1', 4, 92);
-INSERT INTO `request_detail` VALUES (287, 529, '1', 1, 79);
-INSERT INTO `request_detail` VALUES (288, 262, '1', 4, 44);
-INSERT INTO `request_detail` VALUES (289, 389, '1', 6, 12);
-INSERT INTO `request_detail` VALUES (290, 918, '0', 6, 44);
-INSERT INTO `request_detail` VALUES (291, 349, '0', 4, 55);
-INSERT INTO `request_detail` VALUES (292, 232, '0', 1, 12);
-INSERT INTO `request_detail` VALUES (293, 473, '1', 5, 83);
-INSERT INTO `request_detail` VALUES (294, 172, '0', 3, 83);
-INSERT INTO `request_detail` VALUES (295, 667, '0', 5, 16);
-INSERT INTO `request_detail` VALUES (296, 42, '0', 1, 82);
-INSERT INTO `request_detail` VALUES (297, 458, '0', 5, 55);
-INSERT INTO `request_detail` VALUES (298, 740, '1', 3, 83);
-INSERT INTO `request_detail` VALUES (299, 3, '1', 1, 16);
-INSERT INTO `request_detail` VALUES (300, 740, '0', 5, 16);
+INSERT INTO `request_record` VALUES (1, '74bcbd10-bc87-b54f-6fe6-7b3704b51ded', 'GET', '0.17.253.149', '218.180.39.255', 'https://video.xia1230.us/Food', 0, 669, 0, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (2, '225306ae-5065-bd67-54e9-8586d643300e', 'GET', '38.252.86.40', '181.194.100.251', 'https://video.siuwaipa84.cn/ToysGames', 0, 1610, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (3, '0d739684-920e-a3f4-a7c9-1c6da3a7196c', 'POST', '40.176.223.66', '17.234.160.81', 'https://video.renom.jp/FilmSupplies', 1, 103, 0, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (4, 'cd68db8c-e353-ebe3-03b2-9c4210d4f129', 'GET', '1.120.63.105', '235.112.206.204', 'http://www.nakagriku9.cn/ComputersElectronics', 1, 1759, 0, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (5, '8ed54409-1bb4-6fa2-6b49-ab7cd2da979c', 'DELETE', '6.233.251.148', '180.255.6.22', 'https://video.tangcm.jp/ToolsHomeDecoration', 1, 1233, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (6, '812ebfc8-28e7-12bc-aca2-0b778179b290', 'UPDATE', '252.11.127.175', '200.4.92.69', 'http://www.wschiang.us/Books', 0, 1318, 0, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (7, 'd8533251-0068-af9e-a89c-70b5372fa8f5', 'UPDATE', '3.12.141.129', '253.255.250.9', 'https://drive.mmurakami2.info/PetSupplies', 1, 1526, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (8, '40ffebcb-35a7-f6f9-e101-2907117a9d2f', 'DELETE', '232.7.251.33', '212.109.1.3', 'https://www.yt424.xyz/Baby', 0, 958, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (9, '56a92e81-fe30-b2d2-a693-f5d91b0a809b', 'UPDATE', '187.227.251.196', '201.7.50.255', 'https://drive.kojima1123.net/Appliances', 0, 57, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `request_record` VALUES (10, 'c96c2c32-4568-9387-7296-ee9149003b31', 'POST', '3.13.2.229', '1.132.109.244', 'https://www.zitaowei1119.com/Appliances', 0, 335, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
 
 -- ----------------------------
 -- Table structure for role
@@ -512,6 +129,55 @@ INSERT INTO `role_perm` VALUES (3, 1);
 INSERT INTO `role_perm` VALUES (3, 2);
 INSERT INTO `role_perm` VALUES (3, 3);
 INSERT INTO `role_perm` VALUES (3, 4);
+
+-- ----------------------------
+-- Table structure for schedule_record
+-- ----------------------------
+DROP TABLE IF EXISTS `schedule_record`;
+CREATE TABLE `schedule_record`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `time` bigint(20) NULL DEFAULT NULL COMMENT 'waf处理时间',
+  `is_pass` tinyint(4) NULL DEFAULT NULL COMMENT '是否放行',
+  `waf_id` bigint(20) NULL DEFAULT NULL,
+  `request_id` bigint(20) NULL DEFAULT NULL,
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'waf的调度过程记录表' ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of schedule_record
+-- ----------------------------
+INSERT INTO `schedule_record` VALUES (1, 403, 1, 6, 5, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (2, 280, 0, 2, 6, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (3, 303, 1, 3, 10, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (4, 171, 1, 2, 6, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (5, 848, 0, 4, 2, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (6, 462, 0, 5, 6, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (7, 40, 1, 4, 10, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (8, 548, 1, 3, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (9, 143, 0, 3, 8, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (10, 46, 0, 2, 4, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (11, 259, 1, 5, 8, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (12, 744, 0, 4, 6, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (13, 929, 0, 4, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (14, 297, 1, 4, 2, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (15, 183, 0, 2, 8, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (16, 802, 0, 5, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (17, 986, 0, 3, 5, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (18, 327, 1, 3, 5, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (19, 70, 1, 5, 7, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (20, 745, 0, 3, 9, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (21, 145, 1, 3, 1, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (22, 104, 1, 5, 3, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (23, 11, 0, 4, 8, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (24, 115, 1, 2, 10, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (25, 92, 0, 2, 3, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (26, 83, 0, 6, 5, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (27, 74, 1, 2, 3, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (28, 197, 1, 5, 6, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (29, 553, 1, 2, 6, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
+INSERT INTO `schedule_record` VALUES (30, 88, 1, 3, 2, '2023-12-18 23:16:34', '2023-12-18 23:16:34');
 
 -- ----------------------------
 -- Table structure for user
@@ -554,54 +220,151 @@ INSERT INTO `user_role` VALUES (5, 1);
 INSERT INTO `user_role` VALUES (8, 2);
 
 -- ----------------------------
--- Table structure for waf
+-- Table structure for waf_info
 -- ----------------------------
-DROP TABLE IF EXISTS `waf`;
-CREATE TABLE `waf`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'waf名称',
-  `ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'ip地址',
-  `port` int(10) NOT NULL DEFAULT 0 COMMENT '端口',
-  `config_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '配置地址',
-  `status` int(1) NOT NULL DEFAULT 0 COMMENT '状态（0：未启用，1：异常，2：正常运行）',
+DROP TABLE IF EXISTS `waf_info`;
+CREATE TABLE `waf_info`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `image_id` bigint(20) NULL DEFAULT NULL COMMENT 'docker形式的waf的镜像id',
+  `container_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'docker形式的waf的容器id',
+  `name` varchar(30) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT 'waf名称',
+  `ip` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT 'ip地址',
+  `port` int(10) NULL DEFAULT 0 COMMENT '端口',
+  `config_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT 'waf的配置地址',
+  `is_online` tinyint(1) UNSIGNED NULL DEFAULT 0 COMMENT '是否上线',
+  `weight` tinyint(4) NULL DEFAULT NULL COMMENT '权重，用于调度器按权重选取waf',
   `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT '' COMMENT '描述信息',
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'waf配置信息表' ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'waf信息表' ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
--- Records of waf
+-- Records of waf_info
 -- ----------------------------
-INSERT INTO `waf` VALUES (1, 'Grape', '190.255.254.6', 45578, 'http://image.eita7.jp/Handcrafts', 0, 'o8CVT2SHeR');
-INSERT INTO `waf` VALUES (2, 'Mrngo pi', '226.112.231.13', 51708, 'https://image.seikowada3.us/CollectiblesFineArt', 0, 'y0WZYqFi0T');
-INSERT INTO `waf` VALUES (3, 'Kiwi', '240.255.141.0', 11367, 'https://video.tsui1.info/CollectiblesFineArt', 2, 'F5lG8ICvOq');
-INSERT INTO `waf` VALUES (4, 'Cherry pi', '206.8.191.158', 52573, 'http://video.tiayuning85.xyz/IndustrialScientificSupplies', 0, 'ipVZJZhPyr');
-INSERT INTO `waf` VALUES (5, 'Pluots', '4.56.251.2295', 10304, 'http://www.kaitonak.us/BaggageTravelEquipment', 0, 'mBMOrefaOa');
-INSERT INTO `waf` VALUES (6, 'shega', '5.19.49.11', 5033, 'http://www.kaitonak.us/BaggageTravelEquipment2', 0, 'sasfsfasfa');
+INSERT INTO `waf_info` VALUES (1, 1, '3hGDQe0Ens', 'Melissa', '107.228.252.254', 9193, 'http://www.zhiyufeng7.jp/Handcrafts', 1, 2, 'PU7uFIZSTm', '2023-12-18 23:16:34', '2023-12-18 23:35:16');
+INSERT INTO `waf_info` VALUES (2, 2, 'fflWoHeZJH', 'Rosa', '238.114.255.254', 32283, 'https://www.lok41.net/CenturionGardenOutdoor', 0, 1, 'DdePZrDhxL', '2023-12-18 23:16:34', '2023-12-18 23:35:19');
+INSERT INTO `waf_info` VALUES (3, 3, 'dvYPusW3q4', 'Arthur', '250.24.224.90', 33482, 'https://drive.alberc.co.jp/ArtsHandicraftsSewing', 1, 0, 'ydk71rRrvf', '2023-12-18 23:16:34', '2023-12-18 23:35:21');
+INSERT INTO `waf_info` VALUES (4, 1, '7r5gPwg2KL', 'Wanda', '7.254.111.164', 43608, 'https://auth.rha1104.biz/Others', 0, 3, 'j2eQ73xfaL', '2023-12-18 23:16:34', '2023-12-18 23:35:23');
+INSERT INTO `waf_info` VALUES (5, 2, 'HOIcyT1ABl', 'Jacqueline', '4.141.218.46', 17911, 'https://www.cyho.org/ArtsHandicraftsSewing', 0, 2, 'JkhJMlN2yU', '2023-12-18 23:16:34', '2023-12-18 23:35:25');
+INSERT INTO `waf_info` VALUES (6, 3, 'zvqglD6xXf', 'Marcus', '251.34.227.93', 1016, 'http://auth.moi.cn/BaggageTravelEquipment', 0, 1, 'wKmCTkxJPl', '2023-12-18 23:16:34', '2023-12-18 23:35:27');
 
 -- ----------------------------
--- Table structure for waf_status
+-- Table structure for waf_monitor
 -- ----------------------------
-DROP TABLE IF EXISTS `waf_status`;
-CREATE TABLE `waf_status`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'id',
-  `cpu` int(5) NULL DEFAULT NULL COMMENT 'cpu占用率',
-  `memory` int(5) NULL DEFAULT NULL COMMENT '内存占用率',
-  `start_time` datetime NULL DEFAULT NULL COMMENT '启动时间',
-  `up_time` int(11) NULL DEFAULT NULL COMMENT '运行时间（分钟）',
-  `waf_id` int(11) NULL DEFAULT NULL COMMENT 'wafId',
-  PRIMARY KEY (`id`) USING BTREE,
-  INDEX `waf_id`(`waf_id`) USING BTREE,
-  CONSTRAINT `waf_status_ibfk_1` FOREIGN KEY (`waf_id`) REFERENCES `waf` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+DROP TABLE IF EXISTS `waf_monitor`;
+CREATE TABLE `waf_monitor`  (
+  `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `cpu` decimal(5, 2) NULL DEFAULT NULL COMMENT 'cpu占用率',
+  `memory` decimal(5, 2) NULL DEFAULT NULL COMMENT '内存占用率',
+  `waf_id` bigint(20) UNSIGNED NULL DEFAULT NULL,
+  `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 101 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = 'waf_监控信息表' ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of waf_status
+-- Records of waf_monitor
 -- ----------------------------
-INSERT INTO `waf_status` VALUES (1, 77, 11, '2023-11-10 01:27:51', 147, 1);
-INSERT INTO `waf_status` VALUES (2, 79, 36, '2023-11-10 17:17:29', 684, 2);
-INSERT INTO `waf_status` VALUES (3, 67, 47, '2023-11-10 20:05:58', 846, 3);
-INSERT INTO `waf_status` VALUES (4, 19, 32, '2023-11-10 14:39:21', 968, 4);
-INSERT INTO `waf_status` VALUES (5, 29, 55, '2023-11-10 14:46:30', 791, 5);
-INSERT INTO `waf_status` VALUES (6, 56, 45, '2023-11-27 21:39:16', 15, 6);
+INSERT INTO `waf_monitor` VALUES (1, 94.46, 83.96, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (2, 40.51, 34.28, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (3, 31.10, 72.54, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (4, 7.24, 47.58, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (5, 96.12, 56.64, 6, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (6, 37.55, 45.11, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (7, 39.12, 95.50, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (8, 90.20, 35.43, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (9, 75.54, 78.58, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (10, 75.10, 82.07, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (11, 98.12, 15.32, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (12, 49.05, 27.74, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (13, 71.89, 9.87, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (14, 46.24, 36.31, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (15, 12.25, 36.54, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (16, 40.20, 34.34, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (17, 21.77, 49.30, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (18, 62.97, 90.11, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (19, 17.41, 16.11, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (20, 30.24, 57.86, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (21, 79.89, 60.57, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (22, 6.16, 23.66, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (23, 36.24, 94.58, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (24, 98.68, 90.27, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (25, 1.12, 38.55, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (26, 26.77, 79.68, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (27, 72.18, 98.15, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (28, 24.41, 33.12, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (29, 87.75, 19.28, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (30, 90.31, 0.70, 6, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (31, 20.15, 63.45, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (32, 13.60, 95.15, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (33, 66.28, 42.79, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (34, 86.89, 28.24, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (35, 32.05, 52.49, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (36, 3.29, 39.78, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (37, 85.89, 37.79, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (38, 26.44, 16.58, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (39, 4.32, 21.48, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (40, 18.45, 59.08, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (41, 67.22, 74.94, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (42, 64.40, 71.00, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (43, 11.52, 99.50, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (44, 22.58, 48.65, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (45, 76.85, 55.14, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (46, 97.15, 30.37, 6, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (47, 42.83, 92.39, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (48, 16.85, 23.99, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (49, 19.77, 9.62, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (50, 56.94, 11.34, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (51, 80.59, 39.72, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (52, 99.30, 58.34, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (53, 62.87, 6.57, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (54, 31.21, 96.61, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (55, 99.39, 49.00, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (56, 14.98, 26.78, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (57, 91.04, 77.79, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (58, 17.32, 24.11, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (59, 66.64, 85.00, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (60, 7.61, 80.48, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (61, 50.15, 97.80, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (62, 65.10, 36.71, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (63, 89.88, 93.47, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (64, 91.60, 6.42, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (65, 98.39, 43.69, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (66, 13.46, 93.95, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (67, 52.39, 75.11, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (68, 25.90, 10.10, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (69, 44.32, 30.95, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (70, 12.49, 91.55, 6, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (71, 20.48, 21.94, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (72, 63.06, 48.47, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (73, 76.28, 54.11, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (74, 98.49, 96.99, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (75, 93.14, 78.18, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (76, 2.83, 77.70, 6, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (77, 70.28, 20.56, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (78, 75.46, 73.89, 6, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (79, 29.20, 93.53, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (80, 28.69, 94.04, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (81, 71.95, 13.04, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (82, 64.39, 53.88, 6, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (83, 72.21, 85.96, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (84, 32.02, 95.81, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (85, 35.19, 15.26, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (86, 70.38, 75.41, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (87, 55.44, 84.37, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (88, 13.09, 87.74, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (89, 65.14, 65.46, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (90, 38.47, 44.56, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (91, 30.93, 97.22, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (92, 63.13, 47.56, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (93, 98.08, 34.20, 3, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (94, 35.48, 53.27, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (95, 65.68, 12.15, 2, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (96, 60.13, 72.66, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (97, 72.67, 88.12, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (98, 54.46, 25.98, 4, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (99, 42.94, 24.42, 5, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
+INSERT INTO `waf_monitor` VALUES (100, 11.20, 88.32, 1, '2023-12-18 23:19:50', '2023-12-18 23:19:50');
 
 SET FOREIGN_KEY_CHECKS = 1;

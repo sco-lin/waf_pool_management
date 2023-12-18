@@ -16,6 +16,8 @@ public class Waf {
     private String configUrl;
     private String status;
     private String description;
+    // TODO docker中的容器id 数据库中未添加
+    private String containerId;
     // TODO 权重 数据库中未添加
     private Integer weight;
     // TODO url 数据库中未添加

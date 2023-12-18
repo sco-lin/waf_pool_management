@@ -7,6 +7,7 @@
         update waf
         <set>
             <if test="name != null">name = #{name},</if>
+            <if test="containerId != null">container_id = #{containerId},</if>
             <if test="ip != null">ip = #{ip},</if>
             <if test="port != null">port = #{port},</if>
             <if test="configUrl != null">config_url = #{configUrl},</if>
@@ -23,6 +24,7 @@
     <insert id="insert">
         insert into waf
         <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="containerId != null">container_id,</if>
             <if test="name != null">name,</if>
             <if test="ip != null">ip,</if>
             <if test="port != null">port,</if>
@@ -31,6 +33,7 @@
             <if test="description != null">description</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="containerId != null">#{containerId},</if>
             <if test="name != null">#{name},</if>
             <if test="ip != null">#{ip},</if>
             <if test="port != null">#{port},</if>
@@ -40,12 +43,12 @@
         </trim>
     </insert>
     <select id="selectById" resultType="Waf">
-        select id, name, ip, port, config_url, status, description
+        select id,container_id, name, ip, port, config_url, status, description
         from waf
         where id = #{id}
     </select>
     <select id="selectList" resultType="Waf">
-        select id, name, ip, port, config_url, status, description
+        select id,container_id, name, ip, port, config_url, status, description
         from waf
     </select>
     <select id="count" resultType="Integer">
@@ -58,7 +61,14 @@
         where status = #{status}
     </select>
     <select id="selectListForStatus" resultType="Waf">
-        select id, name, ip, port, config_url, status, description
+        select id,
+               container_id,
+               name,
+               ip,
+               port,
+               config_url,
+               status,
+               description
         from waf
         where status = #{status}
     </select>
