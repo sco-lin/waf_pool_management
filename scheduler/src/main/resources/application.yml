@@ -43,11 +43,11 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.maoxian.pojo
+  type-aliases-package: com.maoxian.scheduler.pojo
   configuration:
     map-underscore-to-camel-case: true
 logging:
   level:
     root: info
-    com.maoxian.mapper: debug
+    com.maoxian.scheduler.mapper: debug
 

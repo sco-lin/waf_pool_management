@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.maoxian.mapper.ScheduleRecordMapper">
+<mapper namespace="com.maoxian.scheduler.mapper.ScheduleRecordMapper">
     <resultMap id="scheduleRecordResult" type="scheduleRecord">
         <id column="id" property="id"/>
         <result column="time" property="time"/>
