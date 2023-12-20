@@ -1,13 +1,13 @@
 package com.maoxian.service.impl;
 
 import com.maoxian.config.SchedulerConfig;
-import com.maoxian.exception.BusinessExp;
-import com.maoxian.exception.SystemExp;
-import com.maoxian.mapper.RequestDetailMapper;
-import com.maoxian.mapper.RequestMapper;
+import com.maoxian.exception.BusinessException;
+import com.maoxian.exception.SystemException;
+import com.maoxian.mapper.ScheduleRecordMapper;
+import com.maoxian.mapper.RequestRecordMapper;
 import com.maoxian.mapper.WafMapper;
-import com.maoxian.pojo.Request;
-import com.maoxian.pojo.RequestDetail;
+import com.maoxian.pojo.RequestRecord;
+import com.maoxian.pojo.ScheduleRecord;
 import com.maoxian.pojo.Waf;
 import com.maoxian.service.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,15 @@ import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
-import java.net.URISyntaxException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.*;
 
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 @Service
 public class SchedulerServiceImpl2 implements SchedulerService {
 
@@ -36,10 +38,10 @@ public class SchedulerServiceImpl2 implements SchedulerService {
     private WafMapper wafMapper;
 
     @Autowired
-    private RequestMapper requestMapper;
+    private RequestRecordMapper requestRecordMapper;
 
     @Autowired
-    private RequestDetailMapper requestDetailMapper;
+    private ScheduleRecordMapper scheduleRecordMapper;
 
     @Autowired
     private SchedulerConfig schedulerConfig;
@@ -66,12 +68,12 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         URI url = requestEntity.getUrl();
 
         // 将此次请求存到数据库
-        Request requestRecord = new Request(
-                null, method.name(), method.name(), sourceIp, url.getPath(),
-                0, startTime, null, null
+        RequestRecord requestRecord = new RequestRecord(
+                null, uuid, method.name(), sourceIp, url.getHost(), url.getPath(), schedulerConfig.getSchedulerMode(),
+                0L, Boolean.TRUE, null, null
         );
-        requestMapper.insert(requestRecord);
-        requestRecord = requestMapper.select(uuid);
+        requestRecordMapper.insert(requestRecord);
+        requestRecord = requestRecordMapper.select(uuid);
 
         // 获取此次请求选择的waf
         List<Waf> selectWafs = selectWafs();
@@ -79,7 +81,7 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         HttpHeaders headers = requestEntity.getHeaders();
         String body = requestEntity.getBody();
 
-        boolean isIntercepted = true;
+        boolean pass = true;
 
         // 依次将请求转发到选择的waf
         ResponseEntity<String> response;
@@ -93,13 +95,13 @@ public class SchedulerServiceImpl2 implements SchedulerService {
             long time = System.currentTimeMillis() - startTime2;
 
             // 请求是否被拦截
-            isIntercepted = response.getStatusCode().value() != 200;
+            pass = response.getStatusCode().value() == 200;
 
             //将此次waf处理的记录存储到数据库
-            RequestDetail record = new RequestDetail(null, Boolean.toString(isIntercepted), time, selectWaf.getId(), requestRecord.getId());
-            requestDetailMapper.insert(record);
+            ScheduleRecord record = new ScheduleRecord(null, time, pass, selectWaf.getId(), requestRecord.getId(), null, null);
+            scheduleRecordMapper.insert(record);
 
-            if (isIntercepted) {
+            if (pass) {
                 break;
             }
         }
@@ -107,8 +109,8 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         // 更新数据库中的请求时间和请求状态
         long time = System.currentTimeMillis() - startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         requestRecord.setTime(time);
-        requestRecord.setStatus(Boolean.toString(isIntercepted));
-        requestMapper.update(requestRecord);
+        requestRecord.setPass(pass);
+        requestRecordMapper.update(requestRecord);
 
         // 处理完后，将请求转发到目的地址，并将结果返回
         return restTemplate.exchange(url, method, new HttpEntity<>(body, headers), String.class);
@@ -135,12 +137,12 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         URI url = requestEntity.getUrl();
 
         // 将此次请求存到数据库
-        Request requestRecord = new Request(
-                null, method.name(), method.name(), sourceIp, url.getPath(),
-                1, startTime, null, null
+        RequestRecord requestRecord = new RequestRecord(
+                null, uuid, method.name(), sourceIp, url.getHost(), url.getPath(), schedulerConfig.getSchedulerMode(),
+                0L, Boolean.TRUE, null, null
         );
-        requestMapper.insert(requestRecord);
-        requestRecord = requestMapper.select(uuid);
+        requestRecordMapper.insert(requestRecord);
+        requestRecord = requestRecordMapper.select(uuid);
 
         // 获取此次请求选择的waf
         List<Waf> selectWafs = selectWafs();
@@ -148,16 +150,16 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         HttpHeaders headers = requestEntity.getHeaders();
         String body = requestEntity.getBody();
 
-        boolean isIntercepted = true;
+        boolean pass = true;
 
         // 将请求并行转发到选择的waf
-        // 创建线程池
+        // 创建线程池 TODO 使用ThreadPoolExecutor创建线程池
         ExecutorService executorService = Executors.newFixedThreadPool(NUM_THREADS);
         // 创建任务列表
         List<Callable<Boolean>> tasks = new ArrayList<>();
         for (Waf selectWaf : selectWafs) {
             HttpMethod finalMethod = method;
-            tasks.add(()-> {
+            tasks.add(() -> {
                 long startTime2 = System.currentTimeMillis();
                 ResponseEntity<String> response = restTemplate.exchange(selectWaf + url.getPath(), finalMethod, new HttpEntity<>(body, headers), String.class);
                 return response.getStatusCode().value() == 200;
@@ -169,7 +171,7 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         // 处理任务结果
         for (Future<Boolean> future : futures) {
             if (future.isDone() && !future.isCancelled()) {
-                isIntercepted = future.get();
+                pass = future.get();
             }
 
         }
@@ -179,8 +181,8 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         // 更新数据库中的请求时间和请求状态
         long time = System.currentTimeMillis() - startTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
         requestRecord.setTime(time);
-        requestRecord.setStatus(Boolean.toString(isIntercepted));
-        requestMapper.update(requestRecord);
+        requestRecord.setPass(pass);
+        requestRecordMapper.update(requestRecord);
 
         // 处理完后，将请求转发到目的地址，并将结果返回
         return restTemplate.exchange(url, method, new HttpEntity<>(body, headers), String.class);
@@ -196,11 +198,11 @@ public class SchedulerServiceImpl2 implements SchedulerService {
         List<Waf> unSelectWafList = wafMapper.selectListForStatus(0);
         // waf池小于阈值：抛出错误
         if (unSelectWafList.size() < mode) {
-            throw new BusinessExp("waf数量不足");
+            throw new BusinessException("waf数量不足");
         }
 
         // 随机选择
-        if (mode == 0){
+        if (mode == 0) {
             Random random = new Random();
             for (int i = 0; i < schedulerConfig.getWafThreshold(); i++) {
                 int count = random.nextInt(unSelectWafList.size());
@@ -214,7 +216,7 @@ public class SchedulerServiceImpl2 implements SchedulerService {
             unSelectWafList.sort(Comparator.comparingInt(Waf::getWeight).reversed());
             return unSelectWafList.subList(0, schedulerConfig.getWafThreshold());
         }
-        throw new SystemExp("waf选择模式错误");
+        throw new SystemException("waf选择模式错误");
     }
 
     private Waf randomSelect(List<Waf> unSelectWafList) {
@@ -235,7 +237,7 @@ public class SchedulerServiceImpl2 implements SchedulerService {
             }
         }
         if (unSelectWafList.isEmpty()) {
-            throw new SystemExp("waf数量不足");
+            throw new SystemException("waf数量不足");
         }
         return unSelectWafList;
     }

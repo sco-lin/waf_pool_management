@@ -1,16 +1,20 @@
 package com.maoxian.dto;
 
-import com.maoxian.pojo.RequestDetail;
+import com.maoxian.pojo.ScheduleRecord;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/11/5 9:14
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class RequestDetailDTO {
+public class SchedoleRecordDTO {
     private Integer mode;
-    private List<RequestDetail> request;
+    private List<ScheduleRecord> request;
 }

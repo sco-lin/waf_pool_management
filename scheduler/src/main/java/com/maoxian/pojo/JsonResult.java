@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 
 /**
  * json响应类
+ * @author Lin
+ * @date 2023/12/18 23:35
  */
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @Data

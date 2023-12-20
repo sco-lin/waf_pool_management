@@ -1,9 +1,13 @@
 package com.maoxian.service;
 
-import com.maoxian.dto.RequestDetailDTO;
-import com.maoxian.pojo.Request;
+import com.maoxian.dto.SchedoleRecordDTO;
+import com.maoxian.pojo.RequestRecord;
 import com.maoxian.dto.PageResult;
 
+/**
+ * @author Lin
+ * @date 2023/11/5 9:14
+ */
 public interface RequestService {
 
     /**
@@ -14,7 +18,7 @@ public interface RequestService {
      * @param uuid    模糊查询字段
      * @return 查询结果
      */
-    PageResult<Request> findRequest(Integer pageNum, Integer paeSize, String uuid);
+    PageResult<RequestRecord> findRequest(Integer pageNum, Integer paeSize, String uuid);
 
     /**
      * 通过请求id查询请求数组
@@ -22,5 +26,5 @@ public interface RequestService {
      * @param requestId 请求id
      * @return 请求数组
      */
-    RequestDetailDTO findRequestDetailList(Integer requestId);
+    SchedoleRecordDTO findRequestDetailList(Integer requestId);
 }

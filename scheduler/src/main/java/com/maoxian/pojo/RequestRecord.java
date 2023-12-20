@@ -6,18 +6,24 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Request {
+public class RequestRecord {
 
-    private Integer id;
+    private Long id;
     private String uuid;
     private String method;
-    private String sourceIp;
+    private String srcIp;
+    private String desIp;
     private String url;
     private Integer mode;
-    private LocalDateTime startTime;
     private Long time;
-    private String status;
+    private Boolean pass;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

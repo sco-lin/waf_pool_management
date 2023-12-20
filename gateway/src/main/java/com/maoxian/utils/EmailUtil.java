@@ -14,6 +14,9 @@ import java.util.Map;
 
 /**
  * 邮件工具类
+ *
+ * @author Lin
+ * @date 2023/10/25 23:27
  */
 @Component
 public class EmailUtil {

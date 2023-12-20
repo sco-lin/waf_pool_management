@@ -1,5 +1,9 @@
 package com.maoxian.service;
 
+/**
+ * @author Lin
+ * @date 2023/10/25 23:27
+ */
 public interface EmailService {
 
     /**

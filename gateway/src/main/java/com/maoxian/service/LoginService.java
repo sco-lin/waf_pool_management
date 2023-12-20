@@ -2,6 +2,10 @@ package com.maoxian.service;
 
 import com.maoxian.dto.LoginInfoDTO;
 
+/**
+ * @author Lin
+ * @date 2023/9/21 15:30
+ */
 public interface LoginService {
 
     /**

@@ -1,6 +1,6 @@
 package com.maoxian.service.impl;
 
-import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.exceprion.BusinessException;
 import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.UserMapper;
 import com.maoxian.pojo.User;
@@ -14,6 +14,9 @@ import java.util.List;
 
 /**
  * 加载用户详细信息，权限信息
+ *
+ * @author Lin
+ * @date 2023/9/21 15:30
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
@@ -32,13 +35,13 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         //查询用户信息
         User user = userMapper.selectByUsername(username);
         if (user == null) {
-            throw new BusinessExp("用户不存在");
+            throw new BusinessException("用户不存在");
         }
 
         //查询用户权限信息
         List<String> list = permMapper.selectByUserId(user.getId());
         if (list.isEmpty()) {
-            throw new BusinessExp("查询权限失败");
+            throw new BusinessException("查询权限失败");
         }
 
         //把数据封装成UserDetails返回

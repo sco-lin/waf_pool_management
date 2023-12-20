@@ -1,13 +1,12 @@
 package com.maoxian.service.impl;
 
 import com.maoxian.config.SchedulerConfig;
-import com.maoxian.exception.SystemExp;
+import com.maoxian.exception.SystemException;
 import com.maoxian.mapper.WafMapper;
 import com.maoxian.pojo.Waf;
 import com.maoxian.service.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,7 +15,10 @@ import java.net.URISyntaxException;
 import java.util.*;
 import java.util.concurrent.*;
 
-
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 public class SchedulerServiceImpl implements SchedulerService {
 
     private static final int NUM_THREADS = 10;
@@ -53,7 +55,7 @@ public class SchedulerServiceImpl implements SchedulerService {
         // 获取转发地址
         List<Waf> wafList = requestPool.get(requestUuid);
         if (wafList == null) {
-            throw new SystemExp("请求找不到");
+            throw new SystemException("请求找不到");
         }
         int wafNum = wafList.size();
 
@@ -73,7 +75,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             // 从waf列表中请求一个waf
             Waf selectedWaf = selectOneWaf(wafList);
             try {
-                newUrl = new URI(selectedWaf.getUrl());
+                newUrl = new URI(selectedWaf.getIp());
             } catch (URISyntaxException e) {
                 throw new RuntimeException("URI解析错误");
             }
@@ -129,7 +131,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             int finalIndex = i;
             HttpMethod finalMethod = method;
             HttpEntity<String> finalEntity = entity;
-            tasks.add(() -> restTemplate.exchange(wafs.get(finalIndex).getUrl(), finalMethod, finalEntity, String.class));
+            tasks.add(() -> restTemplate.exchange(wafs.get(finalIndex).getIp(), finalMethod, finalEntity, String.class));
         }
 
         List<Future<ResponseEntity<String>>> futures = executorService.invokeAll(tasks, TIMEOUT_SECONDS, TimeUnit.SECONDS);
@@ -227,7 +229,7 @@ public class SchedulerServiceImpl implements SchedulerService {
             }
         }
         if (unSelectWafList.isEmpty()) {
-            throw new SystemExp("waf数量不足");
+            throw new SystemException("waf数量不足");
         }
         return unSelectWafList;
     }

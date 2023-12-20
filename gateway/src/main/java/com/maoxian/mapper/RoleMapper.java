@@ -5,6 +5,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/10/5 13:28
+ */
 @Mapper
 public interface RoleMapper {
 

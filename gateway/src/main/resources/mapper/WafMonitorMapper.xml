@@ -2,24 +2,30 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.maoxian.mapper.WafStatusMapper">
+<mapper namespace="com.maoxian.mapper.WafMonitorMapper">
+    <resultMap id="wafMonitorResult" type="wafMonitor">
+        <id column="id" property="id"/>
+        <result column="cpu" property="cpu"/>
+        <result column="memory" property="memory"/>
+        <result column="waf_id" property="wafId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
     <insert id="insert">
-        insert into waf_status
+        insert into waf_monitor
         <trim prefix="(" suffix=")" suffixOverrides=",">
             <if test="cpu != null">cpu,</if>
             <if test="memory != null">memory,</if>
-            <if test="start_time != null">start_time,</if>
-            <if test="up_time != null">up_time</if>
+            <if test="waf_id != null">waf_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="cpu != null">#{cpu},</if>
             <if test="memory != null">#{memory},</if>
-            <if test="start_time != null">#{startTime},</if>
-            <if test="up_time != null">#{upTime}</if>
+            <if test="waf_id != null">#{wafId},</if>
         </trim>
     </insert>
     <update id="update">
-        update waf_status
+        update waf_monitor
         <set>
             <if test="cpu != null">cpu = #{cpu},</if>
             <if test="memory != null">memory = #{memory},</if>
@@ -30,14 +36,14 @@
     </update>
     <delete id="deleteById">
         delete
-        from waf_status
+        from waf_monitor
         where id = #{id}
 
     </delete>
 
-    <select id="selectByWafId" resultType="WafStatus">
-        select id, cpu, memory, start_time, up_time, waf_id
-        from waf_status
+    <select id="selectByWafId" resultType="WafMonitor">
+        select id, cpu, memory, waf_id, create_time, update_time
+        from waf_monitor
         where waf_id = #{wafId}
     </select>
 </mapper>

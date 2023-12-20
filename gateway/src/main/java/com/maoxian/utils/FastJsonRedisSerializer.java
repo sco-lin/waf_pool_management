@@ -13,7 +13,10 @@ import java.nio.charset.StandardCharsets;
 
 /**
  * Redis使用FastJson序列化
+ *
  * @param <T>
+ * @author Lin
+ * @date 2023/9/21 15:30
  */
 public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
@@ -28,14 +31,14 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
         ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
     }
 
-    public FastJsonRedisSerializer(Class<T> clazz){
+    public FastJsonRedisSerializer(Class<T> clazz) {
         super();
         this.clazz = clazz;
     }
 
     @Override
     public byte[] serialize(T t) throws SerializationException {
-        if (t == null){
+        if (t == null) {
             return new byte[0];
         }
         return JSON.toJSONString(t, SerializerFeature.WriteClassName).getBytes(DEFAULT_CHARSET);
@@ -43,14 +46,14 @@ public class FastJsonRedisSerializer<T> implements RedisSerializer<T> {
 
     @Override
     public T deserialize(byte[] bytes) throws SerializationException {
-        if (bytes == null || bytes.length == 0){
+        if (bytes == null || bytes.length == 0) {
             return null;
         }
-        String str = new String(bytes,DEFAULT_CHARSET);
-        return JSON.parseObject(str,clazz);
+        String str = new String(bytes, DEFAULT_CHARSET);
+        return JSON.parseObject(str, clazz);
     }
 
-    protected JavaType getJavaType(Class<T> clazz){
+    protected JavaType getJavaType(Class<T> clazz) {
         return TypeFactory.defaultInstance().constructType(clazz);
     }
 }

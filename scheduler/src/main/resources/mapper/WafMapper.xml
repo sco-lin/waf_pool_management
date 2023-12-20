@@ -3,73 +3,86 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.maoxian.mapper.WafMapper">
+    <resultMap id="wafResult" type="waf">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="ip" property="ip"/>
+        <result column="port" property="port"/>
+        <result column="config_url" property="configUrl"/>
+        <result column="is_online" property="online"/>
+        <result column="weight" property="weight"/>
+        <result column="description" property="description"/>
+        <result column="image_id" property="imageId"/>
+        <result column="container_id" property="containerId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
     <update id="update">
-        update waf
+        update waf_info
         <set>
             <if test="name != null">name = #{name},</if>
-            <if test="containerId != null">container_id = #{containerId},</if>
             <if test="ip != null">ip = #{ip},</if>
             <if test="port != null">port = #{port},</if>
             <if test="configUrl != null">config_url = #{configUrl},</if>
-            <if test="status != null">status = #{status},</if>
+            <if test="online != null">is_online = #{online},</if>
+            <if test="weight != null">weight = #{weight},</if>
             <if test="description != null">description = #{description}</if>
+            <if test="imageId != null">image_id = #{imageId},</if>
+            <if test="containerId != null">container_id = #{containerId},</if>
         </set>
         where id = #{id}
     </update>
     <delete id="deleteById">
         delete
-        from waf
+        from waf_info
         where id = #{id}
     </delete>
     <insert id="insert">
-        insert into waf
+        insert into waf_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="containerId != null">container_id,</if>
             <if test="name != null">name,</if>
             <if test="ip != null">ip,</if>
             <if test="port != null">port,</if>
             <if test="configUrl != null">config_url,</if>
-            <if test="status != null">status,</if>
+            <if test="online != null">is_online,</if>
+            <if test="weight != null">weight,</if>
             <if test="description != null">description</if>
+            <if test="imageId != null">image_id,</if>
+            <if test="containerId != null">container_id,</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="containerId != null">#{containerId},</if>
             <if test="name != null">#{name},</if>
             <if test="ip != null">#{ip},</if>
             <if test="port != null">#{port},</if>
             <if test="configUrl != null">#{configUrl},</if>
-            <if test="status != null">#{status},</if>
+            <if test="online != null">#{online},</if>
+            <if test="weight != null">#{weight},</if>
             <if test="description != null">#{description}</if>
+            <if test="imageId != null">#{imageId},</if>
+            <if test="containerId != null">#{containerId},</if>
         </trim>
     </insert>
-    <select id="selectById" resultType="Waf">
-        select id,container_id, name, ip, port, config_url, status, description
-        from waf
+    <select id="selectById" resultMap="wafResult">
+        select id, name, ip, port, config_url, is_online, weight, description, image_id, container_id, create_time, update_time
+        from waf_info
         where id = #{id}
     </select>
-    <select id="selectList" resultType="Waf">
-        select id,container_id, name, ip, port, config_url, status, description
-        from waf
+    <select id="selectList" resultMap="wafResult">
+        select id, name, ip, port, config_url, is_online, weight, description, image_id, container_id, create_time, update_time
+        from waf_info
     </select>
     <select id="count" resultType="Integer">
-        select count(id)
-        from waf
+        select count(*)
+        from waf_info
     </select>
     <select id="countForStatus" resultType="Integer">
         select count(id)
-        from waf
-        where status = #{status}
+        from waf_info
+        where is_online = #{online}
     </select>
-    <select id="selectListForStatus" resultType="Waf">
-        select id,
-               container_id,
-               name,
-               ip,
-               port,
-               config_url,
-               status,
-               description
-        from waf
-        where status = #{status}
+    <select id="selectListForStatus" resultMap="wafResult">
+        select id, name, ip, port, config_url, is_online, weight, description, image_id, container_id, create_time, update_time
+        from waf_info
+        where is_online = #{online}
     </select>
 </mapper>

@@ -2,9 +2,11 @@ package com.maoxian.docker;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.model.Info;
-import org.springframework.stereotype.Component;
 
-
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 public class DockerImages {
     DockerUtils dockerUtils;
 

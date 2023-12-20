@@ -9,6 +9,8 @@ import java.util.List;
 /**
  * 分页查询结果类
  * @param <T>
+ * @author Lin
+ * @date 2023/10/5 13:28
  */
 @Data
 @NoArgsConstructor

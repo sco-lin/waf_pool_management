@@ -1,12 +1,16 @@
 package com.maoxian.controller;
 
 import com.maoxian.dto.LoginDTO;
-import com.maoxian.exceprion.RequestExp;
+import com.maoxian.exceprion.RequestException;
 import com.maoxian.service.LoginService;
 import com.maoxian.dto.LoginInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Lin
+ * @date 2023/9/21 15:30
+ */
 @RestController
 public class LoginController {
 
@@ -26,13 +30,13 @@ public class LoginController {
         String verifyCode = loginDTO.getVerifyCode();
 
         if (username == null || username.isEmpty()) {
-            throw new RequestExp("用户名不能为空");
+            throw new RequestException("用户名不能为空");
         }
         if (password == null || password.isEmpty()) {
-            throw new RequestExp("密码不能为空");
+            throw new RequestException("密码不能为空");
         }
         if (verifyCode == null || verifyCode.isEmpty()) {
-            throw new RequestExp("验证码不能为空");
+            throw new RequestException("验证码不能为空");
         }
         return loginService.login(username, password, verifyCode);
     }

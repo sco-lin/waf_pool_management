@@ -7,6 +7,10 @@ import org.modelmapper.PropertyMap;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+/**
+ * @author Lin
+ * @date 2023/11/5 9:14
+ */
 @Configuration
 public class MappingConfig {
     // 模型映射器

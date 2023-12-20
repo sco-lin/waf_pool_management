@@ -1,5 +1,9 @@
 package com.maoxian.service;
 
+/**
+ * @author Lin
+ * @date 2023/12/18 23:35
+ */
 public interface WafService {
 
     /**

@@ -4,6 +4,9 @@ import lombok.Getter;
 
 /**
  * HTTP状态返回枚举
+ *
+ * @author Lin
+ * @date 2023/11/23 14:30
  */
 @Getter
 public enum HttpStatusEnum {

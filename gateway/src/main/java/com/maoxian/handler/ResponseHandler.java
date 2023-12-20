@@ -14,6 +14,8 @@ import java.util.Objects;
 
 /**
  * 全局响应处理器
+ * @author Lin
+ * @date 2023/10/12 11:47
  */
 @RestControllerAdvice
 public class ResponseHandler implements ResponseBodyAdvice<Object> {

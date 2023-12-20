@@ -14,6 +14,9 @@ import java.util.stream.Collectors;
 
 /**
  * 用户登录信息和权限
+ *
+ * @author Lin
+ * @date 2023/9/21 15:30
  */
 @Data
 @NoArgsConstructor

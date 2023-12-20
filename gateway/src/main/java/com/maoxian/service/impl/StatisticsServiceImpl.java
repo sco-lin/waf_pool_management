@@ -1,9 +1,9 @@
 package com.maoxian.service.impl;
 
 import com.maoxian.dto.RequestStatusDTO;
-import com.maoxian.dto.WafIPDTO;
+import com.maoxian.dto.WafIpDTO;
 import com.maoxian.dto.WafPoolDTO;
-import com.maoxian.mapper.RequestMapper;
+import com.maoxian.mapper.RequestRecordMapper;
 import com.maoxian.mapper.WafMapper;
 import com.maoxian.pojo.Waf;
 import com.maoxian.service.StatisticsService;
@@ -15,6 +15,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * @author Lin
+ * @date 2023/11/23 14:30
+ */
 @Service
 public class StatisticsServiceImpl implements StatisticsService {
 
@@ -22,7 +26,7 @@ public class StatisticsServiceImpl implements StatisticsService {
     private WafMapper wafMapper;
 
     @Autowired
-    private RequestMapper requestMapper;
+    private RequestRecordMapper requestMapper;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -61,8 +65,8 @@ public class StatisticsServiceImpl implements StatisticsService {
     }
 
     @Override
-    public List<WafIPDTO> getWafIP() {
+    public List<WafIpDTO> getWafIp() {
         List<Waf> wafs = wafMapper.selectList();
-        return wafs.stream().map(waf -> modelMapper.map(waf, WafIPDTO.class)).collect(Collectors.toList());
+        return wafs.stream().map(waf -> modelMapper.map(waf, WafIpDTO.class)).collect(Collectors.toList());
     }
 }

@@ -1,6 +1,6 @@
 package com.maoxian.service.impl;
 
-import com.maoxian.exception.BusinessExp;
+import com.maoxian.exception.BusinessException;
 import com.maoxian.mapper.WafMapper;
 import com.maoxian.pojo.Waf;
 import com.maoxian.service.DockerService;
@@ -8,6 +8,10 @@ import com.maoxian.service.WafService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+/**
+ * @author Lin
+ * @date 2023/12/18 23:35
+ */
 @Service
 public class WafServiceImpl implements WafService {
 
@@ -22,12 +26,12 @@ public class WafServiceImpl implements WafService {
         // 查询waf
         Waf waf = wafMapper.selectById(id);
         if (waf == null) {
-            throw new BusinessExp("waf不存在");
+            throw new BusinessException("waf不存在");
         }
         String containerId = waf.getContainerId();
         Boolean online = dockerService.startContainer(containerId);
         if (!online) {
-            throw new BusinessExp("waf上线失败");
+            throw new BusinessException("waf上线失败");
         }
     }
 
@@ -36,12 +40,12 @@ public class WafServiceImpl implements WafService {
         // 查询waf
         Waf waf = wafMapper.selectById(id);
         if (waf == null) {
-            throw new BusinessExp("waf不存在");
+            throw new BusinessException("waf不存在");
         }
         String containerId = waf.getContainerId();
         Boolean offline = dockerService.stopContainer(containerId);
         if (!offline) {
-            throw new BusinessExp("waf下线失败");
+            throw new BusinessException("waf下线失败");
         }
     }
 }

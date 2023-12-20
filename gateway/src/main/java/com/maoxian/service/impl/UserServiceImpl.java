@@ -2,7 +2,7 @@ package com.maoxian.service.impl;
 
 import com.maoxian.dto.UserPasswordDTO;
 import com.maoxian.dto.UserInfoDTO;
-import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.exceprion.BusinessException;
 import com.maoxian.mapper.PermMapper;
 import com.maoxian.mapper.RoleMapper;
 import com.maoxian.mapper.UserMapper;
@@ -21,6 +21,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/10/5 13:28
+ */
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -77,17 +81,17 @@ public class UserServiceImpl implements UserService {
             users = userMapper.selectList(start, pageSize, username, email);
         }
         if (users.isEmpty()) {
-            throw new BusinessExp("查询用户失败");
+            throw new BusinessException("查询用户失败");
         }
 
         for (User user : users) {
             roles = roleMapper.selectByUserId(user.getId());
             if (roles.isEmpty()) {
-                throw new BusinessExp("查询角色失败");
+                throw new BusinessException("查询角色失败");
             }
             permissions = permMapper.selectByUserId(user.getId());
             if (permissions.isEmpty()) {
-                throw new BusinessExp("查询权限失败");
+                throw new BusinessException("查询权限失败");
             }
             UserInfoDTO userInfoDTO = new UserInfoDTO(user.getId(), user.getUsername(), user.getEmail(), user.getStatus(), roles, permissions);
             userInfoDTOS.add(userInfoDTO);
@@ -100,13 +104,13 @@ public class UserServiceImpl implements UserService {
     public void addUser(User user) {
         User userByUsername = userMapper.selectByUsername(user.getUsername());
         if (userByUsername != null) {
-            throw new BusinessExp("用户名已存在");
+            throw new BusinessException("用户名已存在");
         }
         //密码加密
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         int count = userMapper.insert(user);
         if (count == 0) {
-            throw new BusinessExp("增加用户失败");
+            throw new BusinessException("增加用户失败");
         }
     }
 
@@ -116,7 +120,7 @@ public class UserServiceImpl implements UserService {
             User user = modelMapper.map(userBaseInfoDTO, User.class);
             int count = userMapper.update(user);
             if (count == 0) {
-                throw new BusinessExp("更新失败");
+                throw new BusinessException("更新失败");
             }
         }
     }
@@ -137,13 +141,13 @@ public class UserServiceImpl implements UserService {
         }
 
         if (user == null) {
-            throw new BusinessExp("查询用户失败");
+            throw new BusinessException("查询用户失败");
         }
 
         //验证码校验
         String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
         if (code != null && !verifyCode.equals(code)) {
-            throw new BusinessExp("验证码错误");
+            throw new BusinessException("验证码错误");
         }
 
         // 设置密码
@@ -152,7 +156,7 @@ public class UserServiceImpl implements UserService {
 
         int count = userMapper.update(updateUser);
         if (count == 0) {
-            throw new BusinessExp("更新失败");
+            throw new BusinessException("更新失败");
         }
     }
 
@@ -160,7 +164,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUserById(Integer id) {
         int count = userMapper.deleteById(id);
         if (count == 0) {
-            throw new BusinessExp("删除用户失败");
+            throw new BusinessException("删除用户失败");
         }
     }
 
@@ -178,11 +182,11 @@ public class UserServiceImpl implements UserService {
             //查询指定用户信息
             user = userMapper.selectById(userId);
             if (user == null) {
-                throw new BusinessExp("查询用户失败");
+                throw new BusinessException("查询用户失败");
             }
             permissions = permMapper.selectByUserId(userId);
             if (permissions.isEmpty()) {
-                throw new BusinessExp("查询用户失败");
+                throw new BusinessException("查询用户失败");
             }
         }
         Integer id = user.getId();
@@ -191,7 +195,7 @@ public class UserServiceImpl implements UserService {
         String status = user.getStatus();
         List<String> roles = roleMapper.selectByUserId(id);
         if (roles.isEmpty()) {
-            throw new BusinessExp("查询角色失败");
+            throw new BusinessException("查询角色失败");
         }
 
         return new UserInfoDTO(id, username, email, status, roles, permissions);

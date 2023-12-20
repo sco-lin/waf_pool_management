@@ -10,6 +10,10 @@ import org.springframework.stereotype.Component;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Lin
+ * @date 2023/9/21 15:30
+ */
 @Component
 @SuppressWarnings(value = {"unchecked", "rawtypes"})
 public class RedisCache {

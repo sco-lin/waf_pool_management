@@ -1,12 +1,16 @@
 package com.maoxian.controller;
 
-import com.maoxian.dto.RequestDetailDTO;
-import com.maoxian.pojo.Request;
+import com.maoxian.dto.SchedoleRecordDTO;
+import com.maoxian.pojo.RequestRecord;
 import com.maoxian.service.RequestService;
 import com.maoxian.dto.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * @author Lin
+ * @date 2023/11/5 9:14
+ */
 @RestController
 @RequestMapping("request")
 public class RequestController {
@@ -23,7 +27,7 @@ public class RequestController {
      * @return 查询结果
      */
     @GetMapping
-    public PageResult<Request> getRequest(@RequestParam(defaultValue = "1") Integer pageNum,
+    public PageResult<RequestRecord> getRequest(@RequestParam(defaultValue = "1") Integer pageNum,
                                           @RequestParam(defaultValue = "5") Integer pageSize,
                                           @RequestParam(defaultValue = "") String uuid) {
         return requestService.findRequest(pageNum, pageSize, uuid);
@@ -36,7 +40,7 @@ public class RequestController {
      * @return 请求数组
      */
     @GetMapping("detail/{requestId}")
-    public RequestDetailDTO getRequestDetail(@PathVariable Integer requestId) {
+    public SchedoleRecordDTO getRequestDetail(@PathVariable Integer requestId) {
         return requestService.findRequestDetailList(requestId);
     }
 }

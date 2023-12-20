@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * 权限不足处理
+ *
+ * @author Lin
+ * @date 2023/9/21 15:30
  */
 @Component
 public class AccessDeniedHandlerImpl implements AccessDeniedHandler {

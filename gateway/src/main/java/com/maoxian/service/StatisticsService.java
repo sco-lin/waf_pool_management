@@ -1,11 +1,15 @@
 package com.maoxian.service;
 
 import com.maoxian.dto.RequestStatusDTO;
-import com.maoxian.dto.WafIPDTO;
+import com.maoxian.dto.WafIpDTO;
 import com.maoxian.dto.WafPoolDTO;
 
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/11/23 14:30
+ */
 public interface StatisticsService {
     /**
      * 获取waf的上线情况
@@ -33,5 +37,5 @@ public interface StatisticsService {
      *
      * @return waf信息
      */
-    List<WafIPDTO> getWafIP();
+    List<WafIpDTO> getWafIp();
 }

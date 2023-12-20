@@ -7,6 +7,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+/**
+ * @author Lin
+ * @date 2023/12/18 23:35
+ */
 @RestController
 @RequestMapping("waf")
 public class WafController {

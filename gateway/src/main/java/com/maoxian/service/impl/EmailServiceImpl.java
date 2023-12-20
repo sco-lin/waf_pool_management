@@ -1,6 +1,6 @@
 package com.maoxian.service.impl;
 
-import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.exceprion.BusinessException;
 import com.maoxian.mapper.UserMapper;
 import com.maoxian.pojo.User;
 import com.maoxian.service.EmailService;
@@ -15,6 +15,10 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * @author Lin
+ * @date 2023/10/25 23:27
+ */
 @Service
 public class EmailServiceImpl implements EmailService {
 
@@ -66,23 +70,23 @@ public class EmailServiceImpl implements EmailService {
         // 通过email查询用户
         User user = userMapper.selectByEmail(email);
         if (user == null) {
-            throw new BusinessExp("用户不存在");
+            throw new BusinessException("用户不存在");
         }
         if (user.getStatus().equals("0")) {
-            throw new BusinessExp("账户为已激活状态");
+            throw new BusinessException("账户为已激活状态");
         }
 
         // 从redis中获取激活邮件的key
         String jwt = redisCache.getCacheObject("activate:" + email);
         if (!key.equals(jwt)) {
-            throw new BusinessExp("密钥错误");
+            throw new BusinessException("密钥错误");
         }
 
         // 设置用户的status=0，为激活状态
         user.setStatus("0");
         int count = userMapper.update(user);
         if (count < 1) {
-            throw new BusinessExp("激活失败");
+            throw new BusinessException("激活失败");
         }
     }
 }

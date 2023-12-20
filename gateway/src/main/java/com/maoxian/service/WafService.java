@@ -1,10 +1,14 @@
 package com.maoxian.service;
 
 import com.maoxian.pojo.Waf;
-import com.maoxian.pojo.WafStatus;
+import com.maoxian.pojo.WafMonitor;
 
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/10/11 3:14
+ */
 public interface WafService {
 
     /**
@@ -16,10 +20,11 @@ public interface WafService {
 
     /**
      * 查询waf的状态信息
+     *
      * @param wafId wafId
      * @return 查询结果
      */
-    WafStatus findWafStatusById(Integer wafId);
+    WafMonitor findWafStatusById(Integer wafId);
 
     /**
      * 通过id查询waf

@@ -3,6 +3,10 @@ package com.maoxian;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+/**
+ * @author Lin
+ * @date 2023/12/15 11:55
+ */
 @SpringBootApplication
 public class SchedulerApplication {
 

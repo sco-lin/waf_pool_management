@@ -1,11 +1,15 @@
 package com.maoxian.mapper;
 
-import com.maoxian.pojo.WafStatus;
+import com.maoxian.pojo.WafMonitor;
 import org.apache.ibatis.annotations.Mapper;
 
 
+/**
+ * @author Lin
+ * @date 2023/11/10 12:42
+ */
 @Mapper
-public interface WafStatusMapper {
+public interface WafMonitorMapper {
 
     /**
      * 通过id查询waf
@@ -13,21 +17,21 @@ public interface WafStatusMapper {
      * @param wafId 查询条件
      * @return waf信息
      */
-    WafStatus selectByWafId(Integer wafId);
+    WafMonitor selectByWafId(Integer wafId);
 
     /**
      * 增加waf状态
      *
      * @param wafStatus waf状态信息
      */
-    int insert(WafStatus wafStatus);
+    int insert(WafMonitor wafStatus);
 
     /**
      * 更新waf
      *
      * @param wafStatus waf状态信息
      */
-    int update(WafStatus wafStatus);
+    int update(WafMonitor wafStatus);
 
     /**
      * 通过id删除waf

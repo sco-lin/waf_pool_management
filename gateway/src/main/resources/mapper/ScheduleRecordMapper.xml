@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.ScheduleRecordMapper">
+    <resultMap id="scheduleRecordResult" type="scheduleRecord">
+        <id column="id" property="id"/>
+        <result column="time" property="time"/>
+        <result column="is_pass" property="pass"/>
+        <result column="waf_id" property="wafId"/>
+        <result column="request_id" property="requestId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <insert id="insert">
+        insert into schedule_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="time != null">time,</if>
+            <if test="pass != null">is_pass,</if>
+            <if test="wafId != null">waf_id,</if>
+            <if test="requestId != null">request_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="time != null">#{time},</if>
+            <if test="pass != null">#{pass},</if>
+            <if test="wafId != null">#{wafID},</if>
+            <if test="requestId != null">#{requestId},</if>
+        </trim>
+    </insert>
+    <select id="selectList" resultMap="scheduleRecordResult">
+        select id, time, is_pass, waf_id, request_id, create_time, update_time
+        from schedule_record
+        where request_id = #{requestId}
+    </select>
+</mapper>

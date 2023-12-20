@@ -1,7 +1,7 @@
 package com.maoxian.service.impl;
 
 import com.maoxian.dto.UserInfoDTO;
-import com.maoxian.exceprion.BusinessExp;
+import com.maoxian.exceprion.BusinessException;
 import com.maoxian.mapper.RoleMapper;
 import com.maoxian.pojo.User;
 import com.maoxian.service.LoginService;
@@ -17,6 +17,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/9/21 15:30
+ */
 @Service
 public class LoginServiceImpl implements LoginService {
 
@@ -45,7 +49,7 @@ public class LoginServiceImpl implements LoginService {
 //        //验证码校验
 //        String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
 //        if (!verifyCode.equals(code)) {
-//            throw new BusinessExp("验证码错误");
+//            throw new BusinessException("验证码错误");
 //        }
 
         //认证成功：使用user_id生成jwt
@@ -58,7 +62,7 @@ public class LoginServiceImpl implements LoginService {
         //查询用户角色信息
         List<String> roles = roleMapper.selectByUserId(userId);
         if (roles.isEmpty()) {
-            throw new BusinessExp("查询角色失败");
+            throw new BusinessException("查询角色失败");
         }
 
         //返回数据

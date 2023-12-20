@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.maoxian.mapper.RequestRecordMapper">
+    <resultMap id="requestRecordResult" type="requestRecord">
+        <id column="id" property="id"/>
+        <result column="uuid" property="uuid"/>
+        <result column="method" property="method"/>
+        <result column="src_ip" property="srcIp"/>
+        <result column="des_ip" property="desIp"/>
+        <result column="url" property="url"/>
+        <result column="mode" property="mode"/>
+        <result column="time" property="time"/>
+        <result column="is_pass" property="pass"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <insert id="insert">
+        insert into request_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">uuid,</if>
+            <if test="method != null">method,</if>
+            <if test="srcIp != null">src_ip,</if>
+            <if test="desIp != null">des_ip,</if>
+            <if test="url != null">url,</if>
+            <if test="mode != null">mode,</if>
+            <if test="time != null">time</if>
+            <if test="pass != null">is_pass</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="uuid != null">#{uuid},</if>
+            <if test="method != null">#{method},</if>
+            <if test="srcIp != null">#{srcIp},</if>
+            <if test="desIp != null">#{desIp},</if>
+            <if test="url != null">#{url},</if>
+            <if test="mode != null">#{mode},</if>
+            <if test="time != null">#{time}</if>
+            <if test="pass != null">#{pass}</if>
+        </trim>
+    </insert>
+    <update id="update">
+        update request_record
+        <set>
+            <if test="uuid != null">uuid = #{uuid},</if>
+            <if test="method != null">method = #{method},</if>
+            <if test="srcIp != null">src_ip = #{srcIp},</if>
+            <if test="desIp != null">des_ip = #{desIp},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="mode != null">mode = #{mode},</if>
+            <if test="time != null">time = #{time}</if>
+            <if test="pass != null">is_pass = #{pass}</if>
+        </set>
+        where id = #{id}
+    </update>
+    <select id="count" resultType="Integer">
+        select count(*)
+        from request_record
+        <where>
+            <if test="uuid != null and uuid != ''">
+                uuid like #{uuid}
+            </if>
+        </where>
+    </select>
+    <select id="selectList" resultMap="requestRecordResult">
+        select id, uuid, method, src_ip, des_ip, url, mode, time, is_pass, create_time, update_time
+        from request_record
+        <where>
+            <if test="uuid != null and uuid !=''">
+                uuid like #{uuid}
+            </if>
+        </where>
+        limit #{start}, #{pageSize}
+    </select>
+    <select id="selectRequestTimeAfterTargetTime" resultType="Integer">
+        select time
+        from request_record
+        where create_time > #{targetTime}
+    </select>
+    <select id="countForStatus" resultType="Integer">
+        select count(*)
+        from request_record
+        where is_pass = #{pass}
+    </select>
+    <select id="selectModeById" resultType="Integer">
+        select mode
+        from request_record
+        where id = #{id}
+    </select>
+    <select id="select" resultMap="requestRecordResult">
+        select id, uuid, method, src_ip, des_ip, url, mode, time, is_pass, create_time, update_time
+        from request_record
+        where uuid = #{uuid}
+    </select>
+</mapper>

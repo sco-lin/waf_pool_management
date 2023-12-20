@@ -12,13 +12,16 @@ import lombok.extern.slf4j.Slf4j;
 import org.bouncycastle.util.Strings;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.io.File;
 import java.io.InputStream;
 import java.nio.file.Files;
 
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 @Slf4j
 @PropertySource("classpath:docker.properties")
 public class DockerUtils {

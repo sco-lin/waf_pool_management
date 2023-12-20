@@ -7,8 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest
 class WafMapperTest {
 
@@ -17,6 +15,12 @@ class WafMapperTest {
     @Test
     void selectListForStatus() {
         List<Waf> wafs = wafMapper.selectListForStatus(0);
+        System.out.println(wafs);
+    }
+
+    @Test
+    void selectList() {
+        List<Waf> wafs = wafMapper.selectList();
         System.out.println(wafs);
     }
 }

@@ -1,8 +1,8 @@
 package com.maoxian.handler;
 
 import com.maoxian.enums.HttpStatusEnum;
-import com.maoxian.exceprion.BusinessExp;
-import com.maoxian.exceprion.RequestExp;
+import com.maoxian.exceprion.BusinessException;
+import com.maoxian.exceprion.RequestException;
 import com.maoxian.utils.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -15,6 +15,9 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 
 /**
  * 统一异常处理
+ *
+ * @author Lin
+ * @date 2023/10/5 13:28
  */
 @RestControllerAdvice
 @Slf4j
@@ -26,8 +29,8 @@ public class CommonExpHandler {
      * @param e 错误
      * @return 响应类
      */
-    @ExceptionHandler(BusinessExp.class)
-    public JsonResult handler(BusinessExp e) {
+    @ExceptionHandler(BusinessException.class)
+    public JsonResult handler(BusinessException e) {
         log.error(e.getMessage());
         return JsonResult.fail(e.getMessage());
     }
@@ -38,8 +41,8 @@ public class CommonExpHandler {
      * @param e 错误
      * @return 响应类
      */
-    @ExceptionHandler(RequestExp.class)
-    public JsonResult handler(RequestExp e) {
+    @ExceptionHandler(RequestException.class)
+    public JsonResult handler(RequestException e) {
         log.error(e.getMessage());
         return JsonResult.fail(HttpStatusEnum.BAD_REQUEST);
     }

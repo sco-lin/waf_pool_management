@@ -1,7 +1,7 @@
 package com.maoxian.controller;
 
 import com.maoxian.config.SchedulerConfig;
-import com.maoxian.exception.SystemExp;
+import com.maoxian.exception.SystemException;
 import com.maoxian.service.SchedulerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
@@ -12,6 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.ExecutionException;
 
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 @Controller
 public class SchedulerController {
 
@@ -30,7 +34,7 @@ public class SchedulerController {
         } else if (schedulerConfig.getSchedulerMode() == 1) {
             response = schedulerService.parallelForward(request, requestEntity);
         } else {
-            throw new SystemExp("schedule.mode配置的参数无效");
+            throw new SystemException("schedule.mode配置的参数无效");
         }
         return response;
     }

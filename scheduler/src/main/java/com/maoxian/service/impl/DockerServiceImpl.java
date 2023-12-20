@@ -6,7 +6,7 @@ import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Frame;
 import com.github.dockerjava.api.model.Image;
-import com.github.dockerjava.core.command.LogContainerResultCallback;
+import com.maoxian.mapper.ImageMapper;
 import com.maoxian.service.DockerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +17,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 @Service
 @Slf4j
 public class DockerServiceImpl implements DockerService {
 
     @Autowired
     private DockerClient dockerClient;
+
+    @Autowired
+    private ImageMapper imageMapper;
 
     @Override
     public List<Container> listContainer(Boolean showAll) {
@@ -118,7 +126,8 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public List<Image> images() {
-        return null;
+        ListImagesCmd listImagesCmd = dockerClient.listImagesCmd();
+        return listImagesCmd.exec();
     }
 
     @Override
@@ -130,7 +139,22 @@ public class DockerServiceImpl implements DockerService {
 
     @Override
     public Boolean importImage(InputStream tarInputStream) {
+        List<Image> beforeImages = images();
         dockerClient.loadImageCmd(tarInputStream).exec();
+        List<Image> afterImages = images();
+
+        List<String> beforeImageIds = beforeImages.stream().map(Image::getId).collect(Collectors.toList());
+
+        for (Image afterImage : afterImages) {
+            if (!beforeImageIds.contains(afterImage.getId())){
+                String[] split = afterImage.getRepoTags()[0].split(":");
+                com.maoxian.pojo.Image newImage = new com.maoxian.pojo.Image(null,split[0],split[1],afterImage.getId().split(":")[1],null,null);
+                // 存入数据库
+                imageMapper.insert(newImage);
+            }
+        }
+
+
         return Boolean.TRUE;
     }
 

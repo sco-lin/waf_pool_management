@@ -4,22 +4,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Waf {
 
-    private Integer id;
+    private Long id;
     private String name;
     private String ip;
     private Integer port;
     private String configUrl;
-    private String status;
-    private String description;
-    // TODO docker中的容器id 数据库中未添加
-    private String containerId;
-    // TODO 权重 数据库中未添加
+    private Boolean online;
     private Integer weight;
-    // TODO url 数据库中未添加
-    private String Url;
+    private String description;
+    private Long imageId;
+    private String containerId;
+    private LocalDateTime createTime;
+    private LocalDateTime updateTime;
 }

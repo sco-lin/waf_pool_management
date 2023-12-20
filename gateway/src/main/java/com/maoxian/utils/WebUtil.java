@@ -5,6 +5,9 @@ import java.io.IOException;
 
 /**
  * Web工具类
+ *
+ * @author Lin
+ * @date 2023/9/21 15:30
  */
 public class WebUtil {
 

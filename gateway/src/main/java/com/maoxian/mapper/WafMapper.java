@@ -5,6 +5,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/10/11 3:14
+ */
 @Mapper
 public interface WafMapper {
 

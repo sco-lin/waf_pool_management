@@ -13,6 +13,9 @@ import java.util.UUID;
 
 /**
  * JWT工具类
+ *
+ * @author Lin
+ * @date 2023/9/21 15:30
  */
 public class JwtUtil {
 

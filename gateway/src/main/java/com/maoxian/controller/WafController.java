@@ -1,8 +1,8 @@
 package com.maoxian.controller;
 
-import com.maoxian.exceprion.RequestExp;
+import com.maoxian.exceprion.RequestException;
 import com.maoxian.pojo.Waf;
-import com.maoxian.pojo.WafStatus;
+import com.maoxian.pojo.WafMonitor;
 import com.maoxian.service.WafService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -10,6 +10,10 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/10/11 3:14
+ */
 @RestController
 @RequestMapping("waf")
 @PreAuthorize("hasAuthority('waf')")
@@ -29,7 +33,7 @@ public class WafController {
     }
 
     @GetMapping("status/{wafId}")
-    public WafStatus queryWafStatus(@PathVariable Integer wafId) {
+    public WafMonitor queryWafStatus(@PathVariable Integer wafId) {
         return wafService.findWafStatusById(wafId);
     }
 
@@ -51,16 +55,16 @@ public class WafController {
         Integer port = waf.getPort();
         String configUrl = waf.getConfigUrl();
         if (name == null || name.isEmpty()) {
-            throw new RequestExp("名称不能为空");
+            throw new RequestException("名称不能为空");
         }
         if (ip == null || ip.isEmpty()) {
-            throw new RequestExp("ip不能为空");
+            throw new RequestException("ip不能为空");
         }
         if (port == null) {
-            throw new RequestExp("端口不能为空");
+            throw new RequestException("端口不能为空");
         }
         if (configUrl == null || configUrl.isEmpty()) {
-            throw new RequestExp("配置地址不能为空");
+            throw new RequestException("配置地址不能为空");
         }
         wafService.addOrModifyWaf(waf);
     }
@@ -72,9 +76,9 @@ public class WafController {
      */
     @PutMapping
     public void updateWaf(@RequestBody Waf waf) {
-        Integer id = waf.getId();
+        Long id = waf.getId();
         if (id == null) {
-            throw new RequestExp("id不能为空");
+            throw new RequestException("id不能为空");
         }
         wafService.addOrModifyWaf(waf);
     }

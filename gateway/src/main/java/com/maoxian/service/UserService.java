@@ -6,6 +6,10 @@ import com.maoxian.dto.UserInfoDTO;
 import com.maoxian.dto.PageResult;
 import com.maoxian.pojo.User;
 
+/**
+ * @author Lin
+ * @date 2023/10/5 13:28
+ */
 public interface UserService {
 
     /**

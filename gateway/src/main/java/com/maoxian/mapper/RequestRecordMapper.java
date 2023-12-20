@@ -1,13 +1,17 @@
 package com.maoxian.mapper;
 
-import com.maoxian.pojo.Request;
+import com.maoxian.pojo.RequestRecord;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+/**
+ * @author Lin
+ * @date 2023/11/5 9:14
+ */
 @Mapper
-public interface RequestMapper {
+public interface RequestRecordMapper {
 
     /**
      * 查询记录数：模糊查询
@@ -32,7 +36,7 @@ public interface RequestMapper {
      * @param uuid     模糊查询字段
      * @return 请求列表
      */
-    List<Request> selectList(int start, int pageSize, String uuid);
+    List<RequestRecord> selectList(int start, int pageSize, String uuid);
 
     /**
      * 通过id查询请求模式

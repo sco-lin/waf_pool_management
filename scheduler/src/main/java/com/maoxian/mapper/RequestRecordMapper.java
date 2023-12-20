@@ -1,14 +1,18 @@
 package com.maoxian.mapper;
 
-import com.maoxian.pojo.Request;
+import com.maoxian.pojo.RequestRecord;
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
+
+/**
+ * @author Lin
+ * @date 2023/12/17 23:03
+ */
 @Mapper
-public interface RequestMapper {
+public interface RequestRecordMapper {
 
     /**
      * 查询记录数：模糊查询
@@ -33,15 +37,9 @@ public interface RequestMapper {
      * @param uuid     模糊查询字段
      * @return 请求列表
      */
-    List<Request> selectList(int start, int pageSize, String uuid);
+    List<RequestRecord> selectList(int start, int pageSize, String uuid);
 
-    /**
-     * 通过uuid查询请求
-     *
-     * @param uuid 查询条件
-     */
-    @Select("select id, uuid, method, source_ip, url, mode, start_time, time, status from request where uuid = #{uuid}")
-    Request select(String uuid);
+    RequestRecord select(String uuid);
 
     /**
      * 通过id查询请求模式
@@ -62,14 +60,14 @@ public interface RequestMapper {
     /**
      * 插入request
      *
-     * @param request 请求信息
+     * @param requestRecord 请求信息
      */
-    int insert(Request request);
+    int insert(RequestRecord requestRecord);
 
     /**
      * 更新request
      *
-     * @param request 请求信息
+     * @param requestRecord 请求信息
      */
-    int update(Request request);
+    int update(RequestRecord requestRecord);
 }
