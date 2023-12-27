@@ -18,7 +18,8 @@ public interface ImageService {
 
     /**
      * 使用指定镜像启动一个容器
+     * @param name 容器名
      * @param imageId 镜像id
      */
-    void startContainer(Long imageId);
+    void startContainer(String name,Long imageId);
 }

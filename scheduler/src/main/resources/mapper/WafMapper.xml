@@ -26,7 +26,7 @@
             <if test="configUrl != null">config_url = #{configUrl},</if>
             <if test="online != null">is_online = #{online},</if>
             <if test="weight != null">weight = #{weight},</if>
-            <if test="description != null">description = #{description}</if>
+            <if test="description != null">description = #{description},</if>
             <if test="imageId != null">image_id = #{imageId},</if>
             <if test="containerId != null">container_id = #{containerId},</if>
         </set>

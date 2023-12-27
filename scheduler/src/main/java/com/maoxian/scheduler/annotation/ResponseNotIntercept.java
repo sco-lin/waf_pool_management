@@ -1,10 +1,10 @@
-package com.maoxian.gateway.anno;
+package com.maoxian.scheduler.annotation;
 
 import java.lang.annotation.*;
 
 /**
  * @author Lin
- * @date 2023/10/12 14:51
+ * @date 2023/12/18 23:35
  */
 @Target({ElementType.METHOD,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)

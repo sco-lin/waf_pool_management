@@ -1,7 +1,7 @@
 package com.maoxian.gateway.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.maoxian.gateway.anno.ResponseNotIntercept;
+import com.maoxian.gateway.annotation.ResponseNotIntercept;
 import com.maoxian.gateway.utils.JsonResult;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;

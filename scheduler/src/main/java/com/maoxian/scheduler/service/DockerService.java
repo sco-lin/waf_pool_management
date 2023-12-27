@@ -57,9 +57,13 @@ public interface DockerService {
     Boolean startContainer(String containerId);
 
     /**
-     * 创建容器 TODO 传入参数待定
+     * 创建容器
+     *
+     * @param name    容器名
+     * @param imageId 镜像id
+     * @return 容器id
      */
-    Boolean createContainer();
+    String createContainer(String name, String imageId);
 
     /**
      * 镜像列表 TODO 参数待定
@@ -89,5 +93,10 @@ public interface DockerService {
      * 推送本地镜像到harbor仓库 TODO 参数待定
      */
     Boolean pushImageToHarbor();
+
+    /**
+     * 监控容器
+     */
+    void monitorContainer();
 
 }

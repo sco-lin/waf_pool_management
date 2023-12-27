@@ -47,17 +47,24 @@ public class ImageController {
 
     /**
      * 查询所有镜像
+     *
      * @return 镜像列表
      */
     @GetMapping
-    public List<Image> queryImage(){
+    public List<Image> queryImage() {
         return imageService.findImageList();
     }
 
-    public void startContainer(Long imageId){
-        if (imageId == null){
+    /**
+     * 根据镜像创建容器
+     * @param name 容器名
+     * @param imageId 镜像id
+     */
+    @GetMapping("/container/{name}/{imageId}")
+    public void startContainer(@PathVariable String name, @PathVariable Long imageId) {
+        if (imageId == null) {
             throw new RequestException("镜像id不能为空");
         }
-        imageService.startContainer(imageId);
+        imageService.startContainer(name, imageId);
     }
 }

@@ -33,6 +33,8 @@ public class WafServiceImpl implements WafService {
         if (!online) {
             throw new BusinessException("waf上线失败");
         }
+        waf.setOnline(true);
+        wafMapper.update(waf);
     }
 
     @Override
@@ -47,5 +49,7 @@ public class WafServiceImpl implements WafService {
         if (!offline) {
             throw new BusinessException("waf下线失败");
         }
+        waf.setOnline(false);
+        wafMapper.update(waf);
     }
 }
