@@ -3,7 +3,7 @@ package com.maoxian.gateway.handler;
 import com.maoxian.gateway.enums.HttpStatusEnum;
 import com.maoxian.gateway.exceprion.BusinessException;
 import com.maoxian.gateway.exceprion.RequestException;
-import com.maoxian.gateway.utils.JsonResult;
+import com.maoxian.gateway.util.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;

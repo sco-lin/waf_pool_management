@@ -14,25 +14,17 @@ public interface WafService {
     /**
      * 查询所有waf
      *
-     * @return 所有waf信息
+     * @return waf列表
      */
     List<Waf> findWafList();
 
     /**
-     * 查询waf的状态信息
+     * 查询waf的监控数据
      *
-     * @param wafId wafId
+     * @param id wafId
      * @return 查询结果
      */
-    WafMonitor findWafStatusById(Integer wafId);
-
-    /**
-     * 通过id查询waf
-     *
-     * @param id 查询条件
-     * @return 查询结果
-     */
-    Waf findWafById(Integer id);
+    WafMonitor findWafMonitorById(Long id);
 
     /**
      * 增加或更新waf
@@ -40,6 +32,18 @@ public interface WafService {
      * @param waf waf信息
      */
     void addOrModifyWaf(Waf waf);
+
+    /**
+     * 上线waf
+     * @param id wafId
+     */
+    void online(Long id);
+
+    /**
+     * 下线waf
+     * @param id wafId
+     */
+    void offline(Long id);
 
     /**
      * 通过id删除waf

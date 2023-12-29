@@ -2,7 +2,7 @@ package com.maoxian.gateway.service.impl;
 
 import com.maoxian.gateway.dto.PageResult;
 import com.maoxian.gateway.dto.RequestRecordDTO;
-import com.maoxian.gateway.dto.SchedoleRecordDTO;
+import com.maoxian.gateway.dto.ScheduleRecordDTO;
 import com.maoxian.gateway.exceprion.BusinessException;
 import com.maoxian.gateway.mapper.RequestRecordMapper;
 import com.maoxian.gateway.mapper.ScheduleRecordMapper;
@@ -59,12 +59,15 @@ public class RequestServiceImpl implements RequestService {
     }
 
     @Override
-    public SchedoleRecordDTO findRequestDetailList(Integer requestId) {
+    public ScheduleRecordDTO findScheduleRecord(Long requestId) {
         Integer mode = requestMapper.selectModeById(requestId);
-        List<ScheduleRecord> requestDetailList = scheduleRecordMapper.selectList(requestId);
-        if (requestDetailList.isEmpty()) {
-            throw new BusinessException("查询请求数组失败");
+        if (mode == null) {
+            throw new BusinessException("查询请求调度模式失败");
         }
-        return new SchedoleRecordDTO(mode, requestDetailList);
+        List<ScheduleRecord> scheduleRecordList = scheduleRecordMapper.selectList(requestId);
+        if (scheduleRecordList.isEmpty()) {
+            throw new BusinessException("查询请求调度记录失败");
+        }
+        return new ScheduleRecordDTO(mode, scheduleRecordList);
     }
 }

@@ -80,12 +80,6 @@
             <artifactId>spring-boot-starter-mail</artifactId>
         </dependency>
 
-        <!-- thymeleaf -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-thymeleaf</artifactId>
-        </dependency>
-
         <!-- 模型映射器 -->
         <dependency>
             <groupId>org.modelmapper</groupId>

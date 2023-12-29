@@ -1,25 +1,22 @@
 package com.maoxian.scheduler;
 
 import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.command.StatsCmd;
 import com.github.dockerjava.api.model.*;
 import com.github.dockerjava.core.InvocationBuilder;
-import com.maoxian.scheduler.config.SchedulerConfig;
+import com.maoxian.scheduler.pojo.Scheduler;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.scheduling.annotation.Scheduled;
 
-import java.io.Closeable;
-import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
 @SpringBootTest
 public class SchedulerApplicationTest {
     @Autowired
-    private SchedulerConfig schedulerConfig;
+    private Scheduler scheduler;
 
     @Autowired
     private DockerClient dockerClient;

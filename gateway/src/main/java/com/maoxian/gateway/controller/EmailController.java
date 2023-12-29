@@ -1,16 +1,18 @@
 package com.maoxian.gateway.controller;
 
-import com.maoxian.gateway.exceprion.RequestException;
 import com.maoxian.gateway.service.EmailService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * @author Lin
  * @date 2023/10/25 23:27
  */
 @RestController
-@RequestMapping("email")
+@RequestMapping("/email")
 public class EmailController {
 
     @Autowired
@@ -21,29 +23,8 @@ public class EmailController {
      *
      * @param email 邮箱
      */
-    @GetMapping("sendCode/{email}")
-    public void sendMail(@PathVariable String email) {
-        if (email.isEmpty()) {
-            throw new RequestException("邮箱不能为空");
-        }
+    @GetMapping("/code/{email}")
+    public void sendEmailCode(@PathVariable String email) {
         emailService.sendEmailCode(email);
-    }
-
-    //TODO 预计废除
-    @GetMapping("sendActivateUrl/{email}")
-    public void sendEmailActivateUrl(@PathVariable String email) {
-        if (email.isEmpty()) {
-            throw new RequestException("邮箱不能为空");
-        }
-        emailService.sendEmailActivateUrl(email);
-    }
-
-    //TODO 预计废除
-    @GetMapping("activate/{email}/{key}")
-    public void activate(@PathVariable String email, @PathVariable String key) {
-        if (email.isEmpty() || key.isEmpty()) {
-            throw new RequestException("邮箱或key不能为空");
-        }
-        emailService.activate(email, key);
     }
 }

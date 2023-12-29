@@ -3,7 +3,7 @@ package com.maoxian.gateway.controller;
 import com.maoxian.gateway.dto.RequestStatusDTO;
 import com.maoxian.gateway.dto.WafIpDTO;
 import com.maoxian.gateway.dto.WafPoolDTO;
-import com.maoxian.gateway.service.StatisticsService;
+import com.maoxian.gateway.service.StatService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,10 +17,10 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("stat")
-public class StatisticsController {
+public class StatController {
 
     @Autowired
-    private StatisticsService statisticsService;
+    private StatService statService;
 
     /**
      * 获取waf的上线情况
@@ -29,7 +29,7 @@ public class StatisticsController {
      */
     @GetMapping("waf-number")
     public WafPoolDTO getWafPoolStatus() {
-        return statisticsService.findWafPoolStatus();
+        return statService.findWafPoolStatus();
     }
 
     /**
@@ -39,7 +39,7 @@ public class StatisticsController {
      */
     @GetMapping("time")
     public Integer getAvgRequestTimePerMinute() {
-        return statisticsService.findAvgRequestTimePerMinute();
+        return statService.findAvgRequestTimePerMinute();
     }
 
     /**
@@ -49,7 +49,7 @@ public class StatisticsController {
      */
     @GetMapping("traffic")
     public RequestStatusDTO getRequestStatus() {
-        return statisticsService.getRequestStatus();
+        return statService.getRequestStatus();
     }
 
     /**
@@ -59,6 +59,6 @@ public class StatisticsController {
      */
     @GetMapping("init")
     public List<WafIpDTO> getWafIp(){
-        return statisticsService.getWafIp();
+        return statService.getWafIp();
     }
 }

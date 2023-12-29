@@ -20,19 +20,32 @@ public class WafController {
 
     /**
      * 上线waf
+     *
      * @param id waf的id
      */
     @GetMapping("online/{id}")
-    public void online(@PathVariable Long id){
+    public void online(@PathVariable Long id) {
         wafService.online(id);
     }
 
     /**
      * 下线waf
+     *
      * @param id waf的id
      */
     @GetMapping("offline/{id}")
-    public void offline(@PathVariable Long id){
+    public void offline(@PathVariable Long id) {
         wafService.offline(id);
+    }
+
+    /**
+     * 根据镜像id创建waf
+     *
+     * @param name    waf名
+     * @param imageId 镜像id
+     */
+    @GetMapping("/add/{name}/{imageId}")
+    public void createWafByImageId(@PathVariable String name, @PathVariable Long imageId) {
+        wafService.createWafByImageId(name, imageId);
     }
 }

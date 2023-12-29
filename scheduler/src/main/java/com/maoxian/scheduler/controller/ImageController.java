@@ -1,7 +1,7 @@
 package com.maoxian.scheduler.controller;
 
 import com.maoxian.scheduler.exception.RequestException;
-import com.maoxian.scheduler.pojo.Image;
+import com.maoxian.scheduler.pojo.ImageInfo;
 import com.maoxian.scheduler.service.DockerService;
 import com.maoxian.scheduler.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,12 +27,22 @@ public class ImageController {
     private ImageService imageService;
 
     /**
+     * 查询所有镜像
+     *
+     * @return 镜像列表
+     */
+    @GetMapping
+    public List<ImageInfo> queryImage() {
+        return imageService.findImageList();
+    }
+
+    /**
      * 上传镜像
      *
      * @param image docker镜像
      */
     @PostMapping("/upload")
-    public void addWafByImage(@RequestParam("image") MultipartFile image) {
+    public void addImage(@RequestParam("image") MultipartFile image) {
         if (image == null || image.isEmpty()) {
             throw new RequestException("文件为空");
         }
@@ -42,29 +52,15 @@ public class ImageController {
         } catch (IOException e) {
             throw new RuntimeException("获取文件流失败");
         }
-        dockerService.importImage(imageStream);
+        imageService.addImage(imageStream);
     }
 
     /**
-     * 查询所有镜像
-     *
-     * @return 镜像列表
+     * 删除镜像
+     * @param id 镜像id
      */
-    @GetMapping
-    public List<Image> queryImage() {
-        return imageService.findImageList();
-    }
-
-    /**
-     * 根据镜像创建容器
-     * @param name 容器名
-     * @param imageId 镜像id
-     */
-    @GetMapping("/container/{name}/{imageId}")
-    public void startContainer(@PathVariable String name, @PathVariable Long imageId) {
-        if (imageId == null) {
-            throw new RequestException("镜像id不能为空");
-        }
-        imageService.startContainer(name, imageId);
+    @DeleteMapping("/{id}")
+    public void deleteImageById(@PathVariable Long id){
+        imageService.deleteImageById(id);
     }
 }

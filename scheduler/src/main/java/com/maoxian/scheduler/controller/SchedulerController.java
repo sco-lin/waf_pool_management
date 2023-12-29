@@ -1,8 +1,8 @@
 package com.maoxian.scheduler.controller;
 
-import com.maoxian.scheduler.config.SchedulerConfig;
-import com.maoxian.scheduler.exception.SystemException;
+import com.maoxian.scheduler.pojo.Scheduler;
 import com.maoxian.scheduler.service.SchedulerService;
+import com.maoxian.scheduler.service.SiteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -20,22 +20,17 @@ import java.util.concurrent.ExecutionException;
 public class SchedulerController {
 
     @Autowired
-    private SchedulerConfig schedulerConfig;
+    private Scheduler scheduler;
 
     @Autowired
     private SchedulerService schedulerService;
 
-    @RequestMapping
+    @Autowired
+    private SiteService siteService;
+
+    @RequestMapping("/**")
     public ResponseEntity<String> schedule(HttpServletRequest request, RequestEntity<String> requestEntity) throws ExecutionException, InterruptedException {
-        ResponseEntity<String> response;
-        // 根据调度器的调度模式，进行不同的处理
-        if (schedulerConfig.getSchedulerMode() == 0) {
-            response = schedulerService.serialForward(request, requestEntity);
-        } else if (schedulerConfig.getSchedulerMode() == 1) {
-            response = schedulerService.parallelForward(request, requestEntity);
-        } else {
-            throw new SystemException("schedule.mode配置的参数无效");
-        }
-        return response;
+        String remoteAddr = request.getRemoteAddr();
+        return schedulerService.requestHandler(remoteAddr, requestEntity);
     }
 }

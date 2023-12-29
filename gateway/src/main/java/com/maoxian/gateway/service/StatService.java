@@ -10,7 +10,7 @@ import java.util.List;
  * @author Lin
  * @date 2023/11/23 14:30
  */
-public interface StatisticsService {
+public interface StatService {
     /**
      * 获取waf的上线情况
      *

@@ -36,9 +36,9 @@ public interface WafMapper {
 
     /**
      * 查询指定状态的waf列表
-     * @param status 状态
+     * @param online 状态
      */
-    List<Waf> selectListForStatus(Integer status);
+    List<Waf> selectListForOnline(Boolean online);
 
     /**
      * 通过id查询waf

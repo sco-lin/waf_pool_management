@@ -1,5 +1,6 @@
 package com.maoxian.gateway.service.impl;
 
+import com.maoxian.gateway.exceprion.BusinessException;
 import com.maoxian.gateway.mapper.SiteMapper;
 import com.maoxian.gateway.pojo.Site;
 import com.maoxian.gateway.service.SiteService;
@@ -19,22 +20,41 @@ public class SiteServiceImpl implements SiteService {
     private SiteMapper siteMapper;
 
     @Override
-    public void addSite(Site site) {
-        siteMapper.insert(site);
+    public List<Site> findSiteList() {
+        List<Site> siteList = siteMapper.selectList();
+        if (siteList.isEmpty()) {
+            throw new BusinessException("站点查询失败");
+        }
+        return siteList;
     }
 
     @Override
-    public void modifySite(Site site) {
-        siteMapper.update(site);
+    public void addOrModifySite(Site site) {
+        //更新站点
+        if (site.getId() != null) {
+            int count = siteMapper.update(site);
+            if (count == 0) {
+                throw new BusinessException("更新站点失败");
+            }
+        } else {
+            //增加站点
+            String domain = site.getDomain();
+            if (domain == null || domain.isEmpty()){
+                site.setDomain("*");
+            }
+            int count = siteMapper.insert(site);
+            if (count == 0) {
+                throw new BusinessException("增加站点失败");
+            }
+            siteMapper.insert(site);
+        }
     }
 
     @Override
     public void deleteSite(Long id) {
-        siteMapper.delete(id);
-    }
-
-    @Override
-    public List<Site> findSiteList() {
-        return siteMapper.selectList();
+        int count = siteMapper.delete(id);
+        if (count == 0) {
+            throw new BusinessException("删除站点失败");
+        }
     }
 }

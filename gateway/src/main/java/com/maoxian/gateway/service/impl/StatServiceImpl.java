@@ -6,7 +6,7 @@ import com.maoxian.gateway.dto.WafPoolDTO;
 import com.maoxian.gateway.mapper.RequestRecordMapper;
 import com.maoxian.gateway.mapper.WafMapper;
 import com.maoxian.gateway.pojo.Waf;
-import com.maoxian.gateway.service.StatisticsService;
+import com.maoxian.gateway.service.StatService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * @date 2023/11/23 14:30
  */
 @Service
-public class StatisticsServiceImpl implements StatisticsService {
+public class StatServiceImpl implements StatService {
 
     @Autowired
     private WafMapper wafMapper;

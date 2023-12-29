@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
  * @author Lin
  * @date 2023/12/19 21:18
  */
-class ScheduleRecordMapperTest {
+class SchedulerRecordMapperTest {
 
     @Test
     void selectList() {

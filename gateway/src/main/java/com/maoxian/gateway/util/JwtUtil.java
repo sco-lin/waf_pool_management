@@ -1,4 +1,4 @@
-package com.maoxian.gateway.utils;
+package com.maoxian.gateway.util;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtBuilder;

@@ -43,7 +43,7 @@ public interface RequestRecordMapper {
      * @param id id
      * @return 请求模式
      */
-    Integer selectModeById(Integer id);
+    Integer selectModeById(Long id);
 
     /**
      * 查询指定时间之后的所有请求的请求时间

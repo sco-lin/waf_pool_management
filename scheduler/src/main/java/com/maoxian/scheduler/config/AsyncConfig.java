@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.concurrent.Executor;
-
 /**
  * @author Lin
  * @date 2023/12/21 18:26
@@ -19,7 +17,7 @@ public class AsyncConfig {
     private final int maxPoolSize = 200;
     private final int queueCapacity = 10;
     @Bean
-    public Executor executor(){
+    public ThreadPoolTaskExecutor executor(){
         ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
         executor.setCorePoolSize(corePoolSize);
         executor.setMaxPoolSize(maxPoolSize);

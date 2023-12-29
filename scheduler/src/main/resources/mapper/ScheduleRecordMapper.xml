@@ -23,7 +23,7 @@
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="time != null">#{time},</if>
             <if test="pass != null">#{pass},</if>
-            <if test="wafId != null">#{wafID},</if>
+            <if test="wafId != null">#{wafId},</if>
             <if test="requestId != null">#{requestId},</if>
         </trim>
     </insert>

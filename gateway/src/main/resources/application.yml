@@ -26,16 +26,6 @@ spring:
       mail.smtp.starttls.enabled: true
     default-encoding: UTF-8
     protocol: smtp
-    valid: 5
-  thymeleaf:
-    cache: false
-    mode: LEGACYHTM5
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
-    servlet:
-      content-type: text/html
-
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.maoxian.gateway.pojo

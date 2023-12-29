@@ -1,4 +1,4 @@
-package com.maoxian.gateway.utils;
+package com.maoxian.gateway.util;
 
 import java.util.Random;
 
@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class RandomUtil {
 
-    private static final Random random = new Random();
+    private static final Random RANDOM = new Random();
 
     /**
      * 生成指定位数的随机数字字符串
@@ -21,7 +21,7 @@ public class RandomUtil {
     public static String randomNumbers(int count) {
         StringBuilder randomNumbers = new StringBuilder();
         for (int i = 0; i < count; i++) {
-            randomNumbers.append(random.nextInt(10));
+            randomNumbers.append(RANDOM.nextInt(10));
         }
         return randomNumbers.toString();
     }

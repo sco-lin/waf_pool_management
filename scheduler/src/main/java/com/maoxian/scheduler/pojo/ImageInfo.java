@@ -13,7 +13,7 @@ import java.time.LocalDateTime;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Image {
+public class ImageInfo {
     private Long id;
     private String name;
     private String tag;

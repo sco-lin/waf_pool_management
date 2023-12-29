@@ -6,7 +6,7 @@ import com.maoxian.gateway.exceprion.BusinessException;
 import com.maoxian.gateway.mapper.PermMapper;
 import com.maoxian.gateway.mapper.RoleMapper;
 import com.maoxian.gateway.mapper.UserMapper;
-import com.maoxian.gateway.utils.RedisCache;
+import com.maoxian.gateway.util.RedisCache;
 import com.maoxian.gateway.dto.PageResult;
 import com.maoxian.gateway.pojo.User;
 import com.maoxian.gateway.service.UserService;

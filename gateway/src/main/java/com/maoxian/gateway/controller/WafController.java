@@ -15,7 +15,7 @@ import java.util.List;
  * @date 2023/10/11 3:14
  */
 @RestController
-@RequestMapping("waf")
+@RequestMapping("/waf")
 @PreAuthorize("hasAuthority('waf')")
 public class WafController {
 
@@ -25,22 +25,39 @@ public class WafController {
     /**
      * 查询所有waf
      *
-     * @return 查询结果
+     * @return waf列表
      */
     @GetMapping
     public List<Waf> queryWaf() {
         return wafService.findWafList();
     }
 
-    @GetMapping("status/{wafId}")
-    public WafMonitor queryWafStatus(@PathVariable Integer wafId) {
-        return wafService.findWafStatusById(wafId);
+    /**
+     * 查询waf监控数据
+     * @param id wafId
+     * @return 监控数据
+     */
+    @GetMapping("/monitor/{id}")
+    public WafMonitor queryWafMonitor(@PathVariable Long id) {
+        return wafService.findWafMonitorById(id);
     }
 
-    //TODO 将废弃
-    @GetMapping("{id}")
-    public Waf queryWaf(@PathVariable Integer id) {
-        return wafService.findWafById(id);
+    /**
+     * 上线waf
+     * @param id id
+     */
+    @GetMapping("/online/{id}")
+    public void online(@PathVariable Long id){
+        wafService.online(id);
+    }
+
+    /**
+     * 下线waf
+     * @param id id
+     */
+    @GetMapping("/offline/{id}")
+    public void offline(@PathVariable Long id){
+        wafService.offline(id);
     }
 
     /**
@@ -83,12 +100,20 @@ public class WafController {
         wafService.addOrModifyWaf(waf);
     }
 
+    @PutMapping("/{id}/{weight}")
+    public void modifyWafWeight(@PathVariable Long id, @PathVariable Integer weight){
+        Waf waf = new Waf();
+        waf.setId(id);
+        waf.setWeight(weight);
+        wafService.addOrModifyWaf(waf);
+    }
+
     /**
      * 通过id删除waf
      *
      * @param id 删除条件
      */
-    @DeleteMapping("{id}")
+    @DeleteMapping("/{id}")
     public void deleteWaf(@PathVariable Integer id) {
         wafService.deleteWafById(id);
     }

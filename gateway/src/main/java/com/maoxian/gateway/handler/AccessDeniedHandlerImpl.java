@@ -1,8 +1,8 @@
 package com.maoxian.gateway.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.maoxian.gateway.utils.WebUtil;
-import com.maoxian.gateway.utils.JsonResult;
+import com.maoxian.gateway.util.WebUtil;
+import com.maoxian.gateway.util.JsonResult;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;

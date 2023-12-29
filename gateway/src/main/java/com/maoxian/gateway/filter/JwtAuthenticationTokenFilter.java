@@ -1,8 +1,8 @@
 package com.maoxian.gateway.filter;
 
 import com.maoxian.gateway.service.impl.LoginUser;
-import com.maoxian.gateway.utils.JwtUtil;
-import com.maoxian.gateway.utils.RedisCache;
+import com.maoxian.gateway.util.JwtUtil;
+import com.maoxian.gateway.util.RedisCache;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

@@ -1,4 +1,4 @@
-package com.maoxian.gateway.utils;
+package com.maoxian.gateway.util;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

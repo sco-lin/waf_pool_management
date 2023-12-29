@@ -1,4 +1,4 @@
-package com.maoxian.gateway.utils;
+package com.maoxian.gateway.util;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.maoxian.gateway.enums.HttpStatusEnum;

@@ -1,6 +1,5 @@
 package com.maoxian.scheduler.mapper;
 
-import com.maoxian.scheduler.mapper.WafMapper;
 import com.maoxian.scheduler.pojo.Waf;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,7 @@ class WafMapperTest {
     private WafMapper wafMapper;
     @Test
     void selectListForStatus() {
-        List<Waf> wafs = wafMapper.selectListForStatus(0);
+        List<Waf> wafs = wafMapper.selectListForOnline(true);
         System.out.println(wafs);
     }
 

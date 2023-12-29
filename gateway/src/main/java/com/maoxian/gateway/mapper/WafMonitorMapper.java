@@ -17,7 +17,7 @@ public interface WafMonitorMapper {
      * @param wafId 查询条件
      * @return waf信息
      */
-    WafMonitor selectByWafId(Integer wafId);
+    WafMonitor selectByWafId(Long wafId);
 
     /**
      * 增加waf状态

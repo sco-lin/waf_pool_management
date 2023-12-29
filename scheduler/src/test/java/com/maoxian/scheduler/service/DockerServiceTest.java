@@ -4,7 +4,6 @@ import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.CreateContainerCmd;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
-import com.maoxian.scheduler.service.DockerService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,7 +56,7 @@ class DockerServiceTest {
 
     @Test
     void images() {
-        List<Image> images = dockerService.images();
+        List<Image> images = dockerService.listImages();
         System.out.println(images);
     }
 

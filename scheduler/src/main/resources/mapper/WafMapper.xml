@@ -80,7 +80,7 @@
         from waf_info
         where is_online = #{online}
     </select>
-    <select id="selectListForStatus" resultMap="wafResult">
+    <select id="selectListForOnline" resultMap="wafResult">
         select id, name, ip, port, config_url, is_online, weight, description, image_id, container_id, create_time, update_time
         from waf_info
         where is_online = #{online}

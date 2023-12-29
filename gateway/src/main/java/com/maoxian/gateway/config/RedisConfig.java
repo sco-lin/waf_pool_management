@@ -1,6 +1,6 @@
 package com.maoxian.gateway.config;
 
-import com.maoxian.gateway.utils.FastJsonRedisSerializer;
+import com.maoxian.gateway.util.FastJsonRedisSerializer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;

@@ -18,5 +18,5 @@ public interface ScheduleRecordMapper {
      * @param requestId 夫id
      * @return 请求链列表
      */
-    List<ScheduleRecord> selectList(Integer requestId);
+    List<ScheduleRecord> selectList(Long requestId);
 }

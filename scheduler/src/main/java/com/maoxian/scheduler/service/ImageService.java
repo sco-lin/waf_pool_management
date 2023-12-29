@@ -1,7 +1,8 @@
 package com.maoxian.scheduler.service;
 
-import com.maoxian.scheduler.pojo.Image;
+import com.maoxian.scheduler.pojo.ImageInfo;
 
+import java.io.InputStream;
 import java.util.List;
 
 /**
@@ -12,14 +13,22 @@ public interface ImageService {
 
     /**
      * 查询所有镜像
+     *
      * @return 所有镜像信息
      */
-    List<Image> findImageList();
+    List<ImageInfo> findImageList();
 
     /**
-     * 使用指定镜像启动一个容器
-     * @param name 容器名
-     * @param imageId 镜像id
+     * 增加镜像
+     *
+     * @param imageStream 镜像流
      */
-    void startContainer(String name,Long imageId);
+    void addImage(InputStream imageStream);
+
+    /**
+     * 删除镜像
+     *
+     * @param id 镜像id
+     */
+    void deleteImageById(Long id);
 }

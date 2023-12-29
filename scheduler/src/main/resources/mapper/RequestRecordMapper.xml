@@ -25,7 +25,7 @@
             <if test="desIp != null">des_ip,</if>
             <if test="url != null">url,</if>
             <if test="mode != null">mode,</if>
-            <if test="time != null">time</if>
+            <if test="time != null">time,</if>
             <if test="pass != null">is_pass</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -35,7 +35,7 @@
             <if test="desIp != null">#{desIp},</if>
             <if test="url != null">#{url},</if>
             <if test="mode != null">#{mode},</if>
-            <if test="time != null">#{time}</if>
+            <if test="time != null">#{time},</if>
             <if test="pass != null">#{pass}</if>
         </trim>
     </insert>
@@ -48,7 +48,7 @@
             <if test="desIp != null">des_ip = #{desIp},</if>
             <if test="url != null">url = #{url},</if>
             <if test="mode != null">mode = #{mode},</if>
-            <if test="time != null">time = #{time}</if>
+            <if test="time != null">time = #{time},</if>
             <if test="pass != null">is_pass = #{pass}</if>
         </set>
         where id = #{id}

@@ -26,20 +26,18 @@ spring:
       mail.smtp.starttls.enabled: true
     default-encoding: UTF-8
     protocol: smtp
-    valid: 5
-  thymeleaf:
-    cache: false
-    mode: LEGACYHTM5
-    prefix: classpath:/templates/
-    suffix: .html
-    encoding: UTF-8
-    servlet:
-      content-type: text/html
   servlet:
     multipart:
       enabled: true
       max-file-size: 1024MB
       max-request-size: 1024MB
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 10
+        queue-capacity: 5
+        keep-alive: 60
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

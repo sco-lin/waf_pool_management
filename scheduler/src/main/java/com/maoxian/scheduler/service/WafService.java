@@ -17,4 +17,11 @@ public interface WafService {
      * @param id waf的id
      */
     void offline(Long id);
+
+    /**
+     * 根据镜像id创建waf
+     * @param name waf名称
+     * @param imageId 镜像id
+     */
+    void createWafByImageId(String name, Long imageId);
 }

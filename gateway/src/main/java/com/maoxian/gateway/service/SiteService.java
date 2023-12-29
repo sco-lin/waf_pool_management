@@ -11,26 +11,20 @@ import java.util.List;
 public interface SiteService {
 
     /**
-     * 增加站点
-     * @param site 站点信息
+     * 查询所有站点信息
+     * @return 站点信息
      */
-    void addSite(Site site);
+    List<Site> findSiteList();
 
     /**
-     * 修改站点
+     * 增加或更新站点
      * @param site 站点信息
      */
-    void modifySite(Site site);
+    void addOrModifySite(Site site);
 
     /**
      * 删除站点
      * @param id 站点id
      */
     void deleteSite(Long id);
-
-    /**
-     * 查询所有站点信息
-     * @return 站点信息
-     */
-    List<Site> findSiteList();
 }

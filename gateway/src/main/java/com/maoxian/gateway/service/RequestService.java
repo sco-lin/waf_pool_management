@@ -1,6 +1,6 @@
 package com.maoxian.gateway.service;
 
-import com.maoxian.gateway.dto.SchedoleRecordDTO;
+import com.maoxian.gateway.dto.ScheduleRecordDTO;
 import com.maoxian.gateway.pojo.RequestRecord;
 import com.maoxian.gateway.dto.PageResult;
 
@@ -21,10 +21,10 @@ public interface RequestService {
     PageResult<RequestRecord> findRequest(Integer pageNum, Integer paeSize, String uuid);
 
     /**
-     * 通过请求id查询请求数组
+     * 查询请求的调度记录
      *
      * @param requestId 请求id
-     * @return 请求数组
+     * @return 调度记录
      */
-    SchedoleRecordDTO findRequestDetailList(Integer requestId);
+    ScheduleRecordDTO findScheduleRecord(Long requestId);
 }

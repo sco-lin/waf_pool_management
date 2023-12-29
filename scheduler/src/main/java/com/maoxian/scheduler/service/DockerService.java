@@ -1,8 +1,10 @@
 package com.maoxian.scheduler.service;
 
 
+import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
+import com.github.dockerjava.api.model.Statistics;
 
 import java.io.InputStream;
 import java.util.List;
@@ -14,31 +16,18 @@ import java.util.List;
 public interface DockerService {
 
     /**
-     * 容器列表
+     * 查询容器
      *
-     * @param showAll 展示所有
+     * @param showAll 展示所有（包括未启动的）
+     * @return 容器列表
      */
     List<Container> listContainer(Boolean showAll);
-
-    /**
-     * 查询容器日志信息
-     *
-     * @param containerId 容器id
-     * @param tail        行数
-     */
-    List<String> logContainer(String containerId, Integer tail);
-
-    /**
-     * 查询容器详情 TODO 返回类型待定
-     *
-     * @param containId 容器id
-     */
-    String infoContainer(String containId);
 
     /**
      * 删除容器
      *
      * @param containerId 容器id
+     * @return 操作成功
      */
     Boolean removeContainer(String containerId);
 
@@ -46,6 +35,7 @@ public interface DockerService {
      * 停止容器
      *
      * @param containerId 容器id
+     * @return 操作成功
      */
     Boolean stopContainer(String containerId);
 
@@ -53,6 +43,7 @@ public interface DockerService {
      * 启动容器
      *
      * @param containerId 容器id
+     * @return 操作成功
      */
     Boolean startContainer(String containerId);
 
@@ -66,37 +57,31 @@ public interface DockerService {
     String createContainer(String name, String imageId);
 
     /**
-     * 镜像列表 TODO 参数待定
-     */
-    List<Image> images();
-
-    /**
-     * 镜像详情
+     * 查询镜像
      *
-     * @param imageId 镜像id
+     * @return 镜像列表
      */
-    String imageInfo(String imageId);
+    List<Image> listImages();
 
     /**
      * 导入镜像文件
      *
      * @param tarInputStream 镜像tar文件流
+     * @return 操作成功
      */
-    void importImage(InputStream tarInputStream);
+    Boolean importImage(InputStream tarInputStream);
 
     /**
-     * 构建镜像 TODO 构建参数待定
+     * 删除镜像
+     *
+     * @param imageId 镜像id
+     * @return 删除成功
      */
-    Boolean buildImage();
-
-    /**
-     * 推送本地镜像到harbor仓库 TODO 参数待定
-     */
-    Boolean pushImageToHarbor();
+    Boolean removeImage(String imageId);
 
     /**
      * 监控容器
      */
-    void monitorContainer();
+    void statContainer(String containerId, ResultCallback<Statistics> callback);
 
 }

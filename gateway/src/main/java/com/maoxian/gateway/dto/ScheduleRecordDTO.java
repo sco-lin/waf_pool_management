@@ -14,7 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SchedoleRecordDTO {
+public class ScheduleRecordDTO {
     private Integer mode;
     private List<ScheduleRecord> request;
 }

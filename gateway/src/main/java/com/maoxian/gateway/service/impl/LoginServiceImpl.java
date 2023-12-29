@@ -5,8 +5,8 @@ import com.maoxian.gateway.exceprion.BusinessException;
 import com.maoxian.gateway.mapper.RoleMapper;
 import com.maoxian.gateway.pojo.User;
 import com.maoxian.gateway.service.LoginService;
-import com.maoxian.gateway.utils.JwtUtil;
-import com.maoxian.gateway.utils.RedisCache;
+import com.maoxian.gateway.util.JwtUtil;
+import com.maoxian.gateway.util.RedisCache;
 import com.maoxian.gateway.dto.LoginInfoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
         LoginUser loginUser = (LoginUser) authenticate.getPrincipal();
         User user = loginUser.getUser();
 
-//        //验证码校验
+//        //验证码校验TODO 暂时注释
 //        String code = redisCache.getCacheObject("verifyCode:" + user.getEmail());
 //        if (!verifyCode.equals(code)) {
 //            throw new BusinessException("验证码错误");
