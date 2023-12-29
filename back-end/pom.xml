@@ -10,29 +10,12 @@
     </parent>
 
     <groupId>com.maoxian</groupId>
-    <artifactId>scheduler</artifactId>
+    <artifactId>back-end</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    
-    <dependencies>
-
-        <!-- docker-java -->
-        <dependency>
-            <groupId>com.github.docker-java</groupId>
-            <artifactId>docker-java</artifactId>
-            <version>3.3.4</version>
-        </dependency>
-        <dependency>
-            <groupId>com.maoxian</groupId>
-            <artifactId>back-end</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-            <scope>compile</scope>
-        </dependency>
-
-    </dependencies>
 
 </project>
