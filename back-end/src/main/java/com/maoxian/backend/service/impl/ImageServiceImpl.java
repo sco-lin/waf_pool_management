@@ -5,10 +5,7 @@ import com.maoxian.backend.mapper.ImageMapper;
 import com.maoxian.backend.pojo.ImageInfo;
 import com.maoxian.backend.service.ImageService;
 import com.maoxian.backend.util.JsonResult;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -42,11 +39,19 @@ public class ImageServiceImpl implements ImageService {
     public void addImage(MultipartFile image) {
 
         String url = "http://127.0.0.1:8081/image/upload";
-        MultiValueMap<Object, Object> multiValueMap = new LinkedMultiValueMap<>();
-        multiValueMap.add("image", image);
+
+        // 获取的MultipartFile文件的资源形式
+        MultiValueMap<String, Object> multiValueMap = new LinkedMultiValueMap<>();
+        multiValueMap.add("image", image.getResource());
+
+        // 设置请求类型
         HttpHeaders headers = new HttpHeaders();
-        HttpEntity<MultiValueMap<Object, Object>> request = new HttpEntity<>(multiValueMap, headers);
-        ResponseEntity<JsonResult> jsonResultResponseEntity = restTemplate.exchange(url, HttpMethod.GET, request, JsonResult.class);
+        headers.setContentType(MediaType.MULTIPART_FORM_DATA);
+
+        // 将获取的MultipartFile文件放入HttpEntity中
+        HttpEntity<MultiValueMap<String, Object>> request = new HttpEntity<>(multiValueMap, headers);
+
+        ResponseEntity<JsonResult> jsonResultResponseEntity = restTemplate.exchange(url, HttpMethod.POST, request, JsonResult.class);
         JsonResult jsonResult = jsonResultResponseEntity.getBody();
         if (jsonResult == null || jsonResult.getCode() != 200) {
             throw new BusinessException("导入镜像失败");

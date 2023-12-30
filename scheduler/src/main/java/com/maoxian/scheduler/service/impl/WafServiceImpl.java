@@ -131,6 +131,11 @@ public class WafServiceImpl implements WafService {
                     wafMonitor.setWafId(waf.getId());
                     wafMonitorMapper.insert(wafMonitor);
                 }
+
+                @Override
+                public void onError(Throwable throwable) {
+                    log.error("监控waf数据出错：{}", throwable.getMessage());
+                }
             };
             dockerService.statContainer(containerId, callback);
         }
@@ -139,11 +144,11 @@ public class WafServiceImpl implements WafService {
     @Override
     public void deleteWafById(Long id) {
         Waf waf = wafMapper.selectById(id);
-        if (waf == null){
+        if (waf == null) {
             throw new BusinessException("waf不存在");
         }
         Boolean flag = dockerService.removeContainer(waf.getContainerId());
-        if (!flag){
+        if (!flag) {
             throw new BusinessException("删除waf失败");
         }
 
