@@ -2,7 +2,7 @@ package com.maoxian.scheduler.handler;
 
 import com.alibaba.fastjson.JSON;
 import com.maoxian.scheduler.annotation.ResponseNotIntercept;
-import com.maoxian.scheduler.pojo.JsonResult;
+import com.maoxian.scheduler.util.JsonResult;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;

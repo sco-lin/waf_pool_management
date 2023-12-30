@@ -26,6 +26,7 @@ public interface RequestRecordMapper {
      * 查询指定状态请求的数量
      *
      * @param status 请求状态
+     * @return 记录数
      */
     Integer countForStatus(Integer status);
 
@@ -39,6 +40,12 @@ public interface RequestRecordMapper {
      */
     List<RequestRecord> selectList(int start, int pageSize, String uuid);
 
+    /**
+     * 通过uuid查询请求
+     *
+     * @param uuid uuid
+     * @return 请求信息
+     */
     RequestRecord select(String uuid);
 
     /**
@@ -61,6 +68,7 @@ public interface RequestRecordMapper {
      * 插入request
      *
      * @param requestRecord 请求信息
+     * @return 更改的行数
      */
     int insert(RequestRecord requestRecord);
 
@@ -68,6 +76,7 @@ public interface RequestRecordMapper {
      * 更新request
      *
      * @param requestRecord 请求信息
+     * @return 更改的行数
      */
     int update(RequestRecord requestRecord);
 }

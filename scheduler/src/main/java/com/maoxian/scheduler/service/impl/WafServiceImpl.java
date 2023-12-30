@@ -15,6 +15,7 @@ import com.maoxian.scheduler.service.DockerService;
 import com.maoxian.scheduler.service.WafService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -99,7 +100,7 @@ public class WafServiceImpl implements WafService {
     /**
      * 监控waf的性能
      */
-//    @Scheduled(fixedDelay = 5000)TODO 暂时关闭
+    @Scheduled(fixedDelay = 5000)
     protected void wafMonitor() {
         List<Waf> wafList = wafMapper.selectListForOnline(true);
         if (wafList == null) {
@@ -133,5 +134,20 @@ public class WafServiceImpl implements WafService {
             };
             dockerService.statContainer(containerId, callback);
         }
+    }
+
+    @Override
+    public void deleteWafById(Long id) {
+        Waf waf = wafMapper.selectById(id);
+        if (waf == null){
+            throw new BusinessException("waf不存在");
+        }
+        Boolean flag = dockerService.removeContainer(waf.getContainerId());
+        if (!flag){
+            throw new BusinessException("删除waf失败");
+        }
+
+        // 删除数据库数据
+        wafMapper.deleteById(id);
     }
 }

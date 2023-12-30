@@ -3,7 +3,8 @@ package com.maoxian.scheduler.handler;
 import com.maoxian.scheduler.enums.HttpStatusEnum;
 import com.maoxian.scheduler.exception.BusinessException;
 import com.maoxian.scheduler.exception.RequestException;
-import com.maoxian.scheduler.pojo.JsonResult;
+import com.maoxian.scheduler.exception.SystemException;
+import com.maoxian.scheduler.util.JsonResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -48,6 +49,18 @@ public class CommonExpHandler {
     }
 
     /**
+     * 系统异常
+     *
+     * @param e 错误
+     * @return 响应类
+     */
+    @ExceptionHandler(SystemException.class)
+    public JsonResult handler(SystemException e) {
+        log.error(e.getMessage());
+        return JsonResult.fail(HttpStatusEnum.ERROR);
+    }
+
+    /**
      * 认证异常，处理认证失败
      *
      * @param e 错误
@@ -80,7 +93,7 @@ public class CommonExpHandler {
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public JsonResult handler(HttpRequestMethodNotSupportedException e) {
         log.error(e.getMessage());
-        return JsonResult.fail(e.getMessage());
+        return JsonResult.fail(HttpStatusEnum.BAD_METHOD);
     }
 
     /**

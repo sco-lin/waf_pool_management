@@ -6,12 +6,8 @@ import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.model.Container;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.Statistics;
-import com.maoxian.scheduler.mapper.ImageMapper;
-import com.maoxian.scheduler.mapper.WafMapper;
-import com.maoxian.scheduler.mapper.WafMonitorMapper;
 import com.maoxian.scheduler.service.DockerService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
@@ -26,17 +22,11 @@ import java.util.List;
 @Slf4j
 public class DockerServiceImpl implements DockerService {
 
-    @Autowired
-    private DockerClient dockerClient;
+    private final DockerClient dockerClient;
 
-    @Autowired
-    private ImageMapper imageMapper;
-
-    @Autowired
-    private WafMapper wafMapper;
-
-    @Autowired
-    private WafMonitorMapper wafMonitorMapper;
+    public DockerServiceImpl(DockerClient dockerClient) {
+        this.dockerClient = dockerClient;
+    }
 
     @Override
     public List<Container> listContainer(Boolean showAll) {
@@ -125,6 +115,6 @@ public class DockerServiceImpl implements DockerService {
     @Async
     @Override
     public void statContainer(String containerId, ResultCallback<Statistics> callback) {
-            dockerClient.statsCmd(containerId).withNoStream(true).exec(callback);
+        dockerClient.statsCmd(containerId).withNoStream(true).exec(callback);
     }
 }

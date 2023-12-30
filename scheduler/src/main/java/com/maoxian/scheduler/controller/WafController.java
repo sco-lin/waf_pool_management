@@ -1,11 +1,7 @@
 package com.maoxian.scheduler.controller;
 
 import com.maoxian.scheduler.service.WafService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author Lin
@@ -15,8 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("waf")
 public class WafController {
 
-    @Autowired
-    private WafService wafService;
+    private final WafService wafService;
+
+    public WafController(WafService wafService) {
+        this.wafService = wafService;
+    }
 
     /**
      * 上线waf
@@ -47,5 +46,10 @@ public class WafController {
     @GetMapping("/add/{name}/{imageId}")
     public void createWafByImageId(@PathVariable String name, @PathVariable Long imageId) {
         wafService.createWafByImageId(name, imageId);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteWaf(@PathVariable Long id){
+        wafService.deleteWafById(id);
     }
 }

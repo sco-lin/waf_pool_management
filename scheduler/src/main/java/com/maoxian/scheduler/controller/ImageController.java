@@ -2,9 +2,7 @@ package com.maoxian.scheduler.controller;
 
 import com.maoxian.scheduler.exception.RequestException;
 import com.maoxian.scheduler.pojo.ImageInfo;
-import com.maoxian.scheduler.service.DockerService;
 import com.maoxian.scheduler.service.ImageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,11 +18,11 @@ import java.util.List;
 @RequestMapping("/image")
 public class ImageController {
 
-    @Autowired
-    private DockerService dockerService;
+    private final ImageService imageService;
 
-    @Autowired
-    private ImageService imageService;
+    public ImageController(ImageService imageService) {
+        this.imageService = imageService;
+    }
 
     /**
      * 查询所有镜像
@@ -57,10 +55,11 @@ public class ImageController {
 
     /**
      * 删除镜像
+     *
      * @param id 镜像id
      */
     @DeleteMapping("/{id}")
-    public void deleteImageById(@PathVariable Long id){
+    public void deleteImageById(@PathVariable Long id) {
         imageService.deleteImageById(id);
     }
 }

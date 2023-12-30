@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.maoxian.gateway.mapper.WafMonitorMapper">
+<mapper namespace="com.maoxian.backend.mapper.WafMonitorMapper">
     <resultMap id="wafMonitorResult" type="wafMonitor">
         <id column="id" property="id"/>
         <result column="cpu" property="cpu"/>

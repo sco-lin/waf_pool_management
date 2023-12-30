@@ -80,7 +80,10 @@ public interface DockerService {
     Boolean removeImage(String imageId);
 
     /**
-     * 监控容器
+     * 监控id
+     *
+     * @param containerId 容器id
+     * @param callback    回调
      */
     void statContainer(String containerId, ResultCallback<Statistics> callback);
 

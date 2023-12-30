@@ -14,6 +14,7 @@ public interface SiteMapper {
 
     /**
      * 增加站点
+     *
      * @param site 站点信息
      * @return 增加成功
      */
@@ -21,6 +22,7 @@ public interface SiteMapper {
 
     /**
      * 更新站点
+     *
      * @param site 站点信息
      * @return 更新成功
      */
@@ -28,6 +30,7 @@ public interface SiteMapper {
 
     /**
      * 根据id删除站点
+     *
      * @param id 站点id
      * @return 删除成功
      */
@@ -35,6 +38,7 @@ public interface SiteMapper {
 
     /**
      * 查询所有站点
+     *
      * @return 站点信息
      */
     List<Site> selectList();

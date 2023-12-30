@@ -3,11 +3,9 @@ package com.maoxian.scheduler.service.impl;
 import com.github.dockerjava.api.model.Image;
 import com.maoxian.scheduler.exception.BusinessException;
 import com.maoxian.scheduler.mapper.ImageMapper;
-import com.maoxian.scheduler.mapper.WafMapper;
 import com.maoxian.scheduler.pojo.ImageInfo;
 import com.maoxian.scheduler.service.DockerService;
 import com.maoxian.scheduler.service.ImageService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.InputStream;
@@ -21,14 +19,14 @@ import java.util.stream.Collectors;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    @Autowired
-    private ImageMapper imageMapper;
+    private final ImageMapper imageMapper;
 
-    @Autowired
-    private DockerService dockerService;
+    private final DockerService dockerService;
 
-    @Autowired
-    private WafMapper wafMapper;
+    public ImageServiceImpl(ImageMapper imageMapper, DockerService dockerService) {
+        this.imageMapper = imageMapper;
+        this.dockerService = dockerService;
+    }
 
     @Override
     public List<ImageInfo> findImageList() {
@@ -40,7 +38,7 @@ public class ImageServiceImpl implements ImageService {
 
         List<Image> beforeImages = dockerService.listImages();
         Boolean flag = dockerService.importImage(imageStream);
-        if (!flag){
+        if (!flag) {
             throw new BusinessException("导入镜像失败");
         }
         List<Image> afterImages = dockerService.listImages();
@@ -64,12 +62,12 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public void deleteImageById(Long id) {
         ImageInfo imageInfo = imageMapper.select(id);
-        if (imageInfo == null){
+        if (imageInfo == null) {
             throw new BusinessException("镜像不存在");
         }
         String imageId = imageInfo.getImageId();
         Boolean flag = dockerService.removeImage(imageId);
-        if (!flag){
+        if (!flag) {
             throw new BusinessException("删除镜像存在");
         }
         imageMapper.deleteById(id);

@@ -37,6 +37,7 @@ public interface WafMapper {
     /**
      * 查询指定状态的waf列表
      * @param online 状态
+     * @return waf列表
      */
     List<Waf> selectListForOnline(Boolean online);
 
@@ -52,6 +53,7 @@ public interface WafMapper {
      * 增加waf
      *
      * @param waf waf信息
+     * @return 更改的行数
      */
     int insert(Waf waf);
 
@@ -59,6 +61,7 @@ public interface WafMapper {
      * 更新waf
      *
      * @param waf waf信息
+     * @return 更改的行数
      */
     int update(Waf waf);
 
@@ -66,6 +69,7 @@ public interface WafMapper {
      * 通过id删除waf
      *
      * @param id id
+     * @return 更改的行数
      */
-    int deleteById(Integer id);
+    int deleteById(Long id);
 }

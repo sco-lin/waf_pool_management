@@ -3,7 +3,6 @@ package com.maoxian.scheduler.service.impl;
 import com.maoxian.scheduler.mapper.SiteMapper;
 import com.maoxian.scheduler.pojo.Site;
 import com.maoxian.scheduler.service.SiteService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +14,11 @@ import java.util.List;
 @Service
 public class SiteServiceImpl implements SiteService {
 
-    @Autowired
-    private SiteMapper siteMapper;
+    private final SiteMapper siteMapper;
+
+    public SiteServiceImpl(SiteMapper siteMapper) {
+        this.siteMapper = siteMapper;
+    }
 
     @Override
     public void addSite(Site site) {

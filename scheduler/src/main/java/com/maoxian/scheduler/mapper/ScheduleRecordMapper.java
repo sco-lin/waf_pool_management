@@ -20,5 +20,11 @@ public interface ScheduleRecordMapper {
      */
     List<ScheduleRecord> selectList(Integer requestId);
 
+    /**
+     * 插入调度记录
+     *
+     * @param scheduleRecord 调度记录
+     * @return 更改的行数
+     */
     int insert(ScheduleRecord scheduleRecord);
 }

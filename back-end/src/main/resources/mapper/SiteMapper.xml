@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.maoxian.gateway.mapper.SiteMapper">
+<mapper namespace="com.maoxian.backend.mapper.SiteMapper">
     <resultMap id="siteResult" type="site">
         <id column="id" property="id"/>
         <result column="domain" property="domain"/>

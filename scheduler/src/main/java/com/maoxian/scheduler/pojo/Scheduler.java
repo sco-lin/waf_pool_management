@@ -20,5 +20,5 @@ public class Scheduler {
     private Integer threshold;
 
     @Value("${docker-url}")
-    private Integer dockerUrl;
+    private String dockerUrl;
 }

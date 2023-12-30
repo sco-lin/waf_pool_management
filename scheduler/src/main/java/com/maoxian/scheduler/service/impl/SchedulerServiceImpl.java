@@ -1,14 +1,13 @@
 package com.maoxian.scheduler.service.impl;
 
-import com.maoxian.scheduler.pojo.*;
 import com.maoxian.scheduler.exception.SystemException;
-import com.maoxian.scheduler.mapper.ScheduleRecordMapper;
 import com.maoxian.scheduler.mapper.RequestRecordMapper;
+import com.maoxian.scheduler.mapper.ScheduleRecordMapper;
 import com.maoxian.scheduler.mapper.WafMapper;
+import com.maoxian.scheduler.pojo.*;
 import com.maoxian.scheduler.service.SchedulerService;
 import com.maoxian.scheduler.service.SiteService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
@@ -17,8 +16,12 @@ import org.springframework.web.client.RestTemplate;
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.*;
-import java.util.concurrent.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.Callable;
+import java.util.concurrent.Future;
 
 /**
  * @author Lin
@@ -28,26 +31,29 @@ import java.util.concurrent.*;
 @Service
 public class SchedulerServiceImpl implements SchedulerService {
 
-    @Autowired
-    private WafMapper wafMapper;
+    private final WafMapper wafMapper;
 
-    @Autowired
-    private RequestRecordMapper requestRecordMapper;
+    private final RequestRecordMapper requestRecordMapper;
 
-    @Autowired
-    private ScheduleRecordMapper scheduleRecordMapper;
+    private final ScheduleRecordMapper scheduleRecordMapper;
 
-    @Autowired
-    private SiteService siteService;
+    private final SiteService siteService;
 
-    @Autowired
-    private Scheduler scheduler;
+    private final Scheduler scheduler;
 
-    @Autowired
-    private ThreadPoolTaskExecutor taskExecutor;
+    private final ThreadPoolTaskExecutor taskExecutor;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
+
+    public SchedulerServiceImpl(WafMapper wafMapper, RequestRecordMapper requestRecordMapper, ScheduleRecordMapper scheduleRecordMapper, SiteService siteService, Scheduler scheduler, ThreadPoolTaskExecutor taskExecutor, RestTemplate restTemplate) {
+        this.wafMapper = wafMapper;
+        this.requestRecordMapper = requestRecordMapper;
+        this.scheduleRecordMapper = scheduleRecordMapper;
+        this.siteService = siteService;
+        this.scheduler = scheduler;
+        this.taskExecutor = taskExecutor;
+        this.restTemplate = restTemplate;
+    }
 
     @Override
     public ResponseEntity<String> requestHandler(String remoteAddr, RequestEntity<String> requestEntity) {
@@ -123,11 +129,12 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     /**
      * 串行转发
+     *
      * @param requestId 请求id
-     * @param path 请求路径
-     * @param method 请求方法
-     * @param headers 请求头
-     * @param body 请求体
+     * @param path      请求路径
+     * @param method    请求方法
+     * @param headers   请求头
+     * @param body      请求体
      * @return 是否放行
      */
     private boolean serialForward(Long requestId, String path, HttpMethod method, HttpHeaders headers, String body) {
@@ -166,11 +173,12 @@ public class SchedulerServiceImpl implements SchedulerService {
 
     /**
      * 串行转发
+     *
      * @param requestId 请求id
-     * @param path 请求路径
-     * @param method 请求方法
-     * @param headers 请求头
-     * @param body 请求体
+     * @param path      请求路径
+     * @param method    请求方法
+     * @param headers   请求头
+     * @param body      请求体
      * @return 是否放行
      */
     private boolean parallelForward(Long requestId, String path, HttpMethod method, HttpHeaders headers, String body) {
@@ -211,10 +219,10 @@ public class SchedulerServiceImpl implements SchedulerService {
 
         // 处理任务结果
         for (Future<Boolean> future : futures) {
-            try{
+            try {
                 pass &= future.get();
-            }catch (Exception e){
-                log.error("并发请求异常：{}",e.getMessage());
+            } catch (Exception e) {
+                log.error("并发请求异常：{}", e.getMessage());
             }
 
         }
